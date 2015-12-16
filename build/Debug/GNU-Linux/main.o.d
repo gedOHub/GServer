@@ -1,4 +1,4 @@
-build/Debug/GNU-Linux-x86/main.o: main.cpp /usr/include/libconfig.h++ \
+build/Debug/GNU-Linux/main.o: main.cpp /usr/include/libconfig.h++ \
  lib/socket.h structures.h ClientContainer.h TunnelContainer.h \
  TagGenerator.h Logger.h CONSTANTS.h
 

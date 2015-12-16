@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="90">
+<configurationDescriptor version="95">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>api/API.h</itemPath>
+      <itemPath>CONSTANTS.h</itemPath>
+      <itemPath>Logger.h</itemPath>
       <itemPath>structures.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -13,6 +16,8 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>api/API.cpp</itemPath>
+      <itemPath>Logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -32,6 +37,7 @@
     <itemPath>TagGenerator.h</itemPath>
     <itemPath>TunnelContainer.cpp</itemPath>
     <itemPath>TunnelContainer.h</itemPath>
+    <itemPath>server.cfg</itemPath>
     <itemPath>lib/socket.cpp</itemPath>
     <itemPath>lib/socket.h</itemPath>
   </logicalFolder>
@@ -39,18 +45,37 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <incDir>
+            <pElem>/usr/include</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include</pElem>
+          </incDir>
+          <incFile>
+            <pElem>/usr/include/libconfig.h++</pElem>
+          </incFile>
+        </ccTool>
         <linkerTool>
           <commandLine>-lconfig++ -Wall</commandLine>
         </linkerTool>
       </compileType>
+      <item path="CONSTANTS.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ClientContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ClientContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Logger.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -60,11 +85,17 @@
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="api/API.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="api/API.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/socket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="server.cfg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -92,9 +123,15 @@
           <commandLine>-lconfig++ -Wall</commandLine>
         </linkerTool>
       </compileType>
+      <item path="CONSTANTS.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ClientContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ClientContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Logger.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -104,11 +141,17 @@
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="api/API.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="api/API.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/socket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="server.cfg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
       </item>

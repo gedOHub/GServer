@@ -140,7 +140,7 @@ void Socket::printResult(){
 
 void Socket::close(){
     // Uzdaro socketa
-    ::close(this->socketDescriptor);
+    ::shutdown(this->socketDescriptor,2);
 }
 
 void Socket::close(int how){
