@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=gnetserver
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/gnetserver
+CND_ARTIFACT_NAME_Debug=gserver
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/gserver
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=gnetserver.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/gnetserver.tar
+CND_PACKAGE_NAME_Debug=gserver.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/gserver.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=gnetserver
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/gnetserver
+CND_ARTIFACT_NAME_Release=gserver
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/gserver
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=gnetserver.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/gnetserver.tar
+CND_PACKAGE_NAME_Release=gserver.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/gserver.tar
 #
 # include compiler specific variables
 #
