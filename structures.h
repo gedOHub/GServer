@@ -96,7 +96,7 @@ struct listAckCommand : Command{
                         // False - nepavyko suformuoti klientu saraso
 };
 // JSON_LIST_ACK
-struct JSONListAckCommand : JSONCommand{
+struct jsonListAckCommand : JSONCommand{
     char success;       // True - pavyko suformuoti klientu sarasa
                         // False - nepavyko suformuoti klientu saraso
 };

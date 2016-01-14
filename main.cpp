@@ -172,16 +172,14 @@ int main(int argc, char** argv) {
                                 cmd->command = ntohs(cmd->command);
                                 // Analizuojam kokia komanda atejo
                                 switch (cmd->command) {
-                                    case HELLO:
-                                    {
+                                    case HELLO: {
                                         // Labas komanda
                                         helloCommand* hello = (struct helloCommand*) &buf[sizeof ( header)];
                                         cout << "Prisijunge: " << hello->domainName << "\\" << hello->pcName << "\\" << hello->userName << endl;
                                         clients.Add(i, hello->domainName, hello->pcName, hello->userName);
                                         break;
                                     }
-                                    case LIST:
-                                    {
+                                    case LIST: {
                                         // Praso isvardinti klientus, formuosiu LIST ACK komanda
                                         listCommand* list = (struct listCommand*) &buf[sizeof ( header)];
                                         // Nustatau i tinkama isdestyma puslapi
@@ -211,8 +209,43 @@ int main(int argc, char** argv) {
                                         //cout << "[LIST]Issiunciau " << rSend << endl;
                                         break;
                                     }
-                                    case INIT_CONNECT:
-                                    {
+                                    case JSON_LIST: {
+                                        // Praso isvardinti klientus, formuosiu LIST ACK komanda
+                                        jsonListCommand* list = (struct jsonListCommand*) &buf[sizeof ( header)];
+                                        // Nustatau i tinkama isdestyma puslapi
+                                        list->page = ntohl(list->page);
+                                        // Nustatau sokceto ID i tinkama isdestyma
+                                        list->socketID = ntohl(list->socketID);
+                                        cout << "[JSON_LIST]Gautas puslapis " << list->page << endl;
+                                        cout << "[JSON_LIST]Gautas socketID: " << list->socketID << endl;
+
+                                        // Kuriu LIST_ACK komanda
+                                        // Spausdinu
+                                        int duomCount = -1;
+                                        clients.PrintPage(i, list->page, &commandbuf[ sizeof (header) + sizeof (jsonListAckCommand) ], duomCount);
+
+                                        // Pildau komandos antraste
+                                        jsonListAckCommand* listAck = (struct jsonListAckCommand*) &commandbuf[ sizeof (header) ];
+                                        // Nurodau kokia komanda bus siunčiama
+                                        listAck->command = htons(JSON_LIST_ACK);
+                                        // Nurodau socketID
+                                        listAck->socketID = htons(list->socketID);
+                                        
+                                        if (duomCount > 0)
+                                            listAck->success = true;
+                                        else
+                                            listAck->success = false;
+
+                                        // Pildau paketo antrste
+                                        header* head = (struct header*) &commandbuf[0];
+                                        head->tag = htons(0);
+                                        head->lenght = htonl(sizeof ( jsonListAckCommand) + duomCount);
+                                        cout << "[JSON_LIST_ACK]Paketo ilgis: " << ntohl(head->lenght) << endl;
+                                        int rSend = send(i, &commandbuf[0], duomCount + sizeof (header) + sizeof (jsonListAckCommand), 0);
+                                        cout << "[JSON_LIST_ACK]Issiunciau " << rSend << endl;
+                                        break;
+                                    }
+                                    case INIT_CONNECT: {
                                         connectInitCommand* connect = (struct connectInitCommand*) &buf[ sizeof ( header) ];
                                         // Suvartau paketo laukus i tinkama puse
                                         connect->client_id = ntohl(connect->client_id);
@@ -243,8 +276,7 @@ int main(int argc, char** argv) {
                                         //cout << "[CONNECT_INIT]Issiusta " << rSend << endl;
                                         break;
                                     }
-                                    case CONNECT_ACK:
-                                    {
+                                    case CONNECT_ACK: {
                                         // Atejo atsakas is sujungimo
                                         connectAckCommand* connectAck = (struct connectAckCommand*) &buf[sizeof (header)];
                                         // Suvartau atejusiuos duoemnis teisinga tvarka
@@ -283,8 +315,7 @@ int main(int argc, char** argv) {
                                         }
                                         break;
                                     } // case CONNECT_ACK: {
-                                    case CLIENT_CONNECT:
-                                    {
+                                    case CLIENT_CONNECT: {
                                         clientConnectCommand* cmd = (struct clientConnectCommand*) &buf[sizeof (header)];
                                         // Nustatau zyme
                                         cmd->tag = ntohs(cmd->tag);
@@ -313,8 +344,7 @@ int main(int argc, char** argv) {
                                         }
                                         break;
                                     } // case CLIENT_CONNECT:{
-                                    case BEGIN_READ_ACK:
-                                    {
+                                    case BEGIN_READ_ACK: {
                                         beginReadAckCommand* cmd = (struct beginReadAckCommand*) &buf[sizeof (header)];
                                         // Nustatau zyme i gera isdestyma
                                         cmd->tag = ntohs(cmd->tag);
@@ -347,8 +377,7 @@ int main(int argc, char** argv) {
                                 }
                                 break;
                             }
-                            default:
-                            {
+                            default: {
                                 // Duomenu permetimas i kita socketa
                                 int dep_socket = -1, dep_tag = -1, lenght = head->lenght;
                                 tunnels.FindByPear(i, head->tag, dep_socket, dep_tag);
