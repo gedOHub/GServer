@@ -12,20 +12,18 @@
 // Komandu strukturos
 // Komandu numeriai
 enum Commands{
-	HELLO = 99,	// Kompiuterio duomenu perdavimas serveriui
-	LIST = 1,	// Prasimas grazinti klientu sarasa
-	LIST_ACK = 11,	// Atsakas i prasima grazinti klientu sarasa
-        AUTH = 13,      // Autenfikavimo prasimas 
-        AUTH_ACK = 31,  // Atsakas i autetnofigavima
-        INIT_CONNECT = 100,  // Prasimas inicijuoti tuneli
-        INIT_CONNECT_ACK = 200,      // Atsakas i tunelio inicaivima
-        CONNECT = 300,  // Komanda jungtis i tam tikra prievada
-        CONNECT_ACK = 400,      // Atsakas i connect koamdna
-        CLIENT_CONNECT = 555,	// Komanda, rodanti, kad kliento prohrama prpsijnge
+	HELLO = 99,                     // Kompiuterio duomenu perdavimas serveriui
+	LIST = 1,                       // Prasimas grazinti klientu sarasa
+	LIST_ACK = 11,                  // Atsakas i prasima grazinti klientu sarasa
+        INIT_CONNECT = 100,             // Prasimas inicijuoti tuneli
+        INIT_CONNECT_ACK = 200,         // Atsakas i tunelio inicaivima
+        CONNECT = 300,                  // Komanda jungtis i tam tikra prievada
+        CONNECT_ACK = 400,              // Atsakas i connect koamdna
+        CLIENT_CONNECT = 555,           // Komanda, rodanti, kad kliento prohrama prpsijnge
 	CLIENT_CONNECT_ACK = 666,	// ATSAKAS i CLIENT_CONNECT_ACK
-        BEGIN_READ = 777,       // Leidimas pradeti skaitytma
-        BEGIN_READ_ACK = 888,   // Atsakas i BEGIN_READ
-        CLOSE = 5,      // Prasimas baigti rysi
+        BEGIN_READ = 777,               // Leidimas pradeti skaitytma
+        BEGIN_READ_ACK = 888,           // Atsakas i BEGIN_READ
+        CLOSE = 5,                      // Prasimas baigti rysi
 };
 
 // Tunelio statuso reiksmes;
