@@ -24,6 +24,9 @@ enum Commands{
         BEGIN_READ = 777,               // Leidimas pradeti skaitytma
         BEGIN_READ_ACK = 888,           // Atsakas i BEGIN_READ
         CLOSE = 5,                      // Prasimas baigti rysi
+        // JSON komandos
+        JSON_LIST = 201,                // LIST komanda JSON aplikacijai
+        JSON_LIST_ACK = 211             // LIST_ACK komanda JSON aplikacijai
 };
 
 // Tunelio statuso reiksmes;
@@ -77,12 +80,23 @@ struct JSONCommand: Command{
 // HELLO
 struct helloCommand : Command, ClientInfo{
 };
+
 // LIST
 struct listCommand : Command{
         uint32_t page;		// dydis 4
 };
+// JOSN_LIST
+struct jsonListCommand : JSONCommand{
+        uint32_t page;		// dydis 4
+};
+
 // LIST_ACK
 struct listAckCommand : Command{
+    char success;       // True - pavyko suformuoti klientu sarasa
+                        // False - nepavyko suformuoti klientu saraso
+};
+// JSON_LIST_ACK
+struct JSONListAckCommand : JSONCommand{
     char success;       // True - pavyko suformuoti klientu sarasa
                         // False - nepavyko suformuoti klientu saraso
 };
