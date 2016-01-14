@@ -67,7 +67,6 @@ struct Client: ClientInfo{
 };
 
 /* --- KOMANDOMS --- */
-
 struct Command{
 	uint16_t command; // dydis 2
 };
@@ -89,7 +88,6 @@ struct listCommand : Command{
 struct jsonListCommand : JSONCommand{
         uint32_t page;		// dydis 4
 };
-
 // LIST_ACK
 struct listAckCommand : Command{
     char success;       // True - pavyko suformuoti klientu sarasa

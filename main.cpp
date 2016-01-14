@@ -212,30 +212,30 @@ int main(int argc, char** argv) {
                                     case JSON_LIST: {
                                         // Praso isvardinti klientus, formuosiu LIST ACK komanda
                                         jsonListCommand* list = (struct jsonListCommand*) &buf[sizeof ( header)];
+                                        
+                                        cout << "[JSON_LIST]Gautas puslapis " << list->page << endl;
+                                        cout << "[JSON_LIST]Gautas socketID: " << list->socketID << endl;
+                                        
                                         // Nustatau i tinkama isdestyma puslapi
                                         list->page = ntohl(list->page);
                                         // Nustatau sokceto ID i tinkama isdestyma
                                         list->socketID = ntohl(list->socketID);
                                         cout << "[JSON_LIST]Gautas puslapis " << list->page << endl;
                                         cout << "[JSON_LIST]Gautas socketID: " << list->socketID << endl;
-
                                         // Kuriu LIST_ACK komanda
                                         // Spausdinu
                                         int duomCount = -1;
                                         clients.PrintPage(i, list->page, &commandbuf[ sizeof (header) + sizeof (jsonListAckCommand) ], duomCount);
-
                                         // Pildau komandos antraste
                                         jsonListAckCommand* listAck = (struct jsonListAckCommand*) &commandbuf[ sizeof (header) ];
                                         // Nurodau kokia komanda bus siunčiama
                                         listAck->command = htons(JSON_LIST_ACK);
                                         // Nurodau socketID
                                         listAck->socketID = htons(list->socketID);
-                                        
                                         if (duomCount > 0)
                                             listAck->success = true;
                                         else
                                             listAck->success = false;
-
                                         // Pildau paketo antrste
                                         header* head = (struct header*) &commandbuf[0];
                                         head->tag = htons(0);
