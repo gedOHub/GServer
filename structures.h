@@ -69,6 +69,11 @@ struct Command{
 	uint16_t command; // dydis 2
 };
 
+// JSON komandos antraste
+struct JSONCommand: Command{
+    uint32_t socketID;          // Socket numeris, kuriam bus grazinamas atsakimas
+};
+
 // HELLO
 struct helloCommand : Command, ClientInfo{
 };
