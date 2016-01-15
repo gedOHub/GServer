@@ -231,7 +231,7 @@ int main(int argc, char** argv) {
                                         // Nurodau kokia komanda bus siunčiama
                                         listAck->command = htons(JSON_LIST_ACK);
                                         // Nurodau socketID
-                                        listAck->socketID = htons(list->socketID);
+                                        listAck->socketID = htonl(list->socketID);
                                         if (duomCount > 0)
                                             listAck->success = true;
                                         else
