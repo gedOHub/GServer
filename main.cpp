@@ -212,16 +212,10 @@ int main(int argc, char** argv) {
                                     case JSON_LIST: {
                                         // Praso isvardinti klientus, formuosiu LIST ACK komanda
                                         jsonListCommand* list = (struct jsonListCommand*) &buf[sizeof ( header)];
-                                        
-                                        cout << "[JSON_LIST]Gautas puslapis " << list->page << endl;
-                                        cout << "[JSON_LIST]Gautas socketID: " << list->socketID << endl;
-                                        
                                         // Nustatau i tinkama isdestyma puslapi
                                         list->page = ntohl(list->page);
                                         // Nustatau sokceto ID i tinkama isdestyma
                                         list->socketID = ntohl(list->socketID);
-                                        cout << "[JSON_LIST]Gautas puslapis " << list->page << endl;
-                                        cout << "[JSON_LIST]Gautas socketID: " << list->socketID << endl;
                                         // Kuriu LIST_ACK komanda
                                         // Spausdinu
                                         int duomCount = -1;
@@ -240,9 +234,7 @@ int main(int argc, char** argv) {
                                         header* head = (struct header*) &commandbuf[0];
                                         head->tag = htons(0);
                                         head->lenght = htonl(sizeof ( jsonListAckCommand) + duomCount);
-                                        cout << "[JSON_LIST_ACK]Paketo ilgis: " << ntohl(head->lenght) << endl;
                                         int rSend = send(i, &commandbuf[0], duomCount + sizeof (header) + sizeof (jsonListAckCommand), 0);
-                                        cout << "[JSON_LIST_ACK]Issiunciau " << rSend << endl;
                                         break;
                                     }
                                     case INIT_CONNECT: {
