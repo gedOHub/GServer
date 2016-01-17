@@ -26,7 +26,11 @@ enum Commands{
         CLOSE = 5,                      // Prasimas baigti rysi
         // JSON komandos
         JSON_LIST = 201,                // LIST komanda JSON aplikacijai
-        JSON_LIST_ACK = 211             // LIST_ACK komanda JSON aplikacijai
+        JSON_LIST_ACK = 211,            // LIST_ACK komanda JSON aplikacijai
+        JSON_INIT_CONNECT = 220,	// Komanda jungtis i tam tikra prievada
+        JSON_INIT_CONNECT_ACK = 221,	// Atsakas i connect koamdna
+	JSON_CONNECT = 230,		// Komanda, rodanti, kad kliento prohrama prpsijnge
+	JSON_CONNECT_ACK = 231		// ATSAKAS i CLIENT_CONNECT_ACK
 };
 
 // Tunelio statuso reiksmes;
@@ -104,6 +108,13 @@ struct connectInitCommand: Command{
     uint16_t source_port;
     uint16_t tag;
     uint32_t client_id;
+};
+// JSON_CONNECT_INIT
+struct jsonConnectInitCommand : JSONCommand{
+    uint16_t destination_port;  // kliento prie kurio jungiames prievadas
+    uint16_t source_port;       // Lokalus prievadas, kuri atidarem tuneliui
+    uint16_t tag;               // Srauto zyme
+    uint32_t client_id;         // Kliento ID prie kurio jungsiuos
 };
 // CONNECT
 struct connectCommand:Command{
