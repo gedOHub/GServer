@@ -205,9 +205,9 @@ int main(int argc, char** argv) {
                                         header* head = (struct header*) &commandbuf[0];
                                         head->tag = htons(0);
                                         head->lenght = htonl(sizeof ( listAckCommand) + duomCount);
-                                        //cout << "[LIST]Paketo ilgis: " << ntohl(head->lenght) << endl;
+                                        cout << "[LIST]Paketo ilgis: " << ntohl(head->lenght) << endl;
                                         int rSend = send(i, &commandbuf[0], duomCount + sizeof (header) + sizeof (listAckCommand), 0);
-                                        //cout << "[LIST]Issiunciau " << rSend << endl;
+                                        cout << "[LIST]Issiunciau " << rSend << endl;
                                         break;
                                     }
                                     case JSON_LIST: {
@@ -464,6 +464,40 @@ int main(int argc, char** argv) {
                                         }
                                         break;
                                     } // case BEGIN_READ_ACK:{
+                                    case CLOSE_TUNNEL: {
+                                        // Susivartau gauta informacija
+                                        closeTunnelCommand* close = (struct closeTunnelCommand*) &buf[sizeof ( header)];
+                                        close->tag = ntohs(close->tag);
+                                        
+                                        // Salinu tuneli is tuneliu saraso
+                                        tunnel tunelis = tunnels.RemoveBySocketTag(i, close->tag);
+                                        // Kintamaisis saugantis SOCKET id , kuriuo bus siunciamas atsakas
+                                        int returnSocket = -1;
+                                        
+                                        // Tirkinu is kurios puses atejo CLOSE_TUNNEL
+                                        // Ar is iniciatoriaus
+                                        if(tunelis.adm_socket == i)
+                                            // Nustatau i kliento
+                                            returnSocket = tunelis.cln_socket;
+                                        else
+                                            // Nustatau i iniciatoriaus
+                                            returnSocket = tunelis.adm_socket;
+
+                                        // Persiunciu CLOSE_TUNNEL komanda
+                                        // Suvartau TAG
+                                        close->tag = htons(close->tag);
+                                        close->command = htons(CLOSE_TUNNEL);
+                                        
+                                        // Pildau antraste
+                                        header* head = (struct header*) &buf[0];
+                                        head->tag = htons(0);
+                                        head->lenght = htonl(sizeof(closeTunnelCommand));
+                                        
+                                        cout << "[CLOSE_TUNNEL]Paketo ilgis: " << ntohl(head->lenght) << endl;
+                                        int rSend = send(returnSocket, &buf[0], sizeof (header) + sizeof (closeTunnelCommand), 0);
+                                        cout << "[CLOSE_TUNNEL]Issiunciau " << rSend << endl;
+                                        break;
+                                    }
                                 }
                                 break;
                             }

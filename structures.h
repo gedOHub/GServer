@@ -23,7 +23,7 @@ enum Commands{
 	CLIENT_CONNECT_ACK = 666,	// ATSAKAS i CLIENT_CONNECT_ACK
         BEGIN_READ = 777,               // Leidimas pradeti skaitytma
         BEGIN_READ_ACK = 888,           // Atsakas i BEGIN_READ
-        CLOSE = 5,                      // Prasimas baigti rysi
+        CLOSE_TUNNEL = 5,               // Prasimas baigti rysi
         // JSON komandos
         JSON_LIST = 201,                // LIST komanda JSON aplikacijai
         JSON_LIST_ACK = 211,            // LIST_ACK komanda JSON aplikacijai
@@ -44,13 +44,13 @@ enum CONNECTION_STATUS{
 
 struct tunnel{
     int id;     // Tunelio id
-    int adm_socket;   // Administratoriaus socketas
-    int adm_port;       // Administratoriaus puseje atidarytas prievadas
-    int adm_tag;        // Administratoriaus puseje nuedoajma zyme
-    int cln_socket;     // Kliento socketas
-    int cln_port;       // Prievadas i kuri administratorius nori jungtis
-    int cln_tag;        // Kliento puseje naudojama zyme
-    int status;         // Sujungimo statuso indikatorius
+    int adm_socket; // iniciatoriaus socketas
+    int adm_port;   // iniciatoriaus puseje atidarytas prievadas
+    int adm_tag;    // iniciatoriaus puseje naudojama zyme
+    int cln_socket; // Kliento socketas
+    int cln_port;   // Prievadas i kuri iniciatoriaus nori jungtis
+    int cln_tag;    // Kliento puseje naudojama zyme
+    int status; // Sujungimo statuso indikatorius
 };
 
 // gNet paketo antrastes struktura
@@ -171,6 +171,10 @@ struct beginReadCommand : Command {
 // BEGIN_READ_ACK
 struct beginReadAckCommand : Command {
     uint16_t tag;	// Srauto zyme
+};
+// CLOSE_TUNNEL
+struct closeTunnelCommand : Command {
+    uint16_t tag;	// Tunelio srauto zyme
 };
 
 #pragma pack(pop) // nustatom i normalu isdestyma

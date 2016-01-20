@@ -123,3 +123,22 @@ bool TunnelContainer::IsClient(int tag){
     }
     return false;
 }
+
+tunnel TunnelContainer::RemoveBySocketTag(int socket, int tag){
+    tunnel tunelis;
+    // Begu per sarasa ir ieskau nuroditos kombinacijos
+    list<tunnel>::iterator it;
+    for(it = this->container.begin(); it != this->container.end(); it++){
+        // Tikrinu ar yra reikalinga kombinacija
+        // Tikrinu iniciatoriaus puse po to kliento puse
+        if( ( it->adm_socket == socket && it->adm_tag == tag ) || 
+                ( it->cln_socket == socket && it->cln_tag == tag ) ){
+            // Darau elemento kopija
+            memcpy( &tunelis, &(*it), sizeof(tunnel) );
+            // Salinu is saraso
+            container.erase(it);
+            return tunelis;
+        }
+    }
+    return tunelis;
+}

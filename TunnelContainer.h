@@ -29,6 +29,8 @@ public:
     tunnel* ConnectAck(jsonConnectAckCommand* ack);
     void FindByPear(int arr_socket, int arr_tag, int &dep_socket, int&dep_tag);
     bool IsClient(int tag);
+    // Metodas skirtas pasalinti is saraso tuneli pagal naudotojo ID ir zyme (TAG)
+    tunnel RemoveBySocketTag(int socket, int tag);
     
     virtual ~TunnelContainer();
 private:
