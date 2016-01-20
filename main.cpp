@@ -205,9 +205,9 @@ int main(int argc, char** argv) {
                                         header* head = (struct header*) &commandbuf[0];
                                         head->tag = htons(0);
                                         head->lenght = htonl(sizeof ( listAckCommand) + duomCount);
-                                        cout << "[LIST]Paketo ilgis: " << ntohl(head->lenght) << endl;
+                                        //cout << "[LIST]Paketo ilgis: " << ntohl(head->lenght) << endl;
                                         int rSend = send(i, &commandbuf[0], duomCount + sizeof (header) + sizeof (listAckCommand), 0);
-                                        cout << "[LIST]Issiunciau " << rSend << endl;
+                                        //cout << "[LIST]Issiunciau " << rSend << endl;
                                         break;
                                     }
                                     case JSON_LIST: {
@@ -267,13 +267,13 @@ int main(int argc, char** argv) {
                                         head->tag = htons(0);
                                         head->lenght = htonl(sizeof (connectCommand));
                                         // Siunciu reikiamui klientui
-                                        cout << "[CONNECT_INIT]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                        //cout << "[CONNECT_INIT]Paketo ilgis " << ntohl(head->lenght) << endl;
                                         int rSend = send(clientInfo.id, &commandbuf[0], sizeof (header) + sizeof (connectCommand), 0);
-                                        cout << "[CONNECT_INIT]Issiusta " << rSend << endl;
+                                        //cout << "[CONNECT_INIT]Issiusta " << rSend << endl;
                                         break;
                                     }
                                     case JSON_INIT_CONNECT: {
-                                        cout << "[JSON] JSON_INIT_CONNECT" << endl;                                        jsonConnectInitCommand* connect = (struct jsonConnectInitCommand*) &buf[ sizeof ( header) ];
+                                        //cout << "[JSON] JSON_INIT_CONNECT" << endl;                                        jsonConnectInitCommand* connect = (struct jsonConnectInitCommand*) &buf[ sizeof ( header) ];
                                         // Suvartau paketo laukus i tinkama puse
                                         // Kliento ID
                                         connect->client_id = ntohl(connect->client_id);
@@ -351,16 +351,16 @@ int main(int argc, char** argv) {
                                             head->lenght = htonl(sizeof (connectInitAckCommand));
 
                                             // Siunciu adminui duomenis
-                                            cout << "[CONNECT_INIT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            //cout << "[CONNECT_INIT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
                                             int rSend = send(tunelis->adm_socket, &commandbuf[0], sizeof (header) + sizeof (connectInitAckCommand), 0);
-                                            cout << "[CONNECT_INIT_ACK]Issiunciau " << rSend << endl;
+                                            //cout << "[CONNECT_INIT_ACK]Issiunciau " << rSend << endl;
                                         } catch (exception e) {
                                             printf("Nepavyko issiusti CONNECT_INI_ACK paketo\n");
                                         }
                                         break;
                                     } // case JSON_CONNECT_ACK: {
                                     case JSON_CONNECT_ACK: {
-                                        cout << "[JSON] JSON_CONNECT_ACK" << endl;
+                                        //cout << "[JSON] JSON_CONNECT_ACK" << endl;
                                         // Atejo atsakas is sujungimo
                                         jsonConnectAckCommand* connectAck = (struct jsonConnectAckCommand*) &buf[sizeof (header)];
                                         // Suvartau atejusiuos duoemnis teisinga tvarka
@@ -402,7 +402,7 @@ int main(int argc, char** argv) {
                                         break;
                                     } // case CONNECT_ACK: {
                                     case CLIENT_CONNECT: {
-                                        cout << "Gavau CLIENT_CONNECT komanda" << endl;
+                                        //cout << "Gavau CLIENT_CONNECT komanda" << endl;
                                         clientConnectCommand* cmd = (struct clientConnectCommand*) &buf[sizeof (header)];
                                         // Nustatau zyme
                                         cmd->tag = ntohs(cmd->tag);
@@ -422,10 +422,10 @@ int main(int argc, char** argv) {
                                             head->lenght = htonl(sizeof (beginReadCommand));
 
                                             // Siunciu duomenis
-                                            cout << "Siunciu BEGIN_READ" << endl;
-                                            cout << "[BEGIN_READ]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            //cout << "Siunciu BEGIN_READ" << endl;
+                                            //cout << "[BEGIN_READ]Paketo ilgis " << ntohl(head->lenght) << endl;
                                             int rSend = send(cli_socket, &buf[0], sizeof (header) + sizeof (beginReadCommand), 0);
-                                            cout << "[BEGIN_READ]Issiunciau " << rSend << endl;
+                                            //cout << "[BEGIN_READ]Issiunciau " << rSend << endl;
                                         } else {
                                             // Nepavyko rasti kam persiusti
                                             printf("Nepavyko rasti kam siusti BEGIN_READ paketo\n");
@@ -454,10 +454,10 @@ int main(int argc, char** argv) {
                                             head->tag = htons(0);
                                             head->lenght = htonl(sizeof (clientConnectAckCommand));
 
-                                            cout << "Siunciu CLIENT_CONNECT_ACK" << endl;
-                                            cout << "[CLIENT_CONNECT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            //cout << "Siunciu CLIENT_CONNECT_ACK" << endl;
+                                            //cout << "[CLIENT_CONNECT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
                                             int rSend = send(adm_socket, &buf[0], sizeof (header) + sizeof (clientConnectAckCommand), 0);
-                                            cout << "[CLIENT_CONNECT_ACK]Issiunciau " << rSend << endl;
+                                            //cout << "[CLIENT_CONNECT_ACK]Issiunciau " << rSend << endl;
                                         } else {
                                             // Neradau jungties
                                             printf("Nepavyko rasti kam siusti CLIENT_CONNECT_ACK paketo\n");
@@ -493,9 +493,9 @@ int main(int argc, char** argv) {
                                         head->tag = htons(0);
                                         head->lenght = htonl(sizeof(closeTunnelCommand));
                                         
-                                        cout << "[CLOSE_TUNNEL]Paketo ilgis: " << ntohl(head->lenght) << endl;
+                                        //cout << "[CLOSE_TUNNEL]Paketo ilgis: " << ntohl(head->lenght) << endl;
                                         int rSend = send(returnSocket, &buf[0], sizeof (header) + sizeof (closeTunnelCommand), 0);
-                                        cout << "[CLOSE_TUNNEL]Issiunciau " << rSend << endl;
+                                        //cout << "[CLOSE_TUNNEL]Issiunciau " << rSend << endl;
                                         break;
                                     }
                                 }
