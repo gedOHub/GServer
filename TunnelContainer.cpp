@@ -37,7 +37,40 @@ int TunnelContainer::InitConnect( int admSocket, connectInitCommand* connect, in
     return tunelis.id;
 }
 
+int TunnelContainer::InitConnect( int admSocket, jsonConnectInitCommand* connect, int clientTag ){
+    // Kuriu tunelio objekta
+    tunnel tunelis;
+    tunelis.id = this->GetID();
+    // Pildau tunelio administratoriaus sturktura
+    tunelis.adm_port = connect->source_port;
+    tunelis.adm_tag = connect->tag;
+    tunelis.adm_socket = admSocket;
+    // Pildau tunelio kliento dali
+    tunelis.cln_port = connect->destination_port;
+    tunelis.cln_tag = clientTag;
+    tunelis.cln_socket = connect->client_id;
+    // Nustatau tunelio statusa
+    tunelis.status = INIT;
+    // Pridedu prie tuneliu saugyklos
+    this->container.push_front(tunelis);
+    // Grazinu tunelio id
+    return tunelis.id;
+}
+
+//TODO: Patikra del statuso
 tunnel* TunnelContainer::ConnectAck(connectAckCommand* ack){
+    try{
+        tunnel* tunelis = this->FindById(ack->tunnelID);
+        tunelis->status = ack->status;
+        return tunelis;
+    }catch( exception e ){
+        printf("ConnectAck\n");
+    }
+    return NULL;
+}
+
+//TODO: Patikra del statuso
+tunnel* TunnelContainer::ConnectAck(jsonConnectAckCommand* ack){
     try{
         tunnel* tunelis = this->FindById(ack->tunnelID);
         tunelis->status = ack->status;

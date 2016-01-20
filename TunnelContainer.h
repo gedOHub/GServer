@@ -22,8 +22,11 @@ public:
     TunnelContainer(const TunnelContainer& orig);
     
     // Veiksmai kai yra inicijuojamas tunelis is administratoiaus puses
-    int InitConnect( int admSocket, connectInitCommand* connect, int clientTag ); 
+    int InitConnect( int admSocket, connectInitCommand* connect, int clientTag );
+    // Veiksmai kai yra inicijuojamas tunelis is administratoiaus puses
+    int InitConnect( int admSocket, jsonConnectInitCommand* connect, int clientTag ); 
     tunnel* ConnectAck(connectAckCommand* ack);
+    tunnel* ConnectAck(jsonConnectAckCommand* ack);
     void FindByPear(int arr_socket, int arr_tag, int &dep_socket, int&dep_tag);
     bool IsClient(int tag);
     

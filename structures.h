@@ -79,11 +79,9 @@ struct Command{
 struct JSONCommand: Command{
     uint32_t socketID;          // Socket numeris, kuriam bus grazinamas atsakimas
 };
-
 // HELLO
 struct helloCommand : Command, ClientInfo{
 };
-
 // LIST
 struct listCommand : Command{
         uint32_t page;		// dydis 4
@@ -119,6 +117,16 @@ struct jsonConnectInitCommand : JSONCommand{
 // CONNECT
 struct connectCommand:Command{
     uint16_t destinatio_port;   // Prievadas i kuri jungtis
+    uint16_t source_port;       // Prievadas, kuris atvertas pas iniciatoriu
+    uint32_t client_id;     // Kliento ID, kuris inicijuoja sujungima
+    uint16_t tag;       // Zyme kuria naudoti klientui
+    uint32_t tunnelID;  // Tunelio ID. I si tuneli gris rezultatai
+};
+// JSON_CONNECT
+struct jsonConnectCommand:JSONCommand{
+    uint16_t destinatio_port;   // Prievadas i kuri jungtis
+    uint16_t source_port;       // Prievadas, kuris atvertas pas iniciatoriu
+    uint32_t client_id;     // Kliento ID, kuris inicijuoja sujungima
     uint16_t tag;       // Zyme kuria naudoti klientui
     uint32_t tunnelID;  // Tunelio ID. I si tuneli gris rezultatai
 };
@@ -127,13 +135,27 @@ struct connectAckCommand: Command{
     uint32_t tunnelID;  // Tunelio id
     uint16_t status;    // Sujungimo statusas
 };
+// JSON_CONNECT_ACK
+struct jsonConnectAckCommand: JSONCommand{
+    uint32_t tunnelID;  // Tunelio id
+    uint16_t status;    // Sujungimo statusas
+};
 // CONNECT_INIT_ACK
 struct connectInitAckCommand: Command {
     uint16_t status;    // Sujungimo statusas
     uint32_t client_id; // Kliento id prie kurio jungtasi
     uint16_t adm_port;  // prievadas administartoriaus kompiuteryje
+    uint16_t adm_tag;   // Zyme, atejus is administratoriaus puses
+    uint16_t cln_port;  // Prievadas kliento kompiuteryje
+};// JSON_CONNECT_INIT_ACK
+struct jsonConnectInitAckCommand: JSONCommand {
+    uint16_t status;    // Sujungimo statusas
+    uint32_t client_id; // Kliento id prie kurio jungtasi
+    uint16_t adm_port;  // prievadas administartoriaus kompiuteryje
+    uint16_t adm_tag;   // Zyme, atejus is administratoriaus puses
     uint16_t cln_port;  // Prievadas kliento kompiuteryje
 };
+
 // CLIENT_CONNECT
 struct clientConnectCommand : Command{
     uint16_t tag;	// Srauto zyme

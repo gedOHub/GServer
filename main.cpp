@@ -170,6 +170,7 @@ int main(int argc, char** argv) {
                                 // Atejo komanda kuria reikai ivygdyti
                                 Command* cmd = (struct Command*) &buf[ sizeof ( header) ];
                                 cmd->command = ntohs(cmd->command);
+                                
                                 // Analizuojam kokia komanda atejo
                                 switch (cmd->command) {
                                     case HELLO: {
@@ -255,17 +256,66 @@ int main(int argc, char** argv) {
                                         // Kuriu CONNECT paketa
                                         connectCommand* cCMD = (struct connectCommand*) &commandbuf[sizeof (header)];
                                         cCMD->command = htons(CONNECT);
+                                        // Pildau connect komanda
                                         cCMD->tag = htons(clientTag);
+                                        cCMD->source_port = htons(connect->source_port);
                                         cCMD->destinatio_port = htons(connect->destination_port);
+                                        cCMD->client_id = htonl(i);
                                         cCMD->tunnelID = htonl(tunnel_id);
                                         // Kuriu gNet paketo antraste
                                         header* head = (struct header*) &commandbuf[0];
                                         head->tag = htons(0);
                                         head->lenght = htonl(sizeof (connectCommand));
                                         // Siunciu reikiamui klientui
-                                        //cout << "[CONNECT_INIT]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                        cout << "[CONNECT_INIT]Paketo ilgis " << ntohl(head->lenght) << endl;
                                         int rSend = send(clientInfo.id, &commandbuf[0], sizeof (header) + sizeof (connectCommand), 0);
-                                        //cout << "[CONNECT_INIT]Issiusta " << rSend << endl;
+                                        cout << "[CONNECT_INIT]Issiusta " << rSend << endl;
+                                        break;
+                                    }
+                                    case JSON_INIT_CONNECT: {
+                                        cout << "[JSON] JSON_INIT_CONNECT" << endl;                                        jsonConnectInitCommand* connect = (struct jsonConnectInitCommand*) &buf[ sizeof ( header) ];
+                                        // Suvartau paketo laukus i tinkama puse
+                                        // Kliento ID
+                                        connect->client_id = ntohl(connect->client_id);
+                                        // Nutoles portas
+                                        connect->destination_port = ntohs(connect->destination_port);
+                                        // Atvertas portas pas inicijatoriu
+                                        connect->source_port = ntohs(connect->source_port);
+                                        // Srauto zyme
+                                        connect->tag = ntohs(connect->tag);
+                                        // Socketas pas inicijatoriu kuriam reikai grazinti duomenis
+                                        connect->socketID = ntohl(connect->socketID);
+                                        // Generuojama zyme clientui
+                                        int clientTag = tagGenerator.Generate(&tunnels);
+                                        // Kuriu nauja tuneli
+                                        int tunnel_id = tunnels.InitConnect(i, connect, clientTag);
+                                        // Ieskau reikiamo kliento
+                                        Client clientInfo = clients.FindByID(connect->client_id);
+                                        
+                                        
+                                        // Kuriu CONNECT paketa
+                                        jsonConnectCommand* cCMD = (struct jsonConnectCommand*) &commandbuf[sizeof (header)];
+                                        // Siunciama komanda
+                                        cCMD->command = htons(JSON_CONNECT);
+                                        // Tunelio identifiaktorius
+                                        cCMD->tag = htons(clientTag);
+                                        // Preivadas, atvertas pas iniciatoriu
+                                        cCMD->source_port = htons(connect->source_port);
+                                        // Nutoles portas prie kurio bus jungiamasi
+                                        cCMD->destinatio_port = htons(connect->destination_port);
+                                        // Inicijuojancio kliento ID
+                                        cCMD->client_id = htonl(i);
+                                        // Tunelio ID
+                                        cCMD->tunnelID = htonl(tunnel_id);
+                                        // Iniciatoriaus proketo numeris kuriam bus grazinta inforamcija
+                                        cCMD->socketID = htonl(connect->socketID);
+                                        // Kuriu gNet paketo antraste
+                                        header* head = (struct header*) &commandbuf[0];
+                                        head->tag = htons(0);
+                                        head->lenght = htonl(sizeof (jsonConnectCommand));
+                                        // Siunciu reikiamui klientui
+                                        int rSend = send(clientInfo.id, &commandbuf[0], sizeof (header) + sizeof (jsonConnectCommand), 0);
+                                        
                                         break;
                                     }
                                     case CONNECT_ACK: {
@@ -281,6 +331,8 @@ int main(int argc, char** argv) {
                                         connectInitAckCommand* ack = (struct connectInitAckCommand*) &commandbuf[sizeof (header)];
                                         try {
                                             ack->command = htons(INIT_CONNECT_ACK);
+                                            // Nustatau iniciatoriaus puses TAG zyme
+                                            ack->adm_tag = htons(tunelis->adm_tag);
                                             if (tunelis == NULL) {
                                                 // Nepavykus rasti tunelio
                                                 ack->status = htons(FAULT);
@@ -299,8 +351,50 @@ int main(int argc, char** argv) {
                                             head->lenght = htonl(sizeof (connectInitAckCommand));
 
                                             // Siunciu adminui duomenis
-                                            //cout << "[CONNECT_INIT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            cout << "[CONNECT_INIT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
                                             int rSend = send(tunelis->adm_socket, &commandbuf[0], sizeof (header) + sizeof (connectInitAckCommand), 0);
+                                            cout << "[CONNECT_INIT_ACK]Issiunciau " << rSend << endl;
+                                        } catch (exception e) {
+                                            printf("Nepavyko issiusti CONNECT_INI_ACK paketo\n");
+                                        }
+                                        break;
+                                    } // case JSON_CONNECT_ACK: {
+                                    case JSON_CONNECT_ACK: {
+                                        cout << "[JSON] JSON_CONNECT_ACK" << endl;
+                                        // Atejo atsakas is sujungimo
+                                        jsonConnectAckCommand* connectAck = (struct jsonConnectAckCommand*) &buf[sizeof (header)];
+                                        // Suvartau atejusiuos duoemnis teisinga tvarka
+                                        connectAck->status = ntohs(connectAck->status);
+                                        connectAck->tunnelID = htonl(connectAck->tunnelID);
+                                        // Baigiu pildyti tunelio duomenis
+                                        tunnel* tunelis = tunnels.ConnectAck(connectAck);
+
+                                        // Formuoju JSON_CONNECT_INT_ACK paketa
+                                        jsonConnectInitAckCommand* ack = (struct jsonConnectInitAckCommand*) &commandbuf[sizeof (header)];
+                                        try {
+                                            ack->command = htons(JSON_INIT_CONNECT_ACK);
+                                            // Persiunciu nevaryta socketID
+                                            ack->socketID = connectAck->socketID;
+                                            if (tunelis == NULL) {
+                                                // Nepavykus rasti tunelio
+                                                ack->status = htons(FAULT);
+                                                ack->client_id = htonl(i);
+                                                ack->adm_port = htons(-1);
+                                                ack->client_id = htons(-1);
+                                            } else {
+                                                ack->status = htons(tunelis->status);
+                                                ack->client_id = htonl(tunelis->cln_socket);
+                                                ack->adm_port = htons(tunelis->adm_port);
+                                                ack->cln_port = htons(tunelis->cln_port);
+                                            }
+                                            // Pildau header struktura
+                                            header* head = (struct header*) &commandbuf[0];
+                                            head->tag = htons(0);
+                                            head->lenght = htonl(sizeof (jsonConnectInitAckCommand));
+
+                                            // Siunciu adminui duomenis
+                                            //cout << "[CONNECT_INIT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            int rSend = send(tunelis->adm_socket, &commandbuf[0], sizeof (header) + sizeof (jsonConnectInitAckCommand), 0);
                                             //cout << "[CONNECT_INIT_ACK]Issiunciau " << rSend << endl;
                                         } catch (exception e) {
                                             printf("Nepavyko issiusti CONNECT_INI_ACK paketo\n");
@@ -308,6 +402,7 @@ int main(int argc, char** argv) {
                                         break;
                                     } // case CONNECT_ACK: {
                                     case CLIENT_CONNECT: {
+                                        cout << "Gavau CLIENT_CONNECT komanda" << endl;
                                         clientConnectCommand* cmd = (struct clientConnectCommand*) &buf[sizeof (header)];
                                         // Nustatau zyme
                                         cmd->tag = ntohs(cmd->tag);
@@ -327,9 +422,10 @@ int main(int argc, char** argv) {
                                             head->lenght = htonl(sizeof (beginReadCommand));
 
                                             // Siunciu duomenis
-                                            //cout << "[BEGIN_READ]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            cout << "Siunciu BEGIN_READ" << endl;
+                                            cout << "[BEGIN_READ]Paketo ilgis " << ntohl(head->lenght) << endl;
                                             int rSend = send(cli_socket, &buf[0], sizeof (header) + sizeof (beginReadCommand), 0);
-                                            //cout << "[BEGIN_READ]Issiunciau " << rSend << endl;
+                                            cout << "[BEGIN_READ]Issiunciau " << rSend << endl;
                                         } else {
                                             // Nepavyko rasti kam persiusti
                                             printf("Nepavyko rasti kam siusti BEGIN_READ paketo\n");
@@ -337,6 +433,7 @@ int main(int argc, char** argv) {
                                         break;
                                     } // case CLIENT_CONNECT:{
                                     case BEGIN_READ_ACK: {
+                                        cout << "Gavau BEGIN_READ_ACK" << endl;
                                         beginReadAckCommand* cmd = (struct beginReadAckCommand*) &buf[sizeof (header)];
                                         // Nustatau zyme i gera isdestyma
                                         cmd->tag = ntohs(cmd->tag);
@@ -357,9 +454,10 @@ int main(int argc, char** argv) {
                                             head->tag = htons(0);
                                             head->lenght = htonl(sizeof (clientConnectAckCommand));
 
-                                            //cout << "[CLIENT_CONNECT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
+                                            cout << "Siunciu CLIENT_CONNECT_ACK" << endl;
+                                            cout << "[CLIENT_CONNECT_ACK]Paketo ilgis " << ntohl(head->lenght) << endl;
                                             int rSend = send(adm_socket, &buf[0], sizeof (header) + sizeof (clientConnectAckCommand), 0);
-                                            //cout << "[CLIENT_CONNECT_ACK]Issiunciau " << rSend << endl;
+                                            cout << "[CLIENT_CONNECT_ACK]Issiunciau " << rSend << endl;
                                         } else {
                                             // Neradau jungties
                                             printf("Nepavyko rasti kam siusti CLIENT_CONNECT_ACK paketo\n");
