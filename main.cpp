@@ -274,6 +274,7 @@ int main(int argc, char** argv) {
                                     }
                                     case JSON_INIT_CONNECT: {
                                         //cout << "[JSON] JSON_INIT_CONNECT" << endl;                                        jsonConnectInitCommand* connect = (struct jsonConnectInitCommand*) &buf[ sizeof ( header) ];
+                                        jsonConnectInitCommand* connect = (struct jsonConnectInitCommand*) &buf[ sizeof ( header) ];
                                         // Suvartau paketo laukus i tinkama puse
                                         // Kliento ID
                                         connect->client_id = ntohl(connect->client_id);
@@ -476,16 +477,21 @@ int main(int argc, char** argv) {
                                         
                                         // Tirkinu is kurios puses atejo CLOSE_TUNNEL
                                         // Ar is iniciatoriaus
-                                        if(tunelis.adm_socket == i)
+                                        if(tunelis.adm_socket == i){
                                             // Nustatau i kliento
                                             returnSocket = tunelis.cln_socket;
+                                            close->tag = htons(tunelis.cln_tag);
+                                        }
                                         else
+                                        {
                                             // Nustatau i iniciatoriaus
                                             returnSocket = tunelis.adm_socket;
-
+                                            close->tag = htons(tunelis.adm_tag);
+                                        }
+                                        
                                         // Persiunciu CLOSE_TUNNEL komanda
                                         // Suvartau TAG
-                                        close->tag = htons(close->tag);
+                                        
                                         close->command = htons(CLOSE_TUNNEL);
                                         
                                         // Pildau antraste
