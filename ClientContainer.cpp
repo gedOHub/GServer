@@ -71,7 +71,7 @@ Client ClientContainer::FindByID(int id){
 
 void ClientContainer::PrintPage(int id, int page, char* buffer, int &length){
     // Tikrinu ar yra toks puslapis
-    if( this->Container.size() / PAGE_SIZE < page && page != 1 ){
+    if( !this->IsValidPage(page) ){
         // Nera topio puslapio
         buffer = NULL;
         length = 0;
@@ -102,4 +102,9 @@ void ClientContainer::PrintPage(int id, int page, char* buffer, int &length){
     
     // Grazinu duomenu kieki
     length =  count * sizeof( Client );
+}
+
+// Tirkinama ar egzistuoja nurodytas puslapis
+bool ClientContainer::IsValidPage(int pageNr){
+    return ( ( this->Container.size() - ( pageNr * PAGE_SIZE ) ) > (-1 * PAGE_SIZE) );
 }

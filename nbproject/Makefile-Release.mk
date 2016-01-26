@@ -39,7 +39,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Logger.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
-	${OBJECTDIR}/api/API.o \
 	${OBJECTDIR}/lib/socket.o \
 	${OBJECTDIR}/main.o
 
@@ -87,11 +86,6 @@ ${OBJECTDIR}/TunnelContainer.o: TunnelContainer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
-
-${OBJECTDIR}/api/API.o: api/API.cpp 
-	${MKDIR} -p ${OBJECTDIR}/api
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/api/API.o api/API.cpp
 
 ${OBJECTDIR}/lib/socket.o: lib/socket.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib

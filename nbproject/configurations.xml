@@ -4,7 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>api/API.h</itemPath>
       <itemPath>CONSTANTS.h</itemPath>
       <itemPath>Logger.h</itemPath>
       <itemPath>structures.h</itemPath>
@@ -16,7 +15,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>api/API.cpp</itemPath>
       <itemPath>Logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -96,10 +94,6 @@
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="api/API.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="api/API.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/socket.h" ex="false" tool="3" flavor2="0">
@@ -151,10 +145,6 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="api/API.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="api/API.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>

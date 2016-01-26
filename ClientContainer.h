@@ -44,9 +44,11 @@ public:
 private:
     std::list<Client> Container;        // Sarasas, kuriame saugomas
     char* printBuffer;  // Buferis klientu grazinimui
-    
+ 
     // Pridedu klientus
     void Add( Client client );     // Generuoja ID numeri
+    // Tirkinama ar egzistuoja nurodytas puslapis
+    bool IsValidPage(int pageNr);
 };
 
 #endif	/* CLIENTCONTAINER_H */
