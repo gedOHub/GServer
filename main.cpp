@@ -47,6 +47,17 @@ int main(int argc, char** argv) {
         std::cerr << "Skaitymo klaida server.cfg" << ":" << pex.getLine() << " - " << pex.getError() << std::endl;
         return (EXIT_FAILURE);
     }
+
+    // Kuriu Loggeri
+    /*
+    try{
+        bool debug = config.lookup("DEBUG");
+        Logger* logger = new Logger(debug);
+    } catch (exception& e) {
+        cerr << "Klaida pradedant vesti zurnala: " << e.what() << endl;
+        return (EXIT_FAILURE);
+    }
+     * */
     
     string ip;
     string port;
@@ -503,16 +514,16 @@ int main(int argc, char** argv) {
                                 // Tikrinu ar rastas sujungimas
                                 if (dep_socket != -1 && dep_tag != -1) {
                                     // Permetineju paketa i reikiama socketa
-                                    int dataSize = head->lenght + sizeof(header);
+
                                     head->tag = htons(dep_tag);
                                     head->lenght = htonl(head->lenght);
                                     //cout << "[COM]Reikia issiuti " << ntohl(head->lenght) << endl;
                                     int rSend = 0;
-                                    while (rSend < dataSize) {
+                                    while (rSend != nbytes) {
                                         rSend = rSend + send(dep_socket, &buf[rSend], nbytes - rSend, 0);
-                                        cout << "[COM]Siuo metu issiunciau " << rSend << " is " << dataSize << endl;
+                                        //cout << "[COM]Siuo metu issiunciau " << rSend << endl;
                                     }
-                                    cout << "[COM]persiunciau: " << rSend << endl;
+                                    //cout << "[COM]persiunciau: " << rSend << endl;
                                 }
                                 break;
                             }
