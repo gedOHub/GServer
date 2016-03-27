@@ -12,21 +12,6 @@
                    displayName="Resource Files"
                    projectFiles="true">
     </logicalFolder>
-    <logicalFolder name="f1"
-                   displayName="ServerSocket"
-                   projectFiles="true"
-                   kind="ROOT">
-      <logicalFolder name="f1" displayName="Protocol" projectFiles="true" kind="ROOT">
-        <itemPath>STCPServerSocket.cpp</itemPath>
-        <itemPath>STCPServerSocket.h</itemPath>
-        <itemPath>TCPServerSocket.cpp</itemPath>
-        <itemPath>TCPServerSocket.h</itemPath>
-        <itemPath>UDPServerSocket.cpp</itemPath>
-        <itemPath>UDPServerSocket.h</itemPath>
-      </logicalFolder>
-      <itemPath>ServerSocket.cpp</itemPath>
-      <itemPath>ServerSocket.h</itemPath>
-    </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
@@ -101,18 +86,6 @@
       </item>
       <item path="Logger.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="STCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="STCPServerSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="ServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="ServerSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="TCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="TCPServerSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TagGenerator.h" ex="false" tool="3" flavor2="0">
@@ -120,10 +93,6 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="UDPServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="UDPServerSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -169,18 +138,6 @@
       </item>
       <item path="Logger.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="STCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="STCPServerSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="ServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="ServerSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="TCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="TCPServerSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TagGenerator.h" ex="false" tool="3" flavor2="0">
@@ -188,10 +145,6 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="UDPServerSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="UDPServerSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
