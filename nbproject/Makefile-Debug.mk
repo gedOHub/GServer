@@ -40,7 +40,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
 	${OBJECTDIR}/lib/socket.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/sockets/GSocket.o \
+	${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o \
+	${OBJECTDIR}/sockets/serversocket/ServerSocket.o \
+	${OBJECTDIR}/sockets/serversocket/TCPServerSocket.o \
+	${OBJECTDIR}/sockets/serversocket/UDPServerSocket.o
 
 
 # C Compiler Flags
@@ -96,6 +101,31 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/sockets/GSocket.o: sockets/GSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}/sockets
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/GSocket.o sockets/GSocket.cpp
+
+${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o: sockets/serversocket/STCPServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o sockets/serversocket/STCPServerSocket.cpp
+
+${OBJECTDIR}/sockets/serversocket/ServerSocket.o: sockets/serversocket/ServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/ServerSocket.o sockets/serversocket/ServerSocket.cpp
+
+${OBJECTDIR}/sockets/serversocket/TCPServerSocket.o: sockets/serversocket/TCPServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/TCPServerSocket.o sockets/serversocket/TCPServerSocket.cpp
+
+${OBJECTDIR}/sockets/serversocket/UDPServerSocket.o: sockets/serversocket/UDPServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/UDPServerSocket.o sockets/serversocket/UDPServerSocket.cpp
 
 # Subprojects
 .build-subprojects:

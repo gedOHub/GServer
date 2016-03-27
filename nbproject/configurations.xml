@@ -12,6 +12,25 @@
                    displayName="Resource Files"
                    projectFiles="true">
     </logicalFolder>
+    <logicalFolder name="f1" displayName="Sockets" projectFiles="true" kind="ROOT">
+      <logicalFolder name="f1"
+                     displayName="ServerSocket"
+                     projectFiles="true"
+                     kind="ROOT">
+        <logicalFolder name="f1" displayName="Protocol" projectFiles="true" kind="ROOT">
+          <itemPath>sockets/serversocket/STCPServerSocket.cpp</itemPath>
+          <itemPath>sockets/serversocket/STCPServerSocket.h</itemPath>
+          <itemPath>sockets/serversocket/TCPServerSocket.cpp</itemPath>
+          <itemPath>sockets/serversocket/TCPServerSocket.h</itemPath>
+          <itemPath>sockets/serversocket/UDPServerSocket.cpp</itemPath>
+          <itemPath>sockets/serversocket/UDPServerSocket.h</itemPath>
+        </logicalFolder>
+        <itemPath>sockets/serversocket/ServerSocket.cpp</itemPath>
+        <itemPath>sockets/serversocket/ServerSocket.h</itemPath>
+      </logicalFolder>
+      <itemPath>sockets/GSocket.cpp</itemPath>
+      <itemPath>sockets/GSocket.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
@@ -102,6 +121,50 @@
       </item>
       <item path="server.cfg" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="sockets/GSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="sockets/GSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="sockets/serversocket/STCPServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/STCPServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/ServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/ServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/TCPServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/TCPServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/UDPServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/UDPServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -153,6 +216,50 @@
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="server.cfg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="sockets/GSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="sockets/GSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="sockets/serversocket/STCPServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/STCPServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/ServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/ServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/TCPServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/TCPServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/UDPServerSocket.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="sockets/serversocket/UDPServerSocket.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
       </item>
