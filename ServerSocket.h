@@ -16,11 +16,36 @@
 
 class ServerSocket {
 public:
+    // ----- Kintamieji -----
+    // ----- END Kintamieji -----
+//##############################################################################    
+    // ----- Metodai -----
     ServerSocket();
-    ServerSocket(const ServerSocket& orig);
     virtual ~ServerSocket();
+    // ----- END Metodai -----
 private:
-
+    // ----- Kintamieji -----
+    /* file_deskriptor
+     * Kintamasis skirtas saugoti socket failo deskritproaius reiksme. 
+     * Naudojamas tinklo operacijose (duomnu siuntimas, gavimas ir darbui su 
+     * prisijungusiais klientais). Numatyta reiksme -1*/
+    int file_deskriptor;
+    
+    /* buffer
+     * Char masyvo kintamasis skirtas saugoti gaunama ir siunciama informacija 
+     * i tinkla. Masyvas isvalomas destruktoriuje. Maksimalus dydis apibreziamas 
+     * konfiguraciniame faile- MAX_SERVER_SCOKET_BUFFER_SIZE. Numatyta 
+     * reiksme- NULL */
+    char* buffer;
+    
+    /* IP
+     * Kintamasis skirtas saugoti IP adresa, kuriuo bus klausomasi ateinanciu 
+     * jungciu. Numatyta reiksme- 0.0.0.0 */
+    // ----- END Kintamieji -----
+//##############################################################################    
+    // ----- Metodai -----
+    
+    // ----- END Metodai -----
 };
 
 #endif /* SERVERSOCKET_H */

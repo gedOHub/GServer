@@ -14,11 +14,27 @@
 #include "ServerSocket.h"
 
 ServerSocket::ServerSocket() {
-}
-
-ServerSocket::ServerSocket(const ServerSocket& orig) {
+    try{
+        // Priskiriu numatyta reiksme file_deskriptor
+        this->file_deskriptor = -1;
+        // Priskiriu numatyta reiksme buffer
+        this->buffer = NULL;
+    } catch ( int e){
+        //TODO: prijungti LOGGER
+    }
 }
 
 ServerSocket::~ServerSocket() {
+    try{
+        // ##### Isvalau BUFFER #####
+        // Tirkinu ar buffer priskirtas
+        if(this->buffer != NULL){
+            // Buffer kintamasis buvo naudotas, isvalau
+            delete[] this->buffer;
+        }
+        // ##### END Isvalau BUFER #####
+    } catch(int e){
+        //TODO: prijungti LOGGER
+    }
 }
 
