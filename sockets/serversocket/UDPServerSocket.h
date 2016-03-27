@@ -14,7 +14,10 @@
 #ifndef UDPSERVERSOCKET_H
 #define UDPSERVERSOCKET_H
 
-class UDPServerSocket {
+#include "ServerSocket.h"
+
+
+class UDPServerSocket : public ServerSocket {
 public:
     UDPServerSocket();
     UDPServerSocket(const UDPServerSocket& orig);

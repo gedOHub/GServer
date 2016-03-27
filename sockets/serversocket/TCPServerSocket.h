@@ -14,7 +14,10 @@
 #ifndef TCPSERVERSOCKET_H
 #define TCPSERVERSOCKET_H
 
-class TCPServerSocket {
+#include "ServerSocket.h"
+
+
+class TCPServerSocket : public ServerSocket {
 public:
     TCPServerSocket();
     TCPServerSocket(const TCPServerSocket& orig);

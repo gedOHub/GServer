@@ -14,7 +14,7 @@
 #ifndef SERVERSOCKET_H
 #define SERVERSOCKET_H
 
-class ServerSocket {
+class ServerSocket : public GSocket {
 public:
     ServerSocket();
     ServerSocket(const ServerSocket& orig);

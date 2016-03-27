@@ -14,7 +14,10 @@
 #ifndef STCPSERVERSOCKET_H
 #define STCPSERVERSOCKET_H
 
-class STCPServerSocket {
+#include "ServerSocket.h"
+
+
+class STCPServerSocket : public ServerSocket {
 public:
     STCPServerSocket();
     STCPServerSocket(const STCPServerSocket& orig);
