@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   TCPServerSocket.h
  * Author: gedas
@@ -19,11 +13,20 @@
 
 class TCPServerSocket : public ServerSocket {
 public:
+    // ##### Kintamieji #####
+    // ##### END Kintamieji #####
+    // #########################################################################
+    // ##### Metodai #####
     TCPServerSocket();
     TCPServerSocket(const TCPServerSocket& orig);
     virtual ~TCPServerSocket();
+    // ##### END Metodai #####    
 private:
-
+    // ##### Kintamieji #####
+    // ##### END Kintamieji #####
+    // #########################################################################
+    // ##### Metodai #####
+    // ##### END Metodai #####
 };
 
 #endif /* TCPSERVERSOCKET_H */

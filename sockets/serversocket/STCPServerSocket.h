@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   STCPServerSocket.h
  * Author: gedas
@@ -19,11 +13,20 @@
 
 class STCPServerSocket : public ServerSocket {
 public:
+    // ##### Kintamieji #####
+    // ##### END Kintamieji #####
+    // #########################################################################
+    // ##### Metodai #####
     STCPServerSocket();
     STCPServerSocket(const STCPServerSocket& orig);
     virtual ~STCPServerSocket();
+    // ##### END Metodai #####
 private:
-
+    // ##### Kintamieji #####
+    // ##### END Kintamieji #####
+    // #########################################################################
+    // ##### Metodai #####
+    // ##### END Metodai #####
 };
 
 #endif /* STCPSERVERSOCKET_H */
