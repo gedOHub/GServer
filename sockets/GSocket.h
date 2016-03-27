@@ -8,6 +8,8 @@
 #ifndef GSOCKET_H
 #define GSOCKET_H
 
+#include <vector>
+
 class GSocket {
 public:
     // ##### Kintamieji #####
@@ -20,6 +22,14 @@ public:
     // ##### END Metodai #####
 private:
     // ##### Kintamieji #####
+    /* buffer
+     * Kintamasis skirtas saugoti gaunama ir siunciama informacija i tinkla. 
+     * Maksimalu buferio dydi nusako nustatymu faile saugoma reiksme 
+     * MAX_SCOKET_BUFFER_SIZE */
+    std::vector buffer;
+    
+    
+    
     // ##### END Kintamieji #####
     // #########################################################################
     // ##### Metodai #####
