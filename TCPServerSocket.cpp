@@ -13,12 +13,12 @@
 
 #include "TCPServerSocket.h"
 
-TCPServerSocket::TCPServerSocket() {
+GServer::TCPServerSocket::TCPServerSocket() {
 }
 
-TCPServerSocket::TCPServerSocket(const TCPServerSocket& orig) {
+GServer::TCPServerSocket::TCPServerSocket(const TCPServerSocket& orig) {
 }
 
-TCPServerSocket::~TCPServerSocket() {
+GServer::TCPServerSocket::~TCPServerSocket() {
 }
 

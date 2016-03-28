@@ -13,12 +13,12 @@
 
 #include "UDPServerSocket.h"
 
-UDPServerSocket::UDPServerSocket() {
+GServer::UDPServerSocket::UDPServerSocket() {
 }
 
-UDPServerSocket::UDPServerSocket(const UDPServerSocket& orig) {
+GServer::UDPServerSocket::UDPServerSocket(const UDPServerSocket& orig) {
 }
 
-UDPServerSocket::~UDPServerSocket() {
+GServer::UDPServerSocket::~UDPServerSocket() {
 }
 

@@ -13,15 +13,17 @@
 
 #include "GSocket.h"
 
-GSocket::GSocket() {
+GServer::GSocket::GSocket() {
+    // Nustatau objekto pavadinima
+    this->className = "GSocket";
+    
     // Nustatau numatytaja socket_descritptor reiksme
     this->socket_descriptor = -1;
+    
+    // Pranesu apie objekto sukurima
+    this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
-GSocket::~GSocket() {
-}
-
-int GSocket::getSocket(){
-    return this->socket_descriptor;
+GServer::GSocket::~GSocket() {
 }
 

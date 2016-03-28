@@ -13,12 +13,12 @@
 
 #include "STCPServerSocket.h"
 
-STCPServerSocket::STCPServerSocket() {
+GServer::STCPServerSocket::STCPServerSocket() {
 }
 
-STCPServerSocket::STCPServerSocket(const STCPServerSocket& orig) {
+GServer::STCPServerSocket::STCPServerSocket(const STCPServerSocket& orig) {
 }
 
-STCPServerSocket::~STCPServerSocket() {
+GServer::STCPServerSocket::~STCPServerSocket() {
 }
 

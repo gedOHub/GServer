@@ -22,11 +22,11 @@ GServer::GLogger::GLogger( libconfig::Config* conf ) {
     // Bandau nuskaityti DEBUG reiksme is nustatymu failo
     try{
         this->debug = conf->lookup("DEBUG");
-        this->logDebug(this->LOG_HEADER + "Nuskaityta DEBUG reiksme:");
-        this->logDebug(this->LOG_HEADER + std::to_string(this->debug) );
+        this->logDebug(this->className, "Nuskaityta DEBUG reiksme:");
+        this->logDebug(this->className, std::to_string(this->debug) );
     } catch( int e ){
         // Pranesimas apie nepavykusi nuskaityma DEBUG reiksmes
-        this->logError("Nepavyko nuskaityti DEBUG reiksmes");
+        this->logError(this->className, "Nepavyko nuskaityti DEBUG reiksmes");
     }
 }
 
@@ -89,20 +89,20 @@ GServer::GLogger *GServer::GLogger::makeLogger(libconfig::Config* conf){
     }
 }
 
-void GServer::GLogger::logInfo(std::string message){
-    std::cout << "[" << this->getTime() << "] INFO " 
-            << message << std::endl;
+void GServer::GLogger::logInfo(std::string className, std::string message){
+    std::cout << "[" << this->getTime() << "] INFO [" << className 
+            << "] " << message << std::endl;
 }
 
-void GServer::GLogger::logError(std::string message){
-    std::cerr << "[" << this->getTime() << "] ERROR " 
-            << message << std::endl;
+void GServer::GLogger::logError(std::string className, std::string message){
+    std::cerr << "[" << this->getTime() << "] ERROR [" << className 
+            << "] " << message << std::endl;
 }
 
-void GServer::GLogger::logDebug(std::string message){
+void GServer::GLogger::logDebug(std::string className, std::string message){
     if(this->debug) {
-        std::cerr << "[" << this->getTime() << "] DEBUG " 
-                << message << std::endl;
+        std::cerr << "[" << this->getTime() << "] DEBUG [" << className 
+            << "] " << message << std::endl;
     }
 }
 

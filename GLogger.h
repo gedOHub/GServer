@@ -13,7 +13,7 @@
 #include <string.h>
 #include <map>
 #include <ctime>
-#include "../GObject.h"
+#include "GObject.h"
 
 using namespace std;
     namespace GServer {
@@ -43,15 +43,15 @@ using namespace std;
 
         /* logInfo
          * Metodas skirtas pranesti apie informacija */
-        virtual void logInfo(std::string message);
+        virtual void logInfo(std::string className, std::string message);
 
         /* logError
          * Metodas skirtas pranesti apie klaida */
-        virtual void logError(std::string message);
+        virtual void logError(std::string className, std::string message);
 
         /* logDebug
          * Metodas skirtas pranesti derinimo informacijai */
-        virtual void logDebug(std::string message);
+        virtual void logDebug(std::string className, std::string message);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####

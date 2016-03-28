@@ -16,23 +16,25 @@
 
 #include "GSocket.h"
 
-class ServerSocket : public GSocket {
-public:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    // ##### END Metodai #####
-    ServerSocket();
-    ServerSocket(const ServerSocket& orig);
-    virtual ~ServerSocket();
-private:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    // ##### END Metodai #####
-};
+namespace GServer{
+    class ServerSocket : public GSocket {
+    public:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #########################################################################
+        // ##### Metodai #####
+        // ##### END Metodai #####
+        ServerSocket();
+        ServerSocket(const ServerSocket& orig);
+        virtual ~ServerSocket();
+    private:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #########################################################################
+        // ##### Metodai #####
+        // ##### END Metodai #####
+    };
+}
 
 #endif /* SERVERSOCKET_H */
 

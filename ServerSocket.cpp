@@ -13,12 +13,12 @@
 
 #include "ServerSocket.h"
 
-ServerSocket::ServerSocket() {
+GServer::ServerSocket::ServerSocket() {
 }
 
-ServerSocket::ServerSocket(const ServerSocket& orig) {
+GServer::ServerSocket::ServerSocket(const ServerSocket& orig) {
 }
 
-ServerSocket::~ServerSocket() {
+GServer::ServerSocket::~ServerSocket() {
 }
 

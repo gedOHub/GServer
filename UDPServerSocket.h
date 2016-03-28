@@ -10,24 +10,24 @@
 
 #include "ServerSocket.h"
 
-
-class UDPServerSocket : public ServerSocket {
-public:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    UDPServerSocket();
-    UDPServerSocket(const UDPServerSocket& orig);
-    virtual ~UDPServerSocket();
-    // ##### END Metodai #####
-private:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    // ##### END Metodai #####
-};
-
+namespace GServer {
+    class UDPServerSocket : public ServerSocket {
+    public:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #########################################################################
+        // ##### Metodai #####
+        UDPServerSocket();
+        UDPServerSocket(const UDPServerSocket& orig);
+        virtual ~UDPServerSocket();
+        // ##### END Metodai #####
+    private:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #########################################################################
+        // ##### Metodai #####
+        // ##### END Metodai #####
+    };
+}
 #endif /* UDPSERVERSOCKET_H */
 

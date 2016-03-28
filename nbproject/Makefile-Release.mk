@@ -36,17 +36,17 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ClientContainer.o \
+	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
+	${OBJECTDIR}/GSocket.o \
+	${OBJECTDIR}/STCPServerSocket.o \
+	${OBJECTDIR}/ServerSocket.o \
+	${OBJECTDIR}/TCPServerSocket.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
+	${OBJECTDIR}/UDPServerSocket.o \
 	${OBJECTDIR}/lib/socket.o \
-	${OBJECTDIR}/logger/GLogger.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/sockets/GSocket.o \
-	${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o \
-	${OBJECTDIR}/sockets/serversocket/ServerSocket.o \
-	${OBJECTDIR}/sockets/serversocket/TCPServerSocket.o \
-	${OBJECTDIR}/sockets/serversocket/UDPServerSocket.o
+	${OBJECTDIR}/main.o
 
 
 # C Compiler Flags
@@ -78,10 +78,35 @@ ${OBJECTDIR}/ClientContainer.o: ClientContainer.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ClientContainer.o ClientContainer.cpp
 
+${OBJECTDIR}/GLogger.o: GLogger.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GLogger.o GLogger.cpp
+
 ${OBJECTDIR}/GObject.o: GObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GObject.o GObject.cpp
+
+${OBJECTDIR}/GSocket.o: GSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GSocket.o GSocket.cpp
+
+${OBJECTDIR}/STCPServerSocket.o: STCPServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/STCPServerSocket.o STCPServerSocket.cpp
+
+${OBJECTDIR}/ServerSocket.o: ServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServerSocket.o ServerSocket.cpp
+
+${OBJECTDIR}/TCPServerSocket.o: TCPServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPServerSocket.o TCPServerSocket.cpp
 
 ${OBJECTDIR}/TagGenerator.o: TagGenerator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -93,45 +118,20 @@ ${OBJECTDIR}/TunnelContainer.o: TunnelContainer.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
 
+${OBJECTDIR}/UDPServerSocket.o: UDPServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPServerSocket.o UDPServerSocket.cpp
+
 ${OBJECTDIR}/lib/socket.o: lib/socket.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/socket.o lib/socket.cpp
 
-${OBJECTDIR}/logger/GLogger.o: logger/GLogger.cpp 
-	${MKDIR} -p ${OBJECTDIR}/logger
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logger/GLogger.o logger/GLogger.cpp
-
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
-
-${OBJECTDIR}/sockets/GSocket.o: sockets/GSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}/sockets
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/GSocket.o sockets/GSocket.cpp
-
-${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o: sockets/serversocket/STCPServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o sockets/serversocket/STCPServerSocket.cpp
-
-${OBJECTDIR}/sockets/serversocket/ServerSocket.o: sockets/serversocket/ServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/ServerSocket.o sockets/serversocket/ServerSocket.cpp
-
-${OBJECTDIR}/sockets/serversocket/TCPServerSocket.o: sockets/serversocket/TCPServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/TCPServerSocket.o sockets/serversocket/TCPServerSocket.cpp
-
-${OBJECTDIR}/sockets/serversocket/UDPServerSocket.o: sockets/serversocket/UDPServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}/sockets/serversocket
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sockets/serversocket/UDPServerSocket.o sockets/serversocket/UDPServerSocket.cpp
 
 # Subprojects
 .build-subprojects:

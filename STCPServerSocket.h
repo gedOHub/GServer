@@ -10,24 +10,25 @@
 
 #include "ServerSocket.h"
 
-
-class STCPServerSocket : public ServerSocket {
-public:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    STCPServerSocket();
-    STCPServerSocket(const STCPServerSocket& orig);
-    virtual ~STCPServerSocket();
-    // ##### END Metodai #####
-private:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    // ##### END Metodai #####
-};
+namespace GServer{
+    class STCPServerSocket : public ServerSocket {
+    public:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #########################################################################
+        // ##### Metodai #####
+        STCPServerSocket();
+        STCPServerSocket(const STCPServerSocket& orig);
+        virtual ~STCPServerSocket();
+        // ##### END Metodai #####
+    private:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #########################################################################
+        // ##### Metodai #####
+        // ##### END Metodai #####
+    };
+}
 
 #endif /* STCPSERVERSOCKET_H */
 
