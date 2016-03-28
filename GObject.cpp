@@ -14,8 +14,12 @@
 #include "GObject.h"
 
 GObject::GObject() {
+    // Nustatau objekto pavadinima
     this->className = "GObject";
-    this->LOG_HEADER="["+this->className+"]";
+    // Kuriu header'i
+    std::stringstream s;
+    s << "[" << this->className << "]";
+    this->LOG_HEADER = s.str();
 }
 
 GObject::~GObject() {

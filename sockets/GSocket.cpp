@@ -14,11 +14,14 @@
 #include "GSocket.h"
 
 GSocket::GSocket() {
-}
-
-GSocket::GSocket(const GSocket& orig) {
+    // Nustatau numatytaja socket_descritptor reiksme
+    this->socket_descriptor = -1;
 }
 
 GSocket::~GSocket() {
+}
+
+int GSocket::getSocket(){
+    return this->socket_descriptor;
 }
 

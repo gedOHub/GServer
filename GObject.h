@@ -14,6 +14,9 @@
 #ifndef GOBJECT_H
 #define GOBJECT_H
 
+#include <sstream>
+#include <string>
+
 class GObject {
 public:
     // ##### Kintamieji #####
@@ -27,7 +30,7 @@ public:
      * Metodas skirtas grazinti klases padavinimui */
     std::string getClassName();
     // ##### END Metodai #####
-private:
+protected:
     // ##### Kintamieji #####
     /* className
      * Kintamasis skirtas saugoti klases pavadinimui */

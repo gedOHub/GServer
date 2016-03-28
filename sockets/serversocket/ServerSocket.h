@@ -14,6 +14,8 @@
 #ifndef SERVERSOCKET_H
 #define SERVERSOCKET_H
 
+#include "GSocket.h"
+
 class ServerSocket : public GSocket {
 public:
     // ##### Kintamieji #####

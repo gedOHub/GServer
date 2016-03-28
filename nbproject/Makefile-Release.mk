@@ -36,10 +36,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ClientContainer.o \
-	${OBJECTDIR}/Logger.o \
+	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
 	${OBJECTDIR}/lib/socket.o \
+	${OBJECTDIR}/logger/GLogger.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/sockets/GSocket.o \
 	${OBJECTDIR}/sockets/serversocket/STCPServerSocket.o \
@@ -77,10 +78,10 @@ ${OBJECTDIR}/ClientContainer.o: ClientContainer.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ClientContainer.o ClientContainer.cpp
 
-${OBJECTDIR}/Logger.o: Logger.cpp 
+${OBJECTDIR}/GObject.o: GObject.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Logger.o Logger.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GObject.o GObject.cpp
 
 ${OBJECTDIR}/TagGenerator.o: TagGenerator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -96,6 +97,11 @@ ${OBJECTDIR}/lib/socket.o: lib/socket.cpp
 	${MKDIR} -p ${OBJECTDIR}/lib
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/socket.o lib/socket.cpp
+
+${OBJECTDIR}/logger/GLogger.o: logger/GLogger.cpp 
+	${MKDIR} -p ${OBJECTDIR}/logger
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/logger/GLogger.o logger/GLogger.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -20,19 +20,28 @@ public:
     GSocket(const GSocket& orig);
     virtual ~GSocket();
     // ##### END Metodai #####
-private:
+protected:
     // ##### Kintamieji #####
-    /* buffer
+    /** buffer **
      * Kintamasis skirtas saugoti gaunama ir siunciama informacija i tinkla. 
      * Maksimalu buferio dydi nusako nustatymu faile saugoma reiksme 
      * MAX_SCOKET_BUFFER_SIZE */
-    std::vector buffer;
+    std::vector<char> buffer;
     
-    
+    /** socket_descriptor **
+     * Kintamasis skirtas saugoti failo deskriptoriaus numeri, kuris naudojamas 
+     * bendrvmui su tinklo klientu. Numatyta reiksme- -1.
+     * Placiau- https://en.wikipedia.org/wiki/File_descriptor */
+    int socket_descriptor;
     
     // ##### END Kintamieji #####
     // #########################################################################
     // ##### Metodai #####
+    /** getSocket **
+     * Metodas skirtas sukurti sistemos resursaui- socket. Si metoda realizuoja
+     * kiekviena vaiko klase atskirai. */
+    virtual int getSocket();
+    
     // ##### END Metodai #####
 };
 
