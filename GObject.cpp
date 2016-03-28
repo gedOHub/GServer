@@ -14,6 +14,8 @@
 #include "GObject.h"
 
 GObject::GObject() {
+    this->className = "GObject";
+    this->LOG_HEADER="["+this->className+"]";
 }
 
 GObject::~GObject() {

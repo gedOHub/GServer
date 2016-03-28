@@ -32,6 +32,10 @@ private:
     /* className
      * Kintamasis skirtas saugoti klases pavadinimui */
     std::string className;
+    
+    /* LOG_HEADER
+     * Kintamasis skirtas saugoti antraste prie objekto su jo pavadinimu */
+    std::string LOG_HEADER;
     // ##### END Kintamieji #####
     // #########################################################################
     // ##### Metodai #####
