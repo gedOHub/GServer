@@ -29,12 +29,12 @@ public:
     // ##### END Metodai #####
 private:
     // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
     /* className
      * Kintamasis skirtas saugoti klases pavadinimui */
     std::string className;
+    // ##### END Kintamieji #####
+    // #########################################################################
+    // ##### Metodai #####
     // ##### END Metodai #####
 };
 
