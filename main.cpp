@@ -22,6 +22,7 @@
 #include "TunnelContainer.h"
 #include "TagGenerator.h"    // Klientu saugykla
 
+#include "GLoggerFactory.h"
 #include "GLogger.h"
 #include "exitCodes.h"
 #include "GSocket.h"
@@ -54,13 +55,15 @@ int main(int argc, char** argv) {
     }
 
     // Kuriu loggeri
-    GServer::GLogger* logger = GServer::GLogger::makeLogger(&config);
+    GServer::GLogger* logger = GServer::makeLogger(&config);
     // Tikrinu ar pavyko sukurti
     if( logger == NULL ){
         // Nepavyko, pranesu apie klaida ir grazinu klaidos koda
-        std::cerr << "Nepavyko sukurti porgramos pranesimu objekto" << std::endl;
+        std::cerr << "Nepavyko sukurti porgramos pranesimu objekto (Logger)" << std::endl;
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
+    
+    logger->logInfo(logger->getClassName(), "Programa pradeda darba");
     
     
     /*

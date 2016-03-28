@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ClientContainer.o \
+	${OBJECTDIR}/FileGLogger.o \
 	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/GSocket.o \
@@ -77,6 +78,11 @@ ${OBJECTDIR}/ClientContainer.o: nbproject/Makefile-${CND_CONF}.mk ClientContaine
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ClientContainer.o ClientContainer.cpp
+
+${OBJECTDIR}/FileGLogger.o: nbproject/Makefile-${CND_CONF}.mk FileGLogger.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileGLogger.o FileGLogger.cpp
 
 ${OBJECTDIR}/GLogger.o: nbproject/Makefile-${CND_CONF}.mk GLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}

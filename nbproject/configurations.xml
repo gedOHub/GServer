@@ -3,8 +3,11 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f2" displayName="basic" projectFiles="true" kind="ROOT">
       <logicalFolder name="f1" displayName="Loggers" projectFiles="true" kind="ROOT">
+        <itemPath>FileGLogger.cpp</itemPath>
+        <itemPath>FileGLogger.h</itemPath>
         <itemPath>GLogger.cpp</itemPath>
         <itemPath>GLogger.h</itemPath>
+        <itemPath>GLoggerFactory.h</itemPath>
       </logicalFolder>
       <itemPath>GObject.cpp</itemPath>
       <itemPath>GObject.h</itemPath>
@@ -122,9 +125,15 @@
       </item>
       <item path="ClientContainer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FileGLogger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FileGLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GLoggerFactory.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="GObject.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -222,9 +231,15 @@
       </item>
       <item path="ClientContainer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="FileGLogger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="FileGLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GLoggerFactory.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="GObject.cpp" ex="false" tool="1" flavor2="0">
       </item>
