@@ -9,6 +9,7 @@
 #define GSOCKET_H
 
 #include <vector>
+#include <libconfig.h>
 #include "GLogger.h"
 
 namespace GServer {
@@ -18,8 +19,7 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #########################################################################
         // ##### Metodai #####
-        GSocket();
-        GSocket(const GSocket& orig);
+        GSocket( libconfig::Config* conf, GLogger* logger );
         virtual ~GSocket();
         // ##### END Metodai #####
     protected:

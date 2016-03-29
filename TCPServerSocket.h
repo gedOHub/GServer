@@ -17,8 +17,7 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #########################################################################
         // ##### Metodai #####
-        TCPServerSocket();
-        TCPServerSocket(const TCPServerSocket& orig);
+        TCPServerSocket(libconfig::Config * conf, GLogger* logger );
         virtual ~TCPServerSocket();
         // ##### END Metodai #####    
     private:

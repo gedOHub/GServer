@@ -13,10 +13,7 @@
 
 #include "UDPServerSocket.h"
 
-GServer::UDPServerSocket::UDPServerSocket() {
-}
-
-GServer::UDPServerSocket::UDPServerSocket(const UDPServerSocket& orig) {
+GServer::UDPServerSocket::UDPServerSocket(libconfig::Config* conf, GLogger* logger ) :ServerSocket(conf, logger) {
 }
 
 GServer::UDPServerSocket::~UDPServerSocket() {

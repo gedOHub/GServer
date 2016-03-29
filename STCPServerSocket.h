@@ -17,8 +17,7 @@ namespace GServer{
         // ##### END Kintamieji #####
         // #########################################################################
         // ##### Metodai #####
-        STCPServerSocket();
-        STCPServerSocket(const STCPServerSocket& orig);
+        STCPServerSocket( libconfig::Config* conf, GLogger* logger );
         virtual ~STCPServerSocket();
         // ##### END Metodai #####
     private:

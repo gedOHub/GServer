@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <logicalFolder name="f2" displayName="basic" projectFiles="true" kind="ROOT">
-      <logicalFolder name="f1" displayName="Loggers" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f2" displayName="basic" projectFiles="true">
+      <logicalFolder name="f1" displayName="Loggers" projectFiles="true">
         <itemPath>FileGLogger.cpp</itemPath>
         <itemPath>FileGLogger.h</itemPath>
         <itemPath>GLogger.cpp</itemPath>
@@ -27,21 +27,16 @@
       <logicalFolder name="f1" displayName="ServerSocket" projectFiles="true">
         <logicalFolder name="f1" displayName="Protocol" projectFiles="true">
           <itemPath>STCPServerSocket.cpp</itemPath>
-          <itemPath>sockets/serversocket/STCPServerSocket.h</itemPath>
           <itemPath>STCPServerSocket.h</itemPath>
           <itemPath>TCPServerSocket.cpp</itemPath>
-          <itemPath>sockets/serversocket/TCPServerSocket.h</itemPath>
           <itemPath>TCPServerSocket.h</itemPath>
           <itemPath>UDPServerSocket.cpp</itemPath>
-          <itemPath>sockets/serversocket/UDPServerSocket.h</itemPath>
           <itemPath>UDPServerSocket.h</itemPath>
         </logicalFolder>
         <itemPath>ServerSocket.cpp</itemPath>
-        <itemPath>sockets/serversocket/ServerSocket.h</itemPath>
         <itemPath>ServerSocket.h</itemPath>
       </logicalFolder>
       <itemPath>GSocket.cpp</itemPath>
-      <itemPath>sockets/GSocket.h</itemPath>
       <itemPath>GSocket.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -177,28 +172,6 @@
       </item>
       <item path="server.cfg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="sockets/GSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="sockets/serversocket/STCPServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="sockets/serversocket/ServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="sockets/serversocket/TCPServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="sockets/serversocket/UDPServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -282,28 +255,6 @@
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="server.cfg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="sockets/GSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="sockets/serversocket/STCPServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="sockets/serversocket/ServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="sockets/serversocket/TCPServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="sockets/serversocket/UDPServerSocket.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
       </item>
       <item path="structures.h" ex="false" tool="3" flavor2="0">
       </item>

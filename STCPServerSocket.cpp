@@ -13,10 +13,7 @@
 
 #include "STCPServerSocket.h"
 
-GServer::STCPServerSocket::STCPServerSocket() {
-}
-
-GServer::STCPServerSocket::STCPServerSocket(const STCPServerSocket& orig) {
+GServer::STCPServerSocket::STCPServerSocket(libconfig::Config* conf, GLogger* logger) : ServerSocket(conf,logger) {
 }
 
 GServer::STCPServerSocket::~STCPServerSocket() {

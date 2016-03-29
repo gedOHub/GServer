@@ -13,10 +13,7 @@
 
 #include "ServerSocket.h"
 
-GServer::ServerSocket::ServerSocket() {
-}
-
-GServer::ServerSocket::ServerSocket(const ServerSocket& orig) {
+GServer::ServerSocket::ServerSocket(libconfig::Config* conf, GLogger* logger ): GSocket(conf, logger) {
 }
 
 GServer::ServerSocket::~ServerSocket() {

@@ -13,10 +13,7 @@
 
 #include "TCPServerSocket.h"
 
-GServer::TCPServerSocket::TCPServerSocket() {
-}
-
-GServer::TCPServerSocket::TCPServerSocket(const TCPServerSocket& orig) {
+GServer::TCPServerSocket::TCPServerSocket(libconfig::Config* conf, GLogger* logger ) :ServerSocket(conf,logger) {
 }
 
 GServer::TCPServerSocket::~TCPServerSocket() {

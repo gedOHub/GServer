@@ -63,8 +63,9 @@ int main(int argc, char** argv) {
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
     
-    logger->logInfo(logger->getClassName(), "Programa pradeda darba");
-    
+    logger->logInfo("main", "Programa pradeda darba");
+    logger->logDebug("main", "Kuriu GSocket");
+    GServer::GSocket* socket = new GServer::GSocket(&config, logger);
     
     /*
    

@@ -17,8 +17,7 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #########################################################################
         // ##### Metodai #####
-        UDPServerSocket();
-        UDPServerSocket(const UDPServerSocket& orig);
+        UDPServerSocket(libconfig::Config* conf, GLogger* logger );
         virtual ~UDPServerSocket();
         // ##### END Metodai #####
     private:

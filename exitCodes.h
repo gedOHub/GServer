@@ -16,7 +16,9 @@ namespace GServer{
             // Programa baigia darba normaliui
             NORMAL = 0,
             // Programa baigia darba, nes nesukurtas loginimo objektas
-            NO_LOGGER = -1
+            NO_LOGGER = -1,
+            // Nepavyko sukurti buferio su atitinkamu dydzio
+            SOCKET_BUFFER_TO_SMALL = -2
         };
     };
 }
