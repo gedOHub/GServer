@@ -79,3 +79,8 @@ int GServer::GSocket::setBufferSize(int newSize){
     // Grazinu nauja dydi
     return this->buffer.size();
 }
+
+int GServer::GSocket::send(vector<char> data){
+    this->logger->logError(this->className,"Neigyvendinta SEND funkcija");
+    return -1;
+}
