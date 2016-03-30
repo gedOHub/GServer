@@ -9,6 +9,7 @@
         <group>
             <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GSocket.h</file>
             <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GSocket.cpp</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/.git/config</file>
         </group>
     </open-files>
 </project-private>

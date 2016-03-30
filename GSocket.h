@@ -54,6 +54,12 @@ namespace GServer {
             newSize- naujas pageidaujamas buferio dydis*/
         int resizeBuffer(int newSize);
 
+        /** send **
+         * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
+         * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
+         * issiustu duomenu kiekis. 
+            data- suformuoti duomenys, kurie bus issiunciami*/
+        virtual int send( vector<char> data );
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
