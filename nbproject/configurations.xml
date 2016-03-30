@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="f2" displayName="basic" projectFiles="true">
+      <logicalFolder name="f1" displayName="Loggers" projectFiles="true">
+        <itemPath>FileGLogger.cpp</itemPath>
+        <itemPath>FileGLogger.h</itemPath>
+        <itemPath>GLogger.cpp</itemPath>
+        <itemPath>GLogger.h</itemPath>
+        <itemPath>GLoggerFactory.h</itemPath>
+      </logicalFolder>
+      <itemPath>GObject.cpp</itemPath>
+      <itemPath>GObject.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>CONSTANTS.h</itemPath>
-      <itemPath>Logger.h</itemPath>
+      <itemPath>exitCodes.h</itemPath>
       <itemPath>structures.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
     </logicalFolder>
+    <logicalFolder name="f1" displayName="Sockets" projectFiles="true">
+      <logicalFolder name="f1" displayName="ServerSocket" projectFiles="true">
+        <logicalFolder name="f1" displayName="Protocol" projectFiles="true">
+          <itemPath>STCPServerSocket.cpp</itemPath>
+          <itemPath>STCPServerSocket.h</itemPath>
+          <itemPath>TCPServerSocket.cpp</itemPath>
+          <itemPath>TCPServerSocket.h</itemPath>
+          <itemPath>UDPServerSocket.cpp</itemPath>
+          <itemPath>UDPServerSocket.h</itemPath>
+        </logicalFolder>
+        <itemPath>ServerSocket.cpp</itemPath>
+        <itemPath>ServerSocket.h</itemPath>
+      </logicalFolder>
+      <itemPath>GSocket.cpp</itemPath>
+      <itemPath>GSocket.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -50,13 +76,18 @@
     <itemPath>lib/socket.cpp</itemPath>
     <itemPath>lib/socket.h</itemPath>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>sockets</Elem>
+    <Elem>sockets/serversocket</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
         <compilerSet>GNU|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
+        <rebuildPropChanged>true</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -67,12 +98,19 @@
         <ccTool>
           <incDir>
             <pElem>/usr/include</pElem>
+            <pElem>sockets</pElem>
+            <pElem>sockets/serversocket</pElem>
+            <pElem>logger</pElem>
           </incDir>
           <incFile>
             <pElem>/usr/include/libconfig.h++</pElem>
           </incFile>
+          <commandLine>-std=c++11</commandLine>
         </ccTool>
         <linkerTool>
+          <linkerAddLib>
+            <pElem></pElem>
+          </linkerAddLib>
           <commandLine>-lconfig++ -Wall</commandLine>
         </linkerTool>
       </compileType>
@@ -82,9 +120,35 @@
       </item>
       <item path="ClientContainer.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Logger.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FileGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Logger.h" ex="false" tool="3" flavor2="0">
+      <item path="FileGLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GLogger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GLoggerFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GObject.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="STCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="STCPServerSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ServerSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TCPServerSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -93,6 +157,12 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="UDPServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPServerSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="exitCodes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -134,9 +204,35 @@
       </item>
       <item path="ClientContainer.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Logger.cpp" ex="false" tool="1" flavor2="0">
+      <item path="FileGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Logger.h" ex="false" tool="3" flavor2="0">
+      <item path="FileGLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GLogger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GLoggerFactory.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GObject.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="STCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="STCPServerSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ServerSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TCPServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TCPServerSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -145,6 +241,12 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="UDPServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPServerSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="exitCodes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>

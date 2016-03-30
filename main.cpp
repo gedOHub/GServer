@@ -21,7 +21,11 @@
 #include "ClientContainer.h"
 #include "TunnelContainer.h"
 #include "TagGenerator.h"    // Klientu saugykla
-#include "Logger.h"
+
+#include "GLoggerFactory.h"
+#include "GLogger.h"
+#include "exitCodes.h"
+#include "GSocket.h"
 
 using namespace std;
 using namespace libconfig;
@@ -35,9 +39,11 @@ void *get_in_addr(struct sockaddr *sa) {
 }
 
 int main(int argc, char** argv) {
-
-    // Nuskaitau nustatymus
+    /* config
+     * Libconfig objektas dirbantis su konfiguraciniu failu */
     Config config;
+    
+    // Nuskaitau konfiguracini faila
     try {
         config.readFile("server.cfg");
     } catch (const FileIOException &fioex) {
@@ -48,17 +54,21 @@ int main(int argc, char** argv) {
         return (EXIT_FAILURE);
     }
 
-    // Kuriu Loggeri
-    /*
-    try{
-        bool debug = config.lookup("DEBUG");
-        Logger* logger = new Logger(debug);
-    } catch (exception& e) {
-        cerr << "Klaida pradedant vesti zurnala: " << e.what() << endl;
-        return (EXIT_FAILURE);
+    // Kuriu loggeri
+    GServer::GLogger* logger = GServer::makeLogger(&config);
+    // Tikrinu ar pavyko sukurti
+    if( logger == NULL ){
+        // Nepavyko, pranesu apie klaida ir grazinu klaidos koda
+        std::cerr << "Nepavyko sukurti porgramos pranesimu objekto (Logger)" << std::endl;
+        exit(GServer::EXIT_CODES::NO_LOGGER);
     }
-     * */
     
+    logger->logInfo("main", "Programa pradeda darba");
+    logger->logDebug("main", "Kuriu GSocket");
+    GServer::GSocket* socket = new GServer::GSocket(&config, logger);
+    
+    /*
+   
     string ip;
     string port;
     
@@ -534,5 +544,9 @@ int main(int argc, char** argv) {
         } // END looping through file descriptors
     } // END Klausimosi ciklas
     return 0;
-}
-
+     *      * */
+    // Iseigos kodas jei programa baigiais normaliai
+    exit( GServer::EXIT_CODES::NORMAL );
+}   // END main
+    
+    
