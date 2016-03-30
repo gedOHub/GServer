@@ -17,15 +17,15 @@
 #include "GSocket.h"
 
 namespace GServer{
-    class ServerSocket : public GSocket {
+    class GServerSocket : public GSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #########################################################################
         // ##### Metodai #####
         // ##### END Metodai #####
-        ServerSocket(libconfig::Config* conf, GLogger* logger );
-        virtual ~ServerSocket();
+        GServerSocket(libconfig::Config* conf, GLogger* logger );
+        virtual ~GServerSocket();
     private:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####

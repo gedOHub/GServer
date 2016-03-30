@@ -8,10 +8,10 @@
 #ifndef TCPSERVERSOCKET_H
 #define TCPSERVERSOCKET_H
 
-#include "ServerSocket.h"
+#include "GServerSocket.h"
 
 namespace GServer {
-    class TCPServerSocket : public ServerSocket {
+    class TCPServerSocket : public GServerSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####

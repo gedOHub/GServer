@@ -8,10 +8,10 @@
 #ifndef UDPSERVERSOCKET_H
 #define UDPSERVERSOCKET_H
 
-#include "ServerSocket.h"
+#include "GServerSocket.h"
 
 namespace GServer {
-    class UDPServerSocket : public ServerSocket {
+    class UDPServerSocket : public GServerSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####

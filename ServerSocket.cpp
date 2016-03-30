@@ -11,11 +11,11 @@
  * Created on Sekmadienis, 2016, kovas 27, 04.52
  */
 
-#include "ServerSocket.h"
+#include "GServerSocket.h"
 
-GServer::ServerSocket::ServerSocket(libconfig::Config* conf, GLogger* logger ): GSocket(conf, logger) {
+GServer::GServerSocket::GServerSocket(libconfig::Config* conf, GLogger* logger ): GSocket(conf, logger) {
 }
 
-GServer::ServerSocket::~ServerSocket() {
+GServer::GServerSocket::~GServerSocket() {
 }
 
