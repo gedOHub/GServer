@@ -14,7 +14,8 @@
 #include "GSocket.h"
 #include "exitCodes.h"
 
-GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) {
+// TODO: lookupus perdaryti per objekta
+GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) : MAX_BUFFER_SIZE(conf->lookup("MAXIMUM_SOCKET_BUFFER_SIZE")) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":GSocket";
     // Nustatau numatytaja socket_descritptor reiksme
@@ -23,6 +24,7 @@ GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) {
     this->logger = logger;
     // Laikinas kintamsis saugoti buferio dydziui
     int bufferSize = -1;
+    // TODO: Nuskaitymas per objekta
     // Nuskaitau buferio dydi
     try{
         // Gaunu buferio dydi
@@ -57,7 +59,23 @@ GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) {
 }
 
 GServer::GSocket::~GSocket() {
-    
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
+int GServer::GSocket::resizeBuffer(int newSize){
+    // Tikrinu ar nuajas dydis nera didesnis nei leistinas
+    if(newSize > this->MAX_BUFFER_SIZE){
+        // Didenis, nustatau maksimalu dydi
+        return this->setBufferSize(this->MAX_BUFFER_SIZE);
+    }
+    // Naujas dydis mazesnis nei nurimas
+    // Nustatau nauja dydi
+    return this->setBufferSize(newSize);
+}
+
+int GServer::GSocket::setBufferSize(int newSize){
+    // Nustatau nauja buferio dydi
+    this->buffer.resize(newSize);
+    // Grazinu nauja dydi
+    return this->buffer.size();
+}
