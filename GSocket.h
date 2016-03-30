@@ -17,7 +17,7 @@ namespace GServer {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
-        // #########################################################################
+        // #####################################################################
         // ##### Metodai #####
         GSocket( libconfig::Config* conf, GLogger* logger );
         virtual ~GSocket();
@@ -31,22 +31,44 @@ namespace GServer {
         std::vector<char> buffer;
 
         /** socket_descriptor **
-         * Kintamasis skirtas saugoti failo deskriptoriaus numeri, kuris naudojamas 
-         * bendrvmui su tinklo klientu. Numatyta reiksme- -1.
+         * Kintamasis skirtas saugoti failo deskriptoriaus numeri, kuris 
+         * naudojamas bendrvmui su tinklo klientu. Numatyta reiksme- -1.
          * Placiau- https://en.wikipedia.org/wiki/File_descriptor */
         int socket_descriptor;
 
-        /* logger
+        /** logger
          * Kintamasis saugantis nuoroda i pranesimu rasimo objekta */
         GLogger* logger;
         // ##### END Kintamieji #####
-        // #########################################################################
+        // #####################################################################
         // ##### Metodai #####
         /** createSocket **
-         * Metodas skirtas sukurti sistemos resursaui- socket. Si metoda realizuoja
-         * kiekviena vaiko klase atskirai. */
+         * Metodas skirtas sukurti sistemos resursaui- socket. Si metoda 
+         * realizuoja kiekviena vaiko klase atskirai. */
         virtual int createSocket(){};
+        
+        /** resizeBuffer **
+         * Metodas skirtas pertvarkyti buferio dydi i nurodyta. Buferis negali 
+         * buti didesnes reiksmes nei nurodyta konfiguracinaime faile. Metodo 
+         * rezultatas- naujas pertvarkytas dydis.
+            newSize- naujas pageidaujamas buferio dydis*/
+        int resizeBuffer(int newSize);
 
+        // ##### END Metodai #####
+    private:
+        // ##### Kintamieji #####
+        /** MAX_BUFFER_SIZE **
+         * Konstanta nurodanti koks maksimalus gali buti buferio dydis */
+        const int MAX_BUFFER_SIZE;
+        
+        // ##### END Kintamieji #####
+        // #####################################################################
+        // ##### Metodai #####
+        /** setSize **
+         * Metodas skirtas nustatyti buferio dydziui. Grazinama reiksme- 
+         * naujas buferio dydis.
+            newSize- naujas pageidaujamas buferio dydis*/
+        int setBufferSize(int newSize);
         // ##### END Metodai #####
     };
 }
