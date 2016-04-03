@@ -60,6 +60,7 @@ GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) : MAX_BUFF
 
 GServer::GSocket::~GSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
+    this->~GObject();
 }
 
 int GServer::GSocket::resizeBuffer(int newSize){
@@ -80,7 +81,12 @@ int GServer::GSocket::setBufferSize(int newSize){
     return this->buffer.size();
 }
 
-int GServer::GSocket::send(vector<char> data){
+int GServer::GSocket::send(vector<char>* data){
     this->logger->logError(this->className,"Neigyvendinta SEND funkcija");
+    return -1;
+}
+
+int GServer::GSocket::recive(vector<char>* data){
+    this->logger->logError(this->className,"Neigyvendinta RECIVE funkcija");
     return -1;
 }
