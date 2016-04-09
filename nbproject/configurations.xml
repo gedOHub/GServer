@@ -30,6 +30,12 @@
                    projectFiles="true">
     </logicalFolder>
     <logicalFolder name="f1" displayName="Sockets" projectFiles="true">
+      <logicalFolder name="f1" displayName="Protocol" projectFiles="true">
+        <logicalFolder name="f1" displayName="TCP" projectFiles="true">
+          <itemPath>TCPGSocket.cpp</itemPath>
+          <itemPath>TCPGSocket.h</itemPath>
+        </logicalFolder>
+      </logicalFolder>
       <itemPath>GSocket.cpp</itemPath>
       <itemPath>GSocket.h</itemPath>
     </logicalFolder>
@@ -144,6 +150,10 @@
       </item>
       <item path="LocalGLogger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="TCPGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TCPGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TagGenerator.h" ex="false" tool="3" flavor2="0">
@@ -223,6 +233,10 @@
       <item path="LocalGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LocalGLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TCPGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TCPGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>

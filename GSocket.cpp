@@ -50,10 +50,15 @@ GServer::GSocket::~GSocket() {
 int GServer::GSocket::resizeBuffer(int newSize){
     // Tikrinu ar nuajas dydis nera didesnis nei leistinas
     if(newSize > this->MAX_BUFFER_SIZE){
+        this->logger->logInfo(this->className, "Norimas dydis: " + 
+                std::to_string(newSize) + 
+                " per didelis. Nustatomas maksimalus dydis: " + 
+                std::to_string(this->MAX_BUFFER_SIZE));
         // Didenis, nustatau maksimalu dydi
         return this->setBufferSize(this->MAX_BUFFER_SIZE);
     }
     // Naujas dydis mazesnis nei nurimas
+    this->logger->logInfo(this->className, "Nustatau tauja dydi: " + newSize);
     // Nustatau nauja dydi
     return this->setBufferSize(newSize);
 }

@@ -25,7 +25,10 @@
                 </confElem>
             </confList>
             <formatting>
-                <project-formatting-style>false</project-formatting-style>
+                <project-formatting-style>true</project-formatting-style>
+                <c-style>GNU|GNU</c-style>
+                <cpp-style>GNU|GNU</cpp-style>
+                <header-style>GNU|GNU</header-style>
             </formatting>
         </data>
     </configuration>

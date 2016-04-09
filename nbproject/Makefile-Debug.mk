@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/GSocket.o \
 	${OBJECTDIR}/LocalGLogger.o \
+	${OBJECTDIR}/TCPGSocket.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
 	${OBJECTDIR}/lib/socket.o \
@@ -112,6 +113,11 @@ ${OBJECTDIR}/LocalGLogger.o: nbproject/Makefile-${CND_CONF}.mk LocalGLogger.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocalGLogger.o LocalGLogger.cpp
+
+${OBJECTDIR}/TCPGSocket.o: nbproject/Makefile-${CND_CONF}.mk TCPGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPGSocket.o TCPGSocket.cpp
 
 ${OBJECTDIR}/TagGenerator.o: nbproject/Makefile-${CND_CONF}.mk TagGenerator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
