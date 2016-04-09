@@ -17,6 +17,8 @@
 #include <libconfig.h>
 #include "GLogger.h"
 #include "FileGLogger.h"
+#include "exitCodes.h"
+#include "ConsoleGLogger.h"
 
 namespace GServer{
     /* makeLogger
@@ -24,7 +26,7 @@ namespace GServer{
      * konfiguracinaime faile ir grazina tolimesniam naudojimui.
      *  Config- libconfig kintamasis, kurio pagalba ieskoma reikalingu 
      * nustatymu konfiguraciniame faile */
-    static GLogger *makeLogger(libconfig::Config* conf){
+    static GLogger *makeLogger(GServer::GConfig * conf){
         using namespace std;
 
         /* configMap
@@ -40,7 +42,8 @@ namespace GServer{
         try{
             // Gaunu pasirinkima pagal ID
             int temp = -1;
-            temp = configMap[conf->lookup("LOGGER").c_str()];
+            std::string confName = "LOGGER";
+            temp = configMap[conf->getStringSetting(confName)];
 
             // Tikrinu kas pasirinkta
             switch( temp ){
@@ -53,7 +56,9 @@ namespace GServer{
                     break;
                 case 2:
                     cout << "Pranesimus rodysiu faile" << endl;
-                    return new FileGLogger(conf);
+                    return new GServer::FileGLogger( 
+                            conf->getStringSetting("LOGGER_FILE_PATH"), 
+                            conf->getBoolSetting("DEBUG") );
                     break;
                 case 3:
                     //TODO: Igyvendinti syslog loginima
@@ -65,11 +70,12 @@ namespace GServer{
                     cout << "Pranesimus rodysiu terminale" << endl;
                     // Kuriu loginima i konsole, pagal factory paterna, placiau: 
                     // https://sourcemaking.com/design_patterns/factory_method/cpp/1
-                    return new GLogger(conf);
+                    return new GServer::ConsoleGLogger(
+                            conf->getBoolSetting("DEBUG"));
                     break;
                 default:
                     cerr << "Gauta nezinoma LOGGER reiksme" << endl;
-                    return NULL;
+                    exit(GServer::EXIT_CODES::UNKNOWN_CONFIG_VALUE);
                     break;
             }
         }catch( int e ){

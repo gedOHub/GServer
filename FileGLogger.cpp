@@ -13,17 +13,19 @@
 
 #include "FileGLogger.h"
 
-GServer::FileGLogger::FileGLogger( libconfig::Config* conf ) : GLogger(conf) {
+GServer::FileGLogger::FileGLogger( std::string filePath, bool debug ) :
+LocalGLogger(debug) {
     // Nustatau pavadinima ir paveldejimo grandinele
     this->className = this->className + ":FileGLogger";
     // Pradine reiksme pranesumu failui
     this->logFile = NULL;
     // Bandau atverti faila
     try{
-        this->openLogFile(conf);
+        this->openLogFile(filePath);
         // Tirkinu ar pranesimu failas atvertas
         if(!this->logFile->is_open()){
-            GLogger::logError(this->className, "Nepavyko atverti pranesimu failo");
+            GLogger::logError(this->className, 
+                    "Nepavyko atverti pranesimu failo");
         }
     }catch(int e){
         GLogger::logError(this->className, "Klaida atveriant pranesimu faila");
@@ -38,25 +40,23 @@ GServer::FileGLogger::~FileGLogger() {
     this->logFile->close();
     GLogger::logDebug(this->className, "Naikinu pranesuimu failo objekta");
     delete this->logFile;
+    GLogger::logDebug(this->className, "Objektas sunaikintas");
 }
 
-void GServer::FileGLogger::openLogFile( libconfig::Config * conf ){
-    // Laikinas kintamasis
-    string path;
-    // Bandau nuskaityti LOGGER_FILE_PATH reiksme
-    try{
-        path = conf->lookup("LOGGER_FILE_PATH").c_str();
-        GLogger::logDebug(this->className, "Nuskaityta LOGGER_FILE_PATH reiksme: " + path);
-    }catch(int e){
-        GLogger::logError(this->className, "Nepavyko nuskaityti LOGGER_FILE_PATH nustatymo");
-    }
+void GServer::FileGLogger::openLogFile( std::string filePath ){
+    using namespace std;
+    
     // Bandau atverti faila
     try{
         // Kuriu pranesimu failo objekta
-        this->logFile = new ofstream(path.c_str(),std::ofstream::app);
+        this->logFile = new ofstream(filePath,std::ofstream::app);
     }catch(int e){
-        GLogger::logError(this->className, "Nepavyko atverti failo: " + path);
-        GLogger::logError(this->className, "Klaida: " + string(strerror(errno)));
+        // Stringas saungantis kelia
+        std::string temp(filePath);
+        
+        GLogger::logError(this->className, "Nepavyko atverti failo: " + temp );
+        GLogger::logError(this->className, "Klaida: " + 
+                string(strerror(errno)));
     }
 }
 
@@ -83,7 +83,7 @@ void GServer::FileGLogger::logError(std::string className, std::string message){
 }
 void GServer::FileGLogger::logDebug(std::string className, std::string message){
     // Tirkinu ar derinimo informacija ijungta
-    if(this->debug){
+    if(this->DEBUG){
         // Laikinas stringas
         std::string tempString;
         // Formuoju pranesimu eilute
