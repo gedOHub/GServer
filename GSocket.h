@@ -13,14 +13,29 @@
 #include "GConfig.h"
 
 namespace GServer {
-    class GSocket: public GObject {
+
+    class GSocket : public GObject {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        GSocket( GServer::GConfig* conf, GLogger* logger );
+        GSocket(GConfig* conf, GLogger* logger);
         virtual ~GSocket();
+
+        /** send **
+         * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
+         * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
+         * issiustu duomenu kiekis. 
+            data- suformuoti duomenys, kurie bus issiunciami*/
+        virtual int send(vector<char>* data);
+
+        /** recive **
+         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
+         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
+         * duomenu kiekis.
+         *  data- buferis i kuri bus gaunami duomenys */
+        virtual int recive(vector<char>* data);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -44,9 +59,10 @@ namespace GServer {
         // ##### Metodai #####
         /** createSocket **
          * Metodas skirtas sukurti sistemos resursaui- socket. Si metoda 
-         * realizuoja kiekviena vaiko klase atskirai. */
-        virtual int createSocket(){};
-        
+         * realizuoja kiekviena vaiko klase atskirai. 
+            config- objektas dirbantis su nustatymu failu*/
+        virtual int createSocket(GConfig* conf);
+
         /** resizeBuffer **
          * Metodas skirtas pertvarkyti buferio dydi i nurodyta. Buferis negali 
          * buti didesnes reiksmes nei nurodyta konfiguracinaime faile. Metodo 
@@ -54,27 +70,14 @@ namespace GServer {
             newSize- naujas pageidaujamas buferio dydis*/
         int resizeBuffer(int newSize);
 
-        /** send **
-         * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
-         * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
-         * issiustu duomenu kiekis. 
-            data- suformuoti duomenys, kurie bus issiunciami*/
-        virtual int send( vector<char>* data );
-        
-        /** recive **
-         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
-         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
-         * duomenu kiekis.
-         *  data- buferis i kuri bus gaunami duomenys */
-        virtual int recive(vector<char>* data);
-        
+        /** */
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
         /** MAX_BUFFER_SIZE **
          * Konstanta nurodanti koks maksimalus gali buti buferio dydis */
         const int MAX_BUFFER_SIZE;
-        
+
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

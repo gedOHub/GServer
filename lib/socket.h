@@ -17,7 +17,7 @@
 #include <string.h>
 
 #ifndef SOCKET_H
-#define	SOCKET_H
+#define SOCKET_H
 
 class Socket {
 public:
@@ -33,7 +33,7 @@ private:
     const char* IP;
     const char* PORT;
     addrinfo * rezelt;
-    
+
     int init();
     int bind();
     int listen();
@@ -42,5 +42,5 @@ private:
     int socketDescriptor;
 };
 
-#endif	/* SOCKET_H */
+#endif /* SOCKET_H */
 

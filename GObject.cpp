@@ -21,7 +21,7 @@ GServer::GObject::GObject() {
 GServer::GObject::~GObject() {
 }
 
-std::string GServer::GObject::getClassName(){
+std::string GServer::GObject::getClassName() {
     return this->className;
 }
 

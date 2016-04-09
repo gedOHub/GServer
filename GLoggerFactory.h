@@ -20,13 +20,14 @@
 #include "exitCodes.h"
 #include "ConsoleGLogger.h"
 
-namespace GServer{
+namespace GServer {
+
     /* makeLogger
      * Statinis metodas, kuris sukuria objekta pagal parametrus, patalpintus 
      * konfiguracinaime faile ir grazina tolimesniam naudojimui.
      *  Config- libconfig kintamasis, kurio pagalba ieskoma reikalingu 
      * nustatymu konfiguraciniame faile */
-    static GLogger *makeLogger(GServer::GConfig * conf){
+    static GLogger *makeLogger(GServer::GConfig * conf) {
         using namespace std;
 
         /* configMap
@@ -34,20 +35,20 @@ namespace GServer{
          * kintamuosius. Naudojama switch strukturoje */
         map<string, int> configMap;
         // Nustatau galimas konfiguracijas
-        configMap.insert(std::pair<std::string,int>("SQL", 1));
-        configMap.insert(std::pair<std::string,int>("FILE", 2));
-        configMap.insert(std::pair<std::string,int>("SYSLOG", 3));
-        configMap.insert(std::pair<std::string,int>("CONSOLE", 4));
+        configMap.insert(std::pair<std::string, int>("SQL", 1));
+        configMap.insert(std::pair<std::string, int>("FILE", 2));
+        configMap.insert(std::pair<std::string, int>("SYSLOG", 3));
+        configMap.insert(std::pair<std::string, int>("CONSOLE", 4));
 
-        try{
+        try {
             // Gaunu pasirinkima pagal ID
             int temp = -1;
             std::string confName = "LOGGER";
             temp = configMap[conf->getStringSetting(confName)];
 
             // Tikrinu kas pasirinkta
-            switch( temp ){
-                // Norima loginti viska i SQL baze
+            switch (temp) {
+                    // Norima loginti viska i SQL baze
                 case 1:
                     //TODO: Igyvendinti SQL loginima
                     cout << "Pranesimus rodysiu SQL serveryje" << endl;
@@ -56,9 +57,9 @@ namespace GServer{
                     break;
                 case 2:
                     cout << "Pranesimus rodysiu faile" << endl;
-                    return new GServer::FileGLogger( 
-                            conf->getStringSetting("LOGGER_FILE_PATH"), 
-                            conf->getBoolSetting("DEBUG") );
+                    return new GServer::FileGLogger(
+                            conf->getStringSetting("LOGGER_FILE_PATH"),
+                            conf->getBoolSetting("DEBUG"));
                     break;
                 case 3:
                     //TODO: Igyvendinti syslog loginima
@@ -78,7 +79,7 @@ namespace GServer{
                     exit(GServer::EXIT_CODES::UNKNOWN_CONFIG_VALUE);
                     break;
             }
-        }catch( int e ){
+        } catch (int e) {
             // Pranesu apie gauta klaida
             cerr << "GLogger::makeLogger gauta klaida: " << e << endl;
         }

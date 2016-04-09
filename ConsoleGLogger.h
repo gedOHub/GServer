@@ -32,10 +32,10 @@ namespace GServer {
          * isvesti informacija i konoles langa.
          *  debug- nurodo ar ijungti derinimo inforamcijos spausdinima ar ne. 
          * Placiau const bool DEBUG*/
-        ConsoleGLogger( bool debug = true );
-        
+        ConsoleGLogger(bool debug = true);
+
         virtual ~ConsoleGLogger();
-        
+
         /* logInfo
          * Metodas skirtas pranesti informacini pranesima */
         virtual void logInfo(std::string className, std::string message);
