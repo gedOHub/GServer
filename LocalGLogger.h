@@ -34,16 +34,17 @@ namespace GServer {
          *  debug- nurodo ar ijungti derinimo inforamcijos spausdinima ar ne. 
          * Placiau const bool DEBUG*/
         LocalGLogger(bool debug);
-        
+
         virtual ~LocalGLogger();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
+
         /* Pranesimu tipu isvardijimas ir priskirimas tam tirkai reiksmei*/
         enum LOGLEVEL {
-            INFO = 0,   // Informacinis pranesimas
-            ERROR = 1,  // Klaidos pranesimas
-            DEBUG = 9   // Derinimo informacijos pranesimas
+            INFO = 0, // Informacinis pranesimas
+            ERROR = 1, // Klaidos pranesimas
+            DEBUG = 9 // Derinimo informacijos pranesimas
         };
         // ##### END Kintamieji #####
         // #####################################################################
@@ -54,8 +55,8 @@ namespace GServer {
          *  message- zinute kuri bus pranesama
          *  type- zinutes tipas, ziureti enumeratoriu
          *  resultString- objektas, i kuri bus irasoma zinute */
-        void formMessage(std::string className, std::string message, int type, 
-        std::string & resultString);
+        void formMessage(std::string className, std::string message, int type,
+                std::string & resultString);
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

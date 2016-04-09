@@ -13,7 +13,7 @@
 
 #include "LocalGLogger.h"
 
-GServer::LocalGLogger::LocalGLogger( bool debug ) :GLogger(debug) {
+GServer::LocalGLogger::LocalGLogger(bool debug) : GLogger(debug) {
     // Nustatau pavadinima
     this->className = this->className + ":LocalGLogger";
     this->logDebug(this->className, "Objektas sukurtas");
@@ -23,12 +23,12 @@ GServer::LocalGLogger::~LocalGLogger() {
     this->logDebug(this->className, "Objektas sunaikinamas");
 }
 
-void GServer::LocalGLogger::formMessage(std::string className, 
-        std::string message, int type, std::string & resultString){
+void GServer::LocalGLogger::formMessage(std::string className,
+        std::string message, int type, std::string & resultString) {
     // Kintamasis nusakantis kokio tipo atejo pranesimas
     std::string tempString;
     // Nustatau pranesimo tipa
-    switch(type){
+    switch (type) {
         case INFO:
             // Atejo informacijos pranesimas
             tempString = "INFO";
@@ -43,7 +43,7 @@ void GServer::LocalGLogger::formMessage(std::string className,
             break;
     }
     // Formuoju pranesimo zinute
-    messageBuilder << "[" << this->getTime() << "] " << tempString << " [" << 
+    messageBuilder << "[" << this->getTime() << "] " << tempString << " [" <<
             className << "] " << message << endl;
     // Nustatau koks gavosi pranesimas
     resultString = this->messageBuilder.str();

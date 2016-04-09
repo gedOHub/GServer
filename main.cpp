@@ -28,6 +28,7 @@
 #include "ConsoleGLogger.h"
 #include "exitCodes.h"
 #include "GSocket.h"
+#include "TCPGSocket.h"
 
 using namespace std;
 using namespace libconfig;
@@ -46,12 +47,12 @@ int main(int argc, char** argv) {
      * pateikima. Is pradziu pateikiama konsoleje, o po to pagal konfiguracinio 
      * failo nustatymus */
     GServer::GLogger* logger = new GServer::ConsoleGLogger();
-    
+
     /** config **
      * Nuoroda i objekta, kuris dirba su nustatymu nuskaitymu */
     GServer::GConfig* config = new GServer::GConfig(logger);
     // Nuskaiciau nustatymu faila
-    
+
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
     GServer::GLogger* oldLogger = logger;
@@ -62,42 +63,46 @@ int main(int argc, char** argv) {
      * */
 
     // Tikrinu ar pavyko sukurti logeri
-    if( logger == NULL ){
+    if (logger == NULL) {
         // Nepavyko, pranesu apie klaida ir grazinu klaidos koda
         std::cerr << "Nepavyko sukurti porgramos pranesimu objekto (Logger)" << std::endl;
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
+
+    // Tikrinu bus dirbama su TCp jungtimis
+    if (config->getBoolSetting("TCP_ENABLE")) {
+        // TCP jungtis ijungta
+        logger->logDebug("main", "Kuriu TCP jungti");
+        GServer::TCPGSocket TCPSocket(config, logger);
+    }
     
     logger->logInfo("main", "Programa pradeda darba");
-    logger->logDebug("main", "Kuriu GSocket");
-    GServer::GSocket* socket = new GServer::GSocket(config, logger);
-    
-    // Naikinu socket objekta
-    delete socket;
+
+    logger->logInfo("main", "Programa baigia darba");
     // Naikinu configuracini objekta
     delete config;
     // Naikinu pranesimu rasimo objekta
     delete logger;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
    
     string ip;
@@ -577,7 +582,6 @@ int main(int argc, char** argv) {
     return 0;
      *      * */
     // Iseigos kodas jei programa baigiais normaliai
-    exit( GServer::EXIT_CODES::NORMAL );
-}   // END main
-    
-    
+    exit(GServer::EXIT_CODES::NORMAL);
+} // END main
+

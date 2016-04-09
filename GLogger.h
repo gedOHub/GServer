@@ -20,10 +20,10 @@
 using namespace std;
 
 namespace GServer {
-   
+
     // Del vienas kito prideji
     class GConfig;
-    
+
     class GLogger : public GObject {
     public:
         // ##### Kintamieji #####
@@ -36,7 +36,7 @@ namespace GServer {
          * pagal LOGGER nustatyma konfiguraciniame faile.
          *  debug- nurodo ar ijungti derinimo inforamcijos spausdinima ar ne. 
          * Placiau const bool DEBUG*/
-        GLogger( bool debug );
+        GLogger(bool debug);
 
         /* ~GLogger
          * Metodas skirtas suanikinti GLogger objektui. */
@@ -44,15 +44,18 @@ namespace GServer {
 
         /* logInfo
          * Metodas skirtas pranesti apie informacija */
-        virtual void logInfo(std::string className, std::string message){};
+        virtual void logInfo(std::string className, std::string message) {
+        };
 
         /* logError
          * Metodas skirtas pranesti apie klaida */
-        virtual void logError(std::string className, std::string message){};
+        virtual void logError(std::string className, std::string message) {
+        };
 
         /* logDebug
          * Metodas skirtas pranesti derinimo informacijai */
-        virtual void logDebug(std::string className, std::string message){};
+        virtual void logDebug(std::string className, std::string message) {
+        };
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -64,8 +67,8 @@ namespace GServer {
          *  DEBUG=0 - derinimo informacijos spausdinimas isjungtas
          * Numatyta reiksme- 1. */
         const bool DEBUG;
-        
-        
+
+
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -73,7 +76,7 @@ namespace GServer {
          * Metodas skirtas grazinti dabartini laika formatu: 
          * YYYY-MM-DD HH:mm:ss */
         std::string getTime();
-        
+
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

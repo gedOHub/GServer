@@ -13,8 +13,8 @@
 
 #include "ConsoleGLogger.h"
 
-GServer::ConsoleGLogger::ConsoleGLogger( bool debug ) : 
-LocalGLogger( debug ) {
+GServer::ConsoleGLogger::ConsoleGLogger(bool debug) :
+LocalGLogger(debug) {
     // Nustatau pavadinima
     this->className = this->className + ":ConsoleGLogger";
     this->logDebug(this->className, "Objektas sukurtas");
@@ -24,34 +24,34 @@ GServer::ConsoleGLogger::~ConsoleGLogger() {
     this->logDebug(this->className, "Objektas sunaikinamas");
 }
 
-void GServer::ConsoleGLogger::logDebug(std::string className, std::string message){
+void GServer::ConsoleGLogger::logDebug(std::string className, std::string message) {
     using namespace std;
-    if(this->DEBUG) {
-       // Laikinas stringas
+    if (this->DEBUG) {
+        // Laikinas stringas
         string tempString;
         // Formuoju pranesimu eilute
-        this->formMessage(className,message,DEBUG,tempString);
+        this->formMessage(className, message, DEBUG, tempString);
         // Skelbiu pranesimo eilute
-        cout << tempString; 
+        cout << tempString;
     }
 }
 
-void GServer::ConsoleGLogger::logError(std::string className, std::string message){
+void GServer::ConsoleGLogger::logError(std::string className, std::string message) {
     using namespace std;
     // Laikinas stringas
     string tempString;
     // Formuoju pranesimu eilute
-    this->formMessage(className,message,ERROR,tempString);
+    this->formMessage(className, message, ERROR, tempString);
     // Skelbiu pranesimo eilute
     cout << tempString;
 }
 
-void GServer::ConsoleGLogger::logInfo(std::string className, std::string message){
+void GServer::ConsoleGLogger::logInfo(std::string className, std::string message) {
     using namespace std;
     // Laikinas stringas
     string tempString;
     // Formuoju pranesimu eilute
-    this->formMessage(className,message,INFO,tempString);
+    this->formMessage(className, message, INFO, tempString);
     // Skelbiu pranesimo eilute
     cout << tempString;
 }

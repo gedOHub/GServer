@@ -16,7 +16,7 @@
 
 #include "GLogger.h"
 
-GServer::GLogger::GLogger( bool debug = 1 ) : DEBUG(debug) {
+GServer::GLogger::GLogger(bool debug = 1) : DEBUG(debug) {
     // Nustatau pavadinima
     this->className = this->className + ":GLogger";
     this->logDebug(this->className, "Objektas sukurtas");
@@ -26,25 +26,25 @@ GServer::GLogger::~GLogger() {
     this->logDebug(this->className, "Objektas sunaikinamas");
 }
 
-std::string GServer::GLogger::getTime(){
+std::string GServer::GLogger::getTime() {
     /* Laiko saugojimo kintamasis milisekundemis 
      * nuo 00:00 hours, Jan 1, 1970 UTC. 
      * Placiau: http://www.cplusplus.com/reference/ctime/time_t/?kw=time_t */
     time_t rawtime;
-    
+
     /* Struktura, sauganti laika sudalinus i atitinkamas sekcijas. 
-     * Placiau: http://www.cplusplus.com/reference/ctime/tm/?kw=tm */ 
+     * Placiau: http://www.cplusplus.com/reference/ctime/tm/?kw=tm */
     struct tm * timeinfo;
-    
+
     /* Buferis, kuriame bus formuojamas laiko atvaizdavimas */
     char buffer[80];
 
     // Gaunu laika nuo 00:00 hours, Jan 1, 1970 UTC milisekundemis
-    time (&rawtime);
+    time(&rawtime);
     // Isskaidau laika pagal dabartine laiko zona
     timeinfo = localtime(&rawtime);
     // Atvaizduoju laika pagal norima formata
-    strftime(buffer,80,"%Y-%m-%d %R:%M:%S",timeinfo);
+    strftime(buffer, 80, "%Y-%m-%d %R:%M:%S", timeinfo);
     // Grazinu suformuota laika
     return std::string(buffer);
 }

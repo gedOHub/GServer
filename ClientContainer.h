@@ -6,7 +6,7 @@
  */
 
 #ifndef CLIENTCONTAINER_H
-#define	CLIENTCONTAINER_H
+#define CLIENTCONTAINER_H
 
 #include <list>
 #include <netinet/in.h>
@@ -24,31 +24,31 @@ public:
     ClientContainer();
     ClientContainer(const ClientContainer& orig);
     virtual ~ClientContainer();
-    
+
     // Pridedu klientus
-    void Add( int socket, char sritis[MAX_COMPUTERNAME_LENGTH+1], 
-        char kompiuteris[MAX_COMPUTERNAME_LENGTH+1], 
-        char naudotojas[MAX_COMPUTERNAME_LENGTH+1] );
-    
+    void Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+            char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1],
+            char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]);
+
     // Salinimas
-    void DeleteByID( int id );
-    Client DeleteByClient( char* sritis, char* kompiuteris, char* naudotojas );
-    
+    void DeleteByID(int id);
+    Client DeleteByClient(char* sritis, char* kompiuteris, char* naudotojas);
+
     // Paieska
-    Client FindByID( int id );
-    Client FindByClient( char* sritis, char* kompiuteris, char* naudotojas );
-    
+    Client FindByID(int id);
+    Client FindByClient(char* sritis, char* kompiuteris, char* naudotojas);
+
     // Paruosimas issiuntimui
-    void PrintPage( int id, int page, char* buffer, int &length );
-    
+    void PrintPage(int id, int page, char* buffer, int &length);
+
 private:
-    std::list<Client> Container;        // Sarasas, kuriame saugomas
-    char* printBuffer;  // Buferis klientu grazinimui
- 
+    std::list<Client> Container; // Sarasas, kuriame saugomas
+    char* printBuffer; // Buferis klientu grazinimui
+
     // Pridedu klientus
-    void Add( Client client );     // Generuoja ID numeri
+    void Add(Client client); // Generuoja ID numeri
     // Tirkinama ar egzistuoja nurodytas puslapis
     bool IsValidPage(int pageNr);
 };
 
-#endif	/* CLIENTCONTAINER_H */
+#endif /* CLIENTCONTAINER_H */

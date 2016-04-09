@@ -17,7 +17,8 @@
 #include <sstream>
 #include <string>
 
-namespace GServer{
+namespace GServer {
+
     class GObject {
     public:
         // ##### Kintamieji #####

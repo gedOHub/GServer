@@ -17,7 +17,7 @@ TunnelContainer::TunnelContainer(const TunnelContainer& orig) {
 TunnelContainer::~TunnelContainer() {
 }
 
-int TunnelContainer::InitConnect( int admSocket, connectInitCommand* connect, int clientTag ){
+int TunnelContainer::InitConnect(int admSocket, connectInitCommand* connect, int clientTag) {
     // Kuriu tunelio objekta
     tunnel tunelis;
     tunelis.id = this->GetID();
@@ -37,7 +37,7 @@ int TunnelContainer::InitConnect( int admSocket, connectInitCommand* connect, in
     return tunelis.id;
 }
 
-int TunnelContainer::InitConnect( int admSocket, jsonConnectInitCommand* connect, int clientTag ){
+int TunnelContainer::InitConnect(int admSocket, jsonConnectInitCommand* connect, int clientTag) {
     // Kuriu tunelio objekta
     tunnel tunelis;
     tunelis.id = this->GetID();
@@ -58,45 +58,47 @@ int TunnelContainer::InitConnect( int admSocket, jsonConnectInitCommand* connect
 }
 
 //TODO: Patikra del statuso
-tunnel* TunnelContainer::ConnectAck(connectAckCommand* ack){
-    try{
+
+tunnel* TunnelContainer::ConnectAck(connectAckCommand* ack) {
+    try {
         tunnel* tunelis = this->FindById(ack->tunnelID);
         tunelis->status = ack->status;
         return tunelis;
-    }catch( exception e ){
+    } catch (exception e) {
         printf("ConnectAck\n");
     }
     return NULL;
 }
 
 //TODO: Patikra del statuso
-tunnel* TunnelContainer::ConnectAck(jsonConnectAckCommand* ack){
-    try{
+
+tunnel* TunnelContainer::ConnectAck(jsonConnectAckCommand* ack) {
+    try {
         tunnel* tunelis = this->FindById(ack->tunnelID);
         tunelis->status = ack->status;
         return tunelis;
-    }catch( exception e ){
+    } catch (exception e) {
         printf("ConnectAck\n");
     }
     return NULL;
 }
 
-int TunnelContainer::GetID(){
+int TunnelContainer::GetID() {
     this->skaitliukas = this->skaitliukas + 1;
     return this->skaitliukas;
 }
 
 void TunnelContainer::FindByPear(int arr_socket, int arr_tag, int& dep_socket, int& dep_tag) {
     list<tunnel>::iterator it;
-    for(it = this->container.begin(); it != this->container.end(); it++){
+    for (it = this->container.begin(); it != this->container.end(); it++) {
         // Ieskau pagal admino duomenis
-        if(it->adm_socket == arr_socket && it->adm_tag == arr_tag){
+        if (it->adm_socket == arr_socket && it->adm_tag == arr_tag) {
             dep_socket = it->cln_socket;
             dep_tag = it->cln_tag;
             break;
         }
         // Ieskau pagal kliento duomenis
-        if(it->cln_socket == arr_socket && it->cln_tag == arr_tag){
+        if (it->cln_socket == arr_socket && it->cln_tag == arr_tag) {
             dep_socket = it->adm_socket;
             dep_tag = it->adm_tag;
             break;
@@ -104,37 +106,37 @@ void TunnelContainer::FindByPear(int arr_socket, int arr_tag, int& dep_socket, i
     }
 }
 
-tunnel* TunnelContainer::FindById(int id){
+tunnel* TunnelContainer::FindById(int id) {
     list<tunnel>::iterator it;
-    for(it = this->container.begin(); it != this->container.end(); it++){
-        if(it->id == id){
+    for (it = this->container.begin(); it != this->container.end(); it++) {
+        if (it->id == id) {
             return &(*it);
         }
     }
     return NULL;
 }
 
-bool TunnelContainer::IsClient(int tag){
+bool TunnelContainer::IsClient(int tag) {
     list<tunnel>::iterator it;
-    for(it = this->container.begin(); it != this->container.end(); it++){
+    for (it = this->container.begin(); it != this->container.end(); it++) {
         // Ieskau pagal kliento duomenis
-        if(it->cln_tag == tag)
+        if (it->cln_tag == tag)
             return true;
     }
     return false;
 }
 
-tunnel TunnelContainer::RemoveBySocketTag(int socket, int tag){
+tunnel TunnelContainer::RemoveBySocketTag(int socket, int tag) {
     tunnel tunelis;
     // Begu per sarasa ir ieskau nuroditos kombinacijos
     list<tunnel>::iterator it;
-    for(it = this->container.begin(); it != this->container.end(); it++){
+    for (it = this->container.begin(); it != this->container.end(); it++) {
         // Tikrinu ar yra reikalinga kombinacija
         // Tikrinu iniciatoriaus puse po to kliento puse
-        if( ( it->adm_socket == socket && it->adm_tag == tag ) || 
-                ( it->cln_socket == socket && it->cln_tag == tag ) ){
+        if ((it->adm_socket == socket && it->adm_tag == tag) ||
+                (it->cln_socket == socket && it->cln_tag == tag)) {
             // Darau elemento kopija
-            memcpy( &tunelis, &(*it), sizeof(tunnel) );
+            memcpy(&tunelis, &(*it), sizeof (tunnel));
             // Salinu is saraso
             container.erase(it);
             return tunelis;

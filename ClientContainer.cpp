@@ -21,90 +21,92 @@ ClientContainer::~ClientContainer() {
     delete this->printBuffer;
 }
 
-void ClientContainer::Add(Client client){
+void ClientContainer::Add(Client client) {
     this->Container.push_back(client);
 }
-void ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH+1], 
-        char kompiuteris[MAX_COMPUTERNAME_LENGTH+1], 
-        char naudotojas[MAX_COMPUTERNAME_LENGTH+1]){
-    
+
+void ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+        char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1],
+        char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
+
     Client temp;
     temp.id = socket;
     // Kopijuojam reiksmes
-    memcpy( temp.domainName, sritis, sizeof temp.domainName );
-    memcpy( temp.pcName, kompiuteris, sizeof temp.pcName );
-    memcpy( temp.userName, naudotojas, sizeof temp.userName );
-    
+    memcpy(temp.domainName, sritis, sizeof temp.domainName);
+    memcpy(temp.pcName, kompiuteris, sizeof temp.pcName);
+    memcpy(temp.userName, naudotojas, sizeof temp.userName);
+
     this->Add(temp);
 }
 
-void ClientContainer::DeleteByID(int id){
+void ClientContainer::DeleteByID(int id) {
     std::list<Client>::iterator i;
-    
-    for(i = this->Container.begin(); i != this->Container.end(); i++){
-        if(i->id == id){
+
+    for (i = this->Container.begin(); i != this->Container.end(); i++) {
+        if (i->id == id) {
             this->Container.erase(i);
             break;
         }
     }
 }
 
-Client ClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH+1], 
-        char kompiuteris[MAX_COMPUTERNAME_LENGTH+1], char naudotojas[MAX_COMPUTERNAME_LENGTH+1]){
+Client ClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+        char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1], char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
     std::list<Client>::iterator i;
-    
-    for(i = this->Container.begin(); i != this->Container.end(); i++){
-        if(i->domainName == sritis && i->pcName == kompiuteris && i->userName == naudotojas){
+
+    for (i = this->Container.begin(); i != this->Container.end(); i++) {
+        if (i->domainName == sritis && i->pcName == kompiuteris && i->userName == naudotojas) {
             this->Container.erase(i);
         }
     }
 }
 
-Client ClientContainer::FindByID(int id){
+Client ClientContainer::FindByID(int id) {
     std::list<Client>::iterator i;
-    for(i = this->Container.begin(); i != this->Container.end(); i++){
-        if(i->id == id){
+    for (i = this->Container.begin(); i != this->Container.end(); i++) {
+        if (i->id == id) {
             return *i;
         }
     }
 }
 
-void ClientContainer::PrintPage(int id, int page, char* buffer, int &length){
+void ClientContainer::PrintPage(int id, int page, char* buffer, int &length) {
     // Tikrinu ar yra toks puslapis
-    if( !this->IsValidPage(page) ){
+    if (!this->IsValidPage(page)) {
         // Nera topio puslapio
         buffer = NULL;
         length = 0;
         return;
     }
-    
+
     std::list<Client>::iterator it = this->Container.begin();
     // Einam iki nurodito puslapio
-    for( int i = 1; i < page; i++ ){
-        for(int j=0; j< PAGE_SIZE; j++)
+    for (int i = 1; i < page; i++) {
+        for (int j = 0; j < PAGE_SIZE; j++)
             it++;
     }
-    
+
     // Pildom duomenis grazinimui
     Client* client;
     int place = 0;
     int count;
-    for(count = -1; it != this->Container.end() && count < PAGE_SIZE; count++){
-        if(it->id != id){
+    for (count = -1; it != this->Container.end() && count < PAGE_SIZE; count++) {
+        if (it->id != id) {
             client = (struct Client*) &buffer[place];
             Client &temp = *it;
-            memcpy( client, &temp, sizeof(Client) );
+            memcpy(client, &temp, sizeof (Client));
             client->id = htonl(temp.id);
-            place = place + sizeof(Client);
+            place = place + sizeof (Client);
         }
         it++;
     }
-    
+
     // Grazinu duomenu kieki
-    length =  count * sizeof( Client );
+    length = count * sizeof ( Client);
 }
 
 // Tirkinama ar egzistuoja nurodytas puslapis
-bool ClientContainer::IsValidPage(int pageNr){
-    return ( ( this->Container.size() - ( pageNr * PAGE_SIZE ) ) > (-1 * PAGE_SIZE) );
+
+bool ClientContainer::IsValidPage(int pageNr) {
+    return ( (this->Container.size() - (pageNr * PAGE_SIZE)) > (-1 * PAGE_SIZE));
 }
