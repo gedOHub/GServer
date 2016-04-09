@@ -22,8 +22,10 @@
 #include "TunnelContainer.h"
 #include "TagGenerator.h"    // Klientu saugykla
 
+#include "GConfig.h"
 #include "GLoggerFactory.h"
 #include "GLogger.h"
+#include "ConsoleGLogger.h"
 #include "exitCodes.h"
 #include "GSocket.h"
 
@@ -39,24 +41,27 @@ void *get_in_addr(struct sockaddr *sa) {
 }
 
 int main(int argc, char** argv) {
-    /* config
-     * Libconfig objektas dirbantis su konfiguraciniu failu */
-    Config config;
+    /** logger **
+     * Kintamsis saugantis nuoroda i obnejtak, kuris atsakingas uz pranesimu 
+     * pateikima. Is pradziu pateikiama konsoleje, o po to pagal konfiguracinio 
+     * failo nustatymus */
+    GServer::GLogger* logger = new GServer::ConsoleGLogger();
     
-    // Nuskaitau konfiguracini faila
-    try {
-        config.readFile("server.cfg");
-    } catch (const FileIOException &fioex) {
-        std::cerr << "Nepavyko atverti konfiguracinio failo server.cfg" << std::endl;
-        return (EXIT_FAILURE);
-    }    catch (ParseException &pex) {
-        std::cerr << "Skaitymo klaida server.cfg" << ":" << pex.getLine() << " - " << pex.getError() << std::endl;
-        return (EXIT_FAILURE);
-    }
+    /** config **
+     * Nuoroda i objekta, kuris dirba su nustatymu nuskaitymu */
+    GServer::GConfig* config = new GServer::GConfig(logger);
+    // Nuskaiciau nustatymu faila
+    
+    //TODO: Issiaksinkti kaip sukeisti pointerius
+    /*
+    GServer::GLogger* oldLogger = logger;
+    // Kuriu nauja logeri, pagal konfiguracini faila
+    logger = GServer::makeLogger(config);
+    // Salinu senaji logeri
+    delete (GServer::GLogger)oldLogger;
+     * */
 
-    // Kuriu loggeri
-    GServer::GLogger* logger = GServer::makeLogger(&config);
-    // Tikrinu ar pavyko sukurti
+    // Tikrinu ar pavyko sukurti logeri
     if( logger == NULL ){
         // Nepavyko, pranesu apie klaida ir grazinu klaidos koda
         std::cerr << "Nepavyko sukurti porgramos pranesimu objekto (Logger)" << std::endl;
@@ -65,7 +70,33 @@ int main(int argc, char** argv) {
     
     logger->logInfo("main", "Programa pradeda darba");
     logger->logDebug("main", "Kuriu GSocket");
-    GServer::GSocket* socket = new GServer::GSocket(&config, logger);
+    GServer::GSocket* socket = new GServer::GSocket(config, logger);
+    
+    // Naikinu socket objekta
+    delete socket;
+    // Naikinu configuracini objekta
+    delete config;
+    // Naikinu pranesimu rasimo objekta
+    delete logger;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /*
    

@@ -36,16 +36,15 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/ClientContainer.o \
+	${OBJECTDIR}/ConsoleGLogger.o \
 	${OBJECTDIR}/FileGLogger.o \
+	${OBJECTDIR}/GConfig.o \
 	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/GSocket.o \
-	${OBJECTDIR}/STCPServerSocket.o \
-	${OBJECTDIR}/ServerSocket.o \
-	${OBJECTDIR}/TCPServerSocket.o \
+	${OBJECTDIR}/LocalGLogger.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
-	${OBJECTDIR}/UDPServerSocket.o \
 	${OBJECTDIR}/lib/socket.o \
 	${OBJECTDIR}/main.o
 
@@ -79,10 +78,20 @@ ${OBJECTDIR}/ClientContainer.o: nbproject/Makefile-${CND_CONF}.mk ClientContaine
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ClientContainer.o ClientContainer.cpp
 
+${OBJECTDIR}/ConsoleGLogger.o: nbproject/Makefile-${CND_CONF}.mk ConsoleGLogger.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsoleGLogger.o ConsoleGLogger.cpp
+
 ${OBJECTDIR}/FileGLogger.o: nbproject/Makefile-${CND_CONF}.mk FileGLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileGLogger.o FileGLogger.cpp
+
+${OBJECTDIR}/GConfig.o: nbproject/Makefile-${CND_CONF}.mk GConfig.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GConfig.o GConfig.cpp
 
 ${OBJECTDIR}/GLogger.o: nbproject/Makefile-${CND_CONF}.mk GLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -99,20 +108,10 @@ ${OBJECTDIR}/GSocket.o: nbproject/Makefile-${CND_CONF}.mk GSocket.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GSocket.o GSocket.cpp
 
-${OBJECTDIR}/STCPServerSocket.o: nbproject/Makefile-${CND_CONF}.mk STCPServerSocket.cpp 
+${OBJECTDIR}/LocalGLogger.o: nbproject/Makefile-${CND_CONF}.mk LocalGLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/STCPServerSocket.o STCPServerSocket.cpp
-
-${OBJECTDIR}/ServerSocket.o: nbproject/Makefile-${CND_CONF}.mk ServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ServerSocket.o ServerSocket.cpp
-
-${OBJECTDIR}/TCPServerSocket.o: nbproject/Makefile-${CND_CONF}.mk TCPServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPServerSocket.o TCPServerSocket.cpp
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocalGLogger.o LocalGLogger.cpp
 
 ${OBJECTDIR}/TagGenerator.o: nbproject/Makefile-${CND_CONF}.mk TagGenerator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -123,11 +122,6 @@ ${OBJECTDIR}/TunnelContainer.o: nbproject/Makefile-${CND_CONF}.mk TunnelContaine
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
-
-${OBJECTDIR}/UDPServerSocket.o: nbproject/Makefile-${CND_CONF}.mk UDPServerSocket.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPServerSocket.o UDPServerSocket.cpp
 
 ${OBJECTDIR}/lib/socket.o: nbproject/Makefile-${CND_CONF}.mk lib/socket.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib

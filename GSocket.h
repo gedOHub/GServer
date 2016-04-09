@@ -9,8 +9,8 @@
 #define GSOCKET_H
 
 #include <vector>
-#include <libconfig.h>
 #include "GLogger.h"
+#include "GConfig.h"
 
 namespace GServer {
     class GSocket: public GObject {
@@ -19,7 +19,7 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        GSocket( libconfig::Config* conf, GLogger* logger );
+        GSocket( GServer::GConfig* conf, GLogger* logger );
         virtual ~GSocket();
         // ##### END Metodai #####
     protected:
@@ -59,7 +59,15 @@ namespace GServer {
          * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
          * issiustu duomenu kiekis. 
             data- suformuoti duomenys, kurie bus issiunciami*/
-        virtual int send( vector<char> data );
+        virtual int send( vector<char>* data );
+        
+        /** recive **
+         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
+         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
+         * duomenu kiekis.
+         *  data- buferis i kuri bus gaunami duomenys */
+        virtual int recive(vector<char>* data);
+        
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

@@ -18,7 +18,17 @@ namespace GServer{
             // Programa baigia darba, nes nesukurtas loginimo objektas
             NO_LOGGER = -1,
             // Nepavyko sukurti buferio su atitinkamu dydzio
-            SOCKET_BUFFER_TO_SMALL = -2
+            SOCKET_BUFFER_TO_SMALL = -2,
+            // Nepavyko atverti skaitymui konfigracinio failo
+            ERROR_OPENNING_CONFIG_FILE = -3,
+            // Rasta  klaida nustatymu faile
+            ERROR_IN_CONFIG_FILE = -4,
+            // Nepavyko rasti norimo nustatimo
+            CONFIG_NOT_FOUND = -5,
+            // Rasta nepalaikoma reiksme nustatymu faile
+            UNKNOWN_CONFIG_VALUE = -6,
+            // Nepavyko nuskiatyti konfiguraciniop rakto duomenu
+            UNABLE_READ_CONFIG = -7
         };
     };
 }

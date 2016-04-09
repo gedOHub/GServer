@@ -17,29 +17,30 @@
 #include <sstream>
 #include <string>
 
-class GObject {
-public:
-    // ##### Kintamieji #####
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    GObject();
-    virtual ~GObject();
-    
-    /* getClassName
-     * Metodas skirtas grazinti klases padavinimui */
-    std::string getClassName();
-    // ##### END Metodai #####
-protected:
-    // ##### Kintamieji #####
-    /* className
-     * Kintamasis skirtas saugoti klases pavadinimui */
-    std::string className;
-    // ##### END Kintamieji #####
-    // #########################################################################
-    // ##### Metodai #####
-    // ##### END Metodai #####
-};
+namespace GServer{
+    class GObject {
+    public:
+        // ##### Kintamieji #####
+        // ##### END Kintamieji #####
+        // #####################################################################
+        // ##### Metodai #####
+        GObject();
+        virtual ~GObject();
 
+        /* getClassName
+         * Metodas skirtas grazinti klases padavinimui */
+        std::string getClassName();
+        // ##### END Metodai #####
+    protected:
+        // ##### Kintamieji #####
+        /* className
+         * Kintamasis skirtas saugoti klases pavadinimui */
+        std::string className;
+        // ##### END Kintamieji #####
+        // #####################################################################
+        // ##### Metodai #####
+        // ##### END Metodai #####
+    };
+}
 #endif /* GOBJECT_H */
 

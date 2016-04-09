@@ -15,35 +15,20 @@
 #include "exitCodes.h"
 
 // TODO: lookupus perdaryti per objekta
-GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) : MAX_BUFFER_SIZE(conf->lookup("MAXIMUM_SOCKET_BUFFER_SIZE")) {
+GServer::GSocket::GSocket( GServer::GConfig* conf, GLogger* logger ) : MAX_BUFFER_SIZE(conf->getIntSetting("MAX_SOCKET_BUFFER_SIZE")) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":GSocket";
     // Nustatau numatytaja socket_descritptor reiksme
     this->socket_descriptor = -1;
     // Nustatau logeri
     this->logger = logger;
-    // Laikinas kintamsis saugoti buferio dydziui
-    int bufferSize = -1;
-    // TODO: Nuskaitymas per objekta
-    // Nuskaitau buferio dydi
-    try{
-        // Gaunu buferio dydi
-        bufferSize = conf->lookup("SOCKET_BUFFER_SIZE");
-        this->logger->logDebug(this->className, 
-                "Nuskaityta buferio dyzio reiksme: " + 
-                std::to_string(bufferSize));
-    }catch(int e){
-        this->logger->logError(this->className, 
-            "Klaida nuskaitant SOCKET_BUFFER_SIZE nustatymo reiksme. Klaidos kodas: " 
-            + std::to_string(e));
-    }
     // Nustatu buferio dydi
-    this->buffer.resize(bufferSize);
+    this->buffer.resize(conf->getIntSetting("SOCKET_BUFFER_SIZE"));
     // Spausdinu nustatytai buferio dydi
     this->logger->logDebug(this->className, "Sukurto buferio dydis: " + 
             std::to_string(this->buffer.size()));
     // Tirkinu ar pavyko sukurti buferi
-    if(this->buffer.size() < bufferSize){
+    if(this->buffer.size() < conf->getIntSetting("SOCKET_BUFFER_SIZE")){
         // Buferio dydis per mazas
         this->logger->logError(this->className, 
                 "Nepavyko sukurti norimo dydzio buferio");
@@ -60,7 +45,6 @@ GServer::GSocket::GSocket( libconfig::Config* conf, GLogger* logger ) : MAX_BUFF
 
 GServer::GSocket::~GSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
-    this->~GObject();
 }
 
 int GServer::GSocket::resizeBuffer(int newSize){

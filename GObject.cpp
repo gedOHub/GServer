@@ -13,15 +13,15 @@
 
 #include "GObject.h"
 
-GObject::GObject() {
+GServer::GObject::GObject() {
     // Nustatau objekto pavadinima
     this->className = "GObject";
 }
 
-GObject::~GObject() {
+GServer::GObject::~GObject() {
 }
 
-std::string GObject::getClassName(){
+std::string GServer::GObject::getClassName(){
     return this->className;
 }
 
