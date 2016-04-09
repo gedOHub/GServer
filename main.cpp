@@ -28,6 +28,7 @@
 #include "ConsoleGLogger.h"
 #include "exitCodes.h"
 #include "GSocket.h"
+#include "TCPGSocket.h"
 
 using namespace std;
 using namespace libconfig;
@@ -72,13 +73,12 @@ int main(int argc, char** argv) {
     if (config->getBoolSetting("TCP_ENABLE")) {
         // TCP jungtis ijungta
         logger->logDebug("main", "Kuriu TCP jungti");
-
-
+        GServer::TCPGSocket TCPSocket(config, logger);
     }
-
-
+    
     logger->logInfo("main", "Programa pradeda darba");
 
+    logger->logInfo("main", "Programa baigia darba");
     // Naikinu configuracini objekta
     delete config;
     // Naikinu pranesimu rasimo objekta

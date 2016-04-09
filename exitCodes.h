@@ -30,7 +30,11 @@ namespace GServer {
             // Rasta nepalaikoma reiksme nustatymu faile
             UNKNOWN_CONFIG_VALUE = -6,
             // Nepavyko nuskiatyti konfiguraciniop rakto duomenu
-            UNABLE_READ_CONFIG = -7
+            UNABLE_READ_CONFIG = -7,
+            // Nepavyko gauti adreso inforamcijos socketo kurimui
+            UNABLE_TO_GET_ADDRESS_INFO = -8,
+            // Nepavyko sukurti socketo
+            UNABLE_TO_CREATE_SOCKET = -8
         };
     };
 }

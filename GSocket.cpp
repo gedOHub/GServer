@@ -81,7 +81,48 @@ int GServer::GSocket::recive(vector<char>* data) {
     return -1;
 }
 
-int GServer::GSocket::createSocket(GServer::GConfig* conf) {
-    this->logger->logError(this->className, "Neigyvendinta createSocket funkcija");
-    return -1;
+int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
+        int socketType, int socketProtocol, int socketFlag) {
+    // Grazinamo socketo numeris
+    int returnValue = -1;
+    // Strukturos kuriso saugos visa inforamcija apie norima adresa ir prievada
+    addrinfo *result = NULL;
+    addrinfo hints;
+    // Isvalo filtruojancia
+    memset(&hints, sizeof (hints), sizeof (struct addrinfo));
+    // Nustatom norimus parametrus
+    hints.ai_family = socketFamily;
+    hints.ai_socktype = socketType;
+    hints.ai_protocol = socketProtocol;
+    hints.ai_flags = socketFlag;
+    // Bandau gauti galimus rezultatus
+    int searchResult = getaddrinfo(ip, port, &hints, &result);
+    // TIkrinu ar neivyko klaida
+    if (searchResult != 0) {
+        // Ivyko klaida
+        // Pranesu kas ivyko
+        this->logger->logError(this->className, gai_strerror(searchResult));
+        exit(GServer::EXIT_CODES::UNABLE_TO_GET_ADDRESS_INFO);
+    }
+    // Begu per visus galimus variantus
+    for (addrinfo* i = result; i != NULL; i->ai_next) {
+        returnValue = socket(i->ai_family, i->ai_socktype, i->ai_protocol);
+        // Tikrinu ar pavyko sukurti socketa
+        if (returnValue == -1) {
+            // Nepavyko, einu per galimus varaintus toliau
+            this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
+            continue;
+        } else
+            // Pavyko, baigiu eijima per variantus
+            break;
+    }
+    // Tirkinu ar pavyko kazka gauti
+    if(returnValue == -1){
+        this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
+        exit(GServer::EXIT_CODES::UNABLE_TO_CREATE_SOCKET);
+    }
+    // Grazinu socketo numeri
+    this->logger->logDebug(this->className, "Grazinamo socketo numeris- " +
+            std::to_string(returnValue));
+    return returnValue;
 }

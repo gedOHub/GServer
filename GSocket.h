@@ -9,6 +9,10 @@
 #define GSOCKET_H
 
 #include <vector>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+
 #include "GLogger.h"
 #include "GConfig.h"
 
@@ -60,8 +64,13 @@ namespace GServer {
         /** createSocket **
          * Metodas skirtas sukurti sistemos resursaui- socket. Si metoda 
          * realizuoja kiekviena vaiko klase atskirai. 
-            config- objektas dirbantis su nustatymu failu*/
-        virtual int createSocket(GConfig* conf);
+            socketFamily- kokio tipo tinklu bus bendraujama
+            socketType- kokiu principu bus bendraujama
+            socketProtocol- kokiu protokolu bus bendraujama
+            socketFlag- papildomi socket nustatymai
+         Placiau: https://msdn.microsoft.com/en-us/library/windows/desktop/ms737530(v=vs.85).aspx*/
+        int createSocket(char* ip, char* port, int socketFamily, int socketType,
+                int socketProtocol, int socketFlag);
 
         /** resizeBuffer **
          * Metodas skirtas pertvarkyti buferio dydi i nurodyta. Buferis negali 
