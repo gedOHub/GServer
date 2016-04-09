@@ -107,6 +107,15 @@ namespace GServer {
         /** MAX_BUFFER_SIZE **
          * Konstanta nurodanti koks maksimalus gali buti buferio dydis */
         const int MAX_BUFFER_SIZE;
+        
+        /** remoteAddress **
+         * Struktura, skirta saugoti priimamo kliento duomenims, kaip IP ir
+         *  PORT */
+        sockaddr_storage remoteAddress; 
+        
+        /** remoteAddressSize **
+         * Kintamasis saugantis remoteAddress strukturos dydi */
+        socklen_t remoteAddressSize;
 
         // ##### END Kintamieji #####
         // #####################################################################
@@ -127,6 +136,11 @@ namespace GServer {
          * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
          * prievadu. Placiau: http://linux.die.net/man/2/listen*/
         void listenSocket();
+        
+        /** accept **
+         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
+         *  sukurti deskriptoriaus numeri */
+        virtual int acceptConnection();
         
         // ##### END Metodai #####
     };

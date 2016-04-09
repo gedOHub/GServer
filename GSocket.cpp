@@ -10,7 +10,8 @@
 
 // TODO: lookupus perdaryti per objekta
 
-GServer::GSocket::GSocket(GServer::GConfig* conf, GLogger* logger) : MAX_BUFFER_SIZE(conf->getIntSetting("MAX_SOCKET_BUFFER_SIZE")) {
+GServer::GSocket::GSocket(GServer::GConfig* conf, GLogger* logger) :
+MAX_BUFFER_SIZE(conf->getIntSetting("MAX_SOCKET_BUFFER_SIZE")) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":GSocket";
     // Nustatau numatytaja socket_descritptor reiksme
@@ -30,6 +31,8 @@ GServer::GSocket::GSocket(GServer::GConfig* conf, GLogger* logger) : MAX_BUFFER_
         // Nutraukiamas programos darbas
         exit(GServer::EXIT_CODES::SOCKET_BUFFER_TO_SMALL);
     }
+    // Priskiriu remoteAddress strukturos dydi
+    this->remoteAddressSize = sizeof remoteAddress;
 
     // Atspausdinu derinimo inforamcija
     this->logger->logDebug(this->className, "socket_descriptor reiksme: " +
@@ -141,27 +144,49 @@ int GServer::GSocket::createServerScoket(char* ip, char* port,
     listenSocket();
 }
 
-void GServer::GSocket::bindSocket(addrinfo* result) {    
+void GServer::GSocket::bindSocket(addrinfo* result) {
     // Tirkinu ar pavyko prauosti sokceta klausimuisi
-    if (bind(this->socket_descriptor, result->ai_addr, result->ai_addrlen) 
+    if (bind(this->socket_descriptor, result->ai_addr, result->ai_addrlen)
             != 0) {
         // Nepavyko paruosti
         this->logger->logError(this->className, strerror(errno));
         exit(GServer::EXIT_CODES::UNABLE_TO_BIND_SOCKET);
     }
-    
-    this->logger->logDebug(this->className, "SOCKET " + 
+
+    this->logger->logDebug(this->className, "SOCKET " +
             std::to_string(this->socket_descriptor) + " paruostas klausimuisi");
 }
 
-void GServer::GSocket::listenSocket(){
+void GServer::GSocket::listenSocket() {
     // Tikrinu ar pavyko klausytis
-    if( listen(this->socket_descriptor, SOMAXCONN) != 0 ){
+    if (listen(this->socket_descriptor, SOMAXCONN) != 0) {
         // Nepavyko klausytis
         this->logger->logError(this->className, strerror(errno));
         exit(GServer::EXIT_CODES::UNABLE_TO_LISTEN_ON_SOCKET);
     }
-    this->logger->logDebug(this->className, "SOCKET " + 
+    this->logger->logDebug(this->className, "SOCKET " +
             std::to_string(this->socket_descriptor) + " pradejo klausimasi");
 }
+
+int GServer::GSocket::acceptConnection() {
+    int returnValue = -1;
+    // Priimu nauja jungti
+    returnValue = accept(this->socket_descriptor, (struct sockaddr *)
+            & this->remoteAddress, &this->remoteAddressSize);
+    // Tirkinu ar pavyko priimti
+    if (returnValue < 0) {
+        // Nepavkus priimti
+        this->logger->logError(this->className, strerror(errno));
+    }
+    // Pavyko priimti
+    char clientIP[NI_MAXHOST];
+    char clientPort[NI_MAXSERV];
+    // Gaunu prisjungusio kliento duomenis
+    getnameinfo((struct sockaddr *) &remoteAddress, remoteAddressSize,
+            clientIP, sizeof (clientIP), clientPort, sizeof (clientPort),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    this->logger->logInfo(this->className, "Prisjunge naujas klientas- " +
+            std::string(clientIP) + ":" + std::string(clientPort));
+    return returnValue;
+};
 
