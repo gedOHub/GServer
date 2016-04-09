@@ -34,7 +34,11 @@ namespace GServer {
             // Nepavyko gauti adreso inforamcijos socketo kurimui
             UNABLE_TO_GET_ADDRESS_INFO = -8,
             // Nepavyko sukurti socketo
-            UNABLE_TO_CREATE_SOCKET = -8
+            UNABLE_TO_CREATE_SOCKET = -8,
+            // Nepavykus atlikti BIND veiksmo
+            UNABLE_TO_BIND_SOCKET = -9,
+            // Nepavykus klausytis
+            UNABLE_TO_LISTEN_ON_SOCKET = -10
         };
     };
 }

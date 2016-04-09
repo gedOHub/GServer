@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <cerrno>
 
 #include "GLogger.h"
 #include "GConfig.h"
@@ -27,19 +28,26 @@ namespace GServer {
         GSocket(GConfig* conf, GLogger* logger);
         virtual ~GSocket();
 
+        /** close **
+         * Metodas skirtas baigti darbui su socketu */
+        virtual void close();
+
         /** send **
          * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
          * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
          * issiustu duomenu kiekis. 
+         *  socketFd- socketo i kuri siusi nuemris
             data- suformuoti duomenys, kurie bus issiunciami*/
-        virtual int send(vector<char>* data);
+        virtual int sendData(int socketFd, vector<char>* data);
 
         /** recive **
          * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
          * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
          * duomenu kiekis.
+         *  socketFd- socketo is kurio skaitoma nuemris
          *  data- buferis i kuri bus gaunami duomenys */
-        virtual int recive(vector<char>* data);
+        virtual int reciveData(int socketFd, vector<char>* data);
+
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -68,9 +76,22 @@ namespace GServer {
             socketType- kokiu principu bus bendraujama
             socketProtocol- kokiu protokolu bus bendraujama
             socketFlag- papildomi socket nustatymai
+            result - kintamsis saugnatis gautus rezultatus is IP ir PORT 
+         * kombinacijos
          Placiau: https://msdn.microsoft.com/en-us/library/windows/desktop/ms737530(v=vs.85).aspx*/
         int createSocket(char* ip, char* port, int socketFamily, int socketType,
-                int socketProtocol, int socketFlag);
+                int socketProtocol, int socketFlag, addrinfo *result);
+
+        /** createServerScoket **
+         * Metodas skirtas sukurti serverio socketa, kuris sukuria socketa, 
+         * paruposia ji klausimuisi ir pradeda klausytis jungciu 
+            socketFamily- kokio tipo tinklu bus bendraujama
+            socketType- kokiu principu bus bendraujama
+            socketProtocol- kokiu protokolu bus bendraujama
+            socketFlag- papildomi socket nustatymai
+         */
+        virtual int createServerScoket(char* ip, char* port, int socketFamily,
+                int socketType, int socketProtocol, int socketFlag);
 
         /** resizeBuffer **
          * Metodas skirtas pertvarkyti buferio dydi i nurodyta. Buferis negali 
@@ -95,6 +116,18 @@ namespace GServer {
          * naujas buferio dydis.
             newSize- naujas pageidaujamas buferio dydis*/
         int setBufferSize(int newSize);
+
+        /** bind ** 
+         Metodas skirtas socketo paruosimui klausimuisi
+            result- kintamsis saugnatis gautus rezultatus is IP ir PORT 
+         * kombinacijos. Placiau: http://linux.die.net/man/2/bind*/
+        void bindSocket(addrinfo * result);
+        
+        /** listen **
+         * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
+         * prievadu. Placiau: http://linux.die.net/man/2/listen*/
+        void listenSocket();
+        
         // ##### END Metodai #####
     };
 }

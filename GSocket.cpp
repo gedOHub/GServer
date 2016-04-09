@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   GSocket.cpp
  * Author: gedas
@@ -45,6 +39,8 @@ GServer::GSocket::GSocket(GServer::GConfig* conf, GLogger* logger) : MAX_BUFFER_
 }
 
 GServer::GSocket::~GSocket() {
+    this->close();
+
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
@@ -71,22 +67,21 @@ int GServer::GSocket::setBufferSize(int newSize) {
     return this->buffer.size();
 }
 
-int GServer::GSocket::send(vector<char>* data) {
-    this->logger->logError(this->className, "Neigyvendinta SEND funkcija");
+int GServer::GSocket::sendData(int socketFd, vector<char>* data) {
+    this->logger->logError(this->className, "Neigyvendinta sendData funkcija");
     return -1;
 }
 
-int GServer::GSocket::recive(vector<char>* data) {
-    this->logger->logError(this->className, "Neigyvendinta RECIVE funkcija");
+int GServer::GSocket::reciveData(int socketFd, vector<char>* data) {
+    this->logger->logError(this->className, "Neigyvendinta reciveData funkcija");
     return -1;
 }
 
 int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
-        int socketType, int socketProtocol, int socketFlag) {
+        int socketType, int socketProtocol, int socketFlag, addrinfo *result) {
     // Grazinamo socketo numeris
     int returnValue = -1;
     // Strukturos kuriso saugos visa inforamcija apie norima adresa ir prievada
-    addrinfo *result = NULL;
     addrinfo hints;
     // Isvalo filtruojancia
     memset(&hints, sizeof (hints), sizeof (struct addrinfo));
@@ -117,7 +112,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
             break;
     }
     // Tirkinu ar pavyko kazka gauti
-    if(returnValue == -1){
+    if (returnValue == -1) {
         this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
         exit(GServer::EXIT_CODES::UNABLE_TO_CREATE_SOCKET);
     }
@@ -126,3 +121,47 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
             std::to_string(returnValue));
     return returnValue;
 }
+
+void GServer::GSocket::close() {
+    this->logger->logDebug(this->className, "Uzveriamas socket. ID: " +
+            std::to_string(this->socket_descriptor));
+    shutdown(this->socket_descriptor, SHUT_RDWR);
+}
+
+int GServer::GSocket::createServerScoket(char* ip, char* port,
+        int socketFamily, int socketType, int socketProtocol, int socketFlag) {
+    // Kintamasis, kuris saugo gautus duomenis is adreso ir porto kombinacijos
+    addrinfo result;
+    // Kuriu socketa
+    this->socket_descriptor = createSocket(ip, port, socketFamily, socketType,
+            socketProtocol, socketFlag, &result);
+    // Ruosiu klausimuisi
+    bindSocket(&result);
+    // Pradedu klausimasi
+    listenSocket();
+}
+
+void GServer::GSocket::bindSocket(addrinfo* result) {    
+    // Tirkinu ar pavyko prauosti sokceta klausimuisi
+    if (bind(this->socket_descriptor, result->ai_addr, result->ai_addrlen) 
+            != 0) {
+        // Nepavyko paruosti
+        this->logger->logError(this->className, strerror(errno));
+        exit(GServer::EXIT_CODES::UNABLE_TO_BIND_SOCKET);
+    }
+    
+    this->logger->logDebug(this->className, "SOCKET " + 
+            std::to_string(this->socket_descriptor) + " paruostas klausimuisi");
+}
+
+void GServer::GSocket::listenSocket(){
+    // Tikrinu ar pavyko klausytis
+    if( listen(this->socket_descriptor, SOMAXCONN) != 0 ){
+        // Nepavyko klausytis
+        this->logger->logError(this->className, strerror(errno));
+        exit(GServer::EXIT_CODES::UNABLE_TO_LISTEN_ON_SOCKET);
+    }
+    this->logger->logDebug(this->className, "SOCKET " + 
+            std::to_string(this->socket_descriptor) + " pradejo klausimasi");
+}
+
