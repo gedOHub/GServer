@@ -18,6 +18,15 @@
       <itemPath>GObject.cpp</itemPath>
       <itemPath>GObject.h</itemPath>
     </logicalFolder>
+    <logicalFolder name="f3"
+                   displayName="Containers"
+                   projectFiles="true"
+                   kind="ROOT">
+      <itemPath>ClientContainer.cpp</itemPath>
+      <itemPath>ClientContainer.h</itemPath>
+      <itemPath>TunnelContainer.cpp</itemPath>
+      <itemPath>TunnelContainer.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
@@ -90,12 +99,8 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>ClientContainer.cpp</itemPath>
-    <itemPath>ClientContainer.h</itemPath>
     <itemPath>TagGenerator.cpp</itemPath>
     <itemPath>TagGenerator.h</itemPath>
-    <itemPath>TunnelContainer.cpp</itemPath>
-    <itemPath>TunnelContainer.h</itemPath>
     <itemPath>server.conf</itemPath>
     <itemPath>lib/socket.cpp</itemPath>
     <itemPath>lib/socket.h</itemPath>

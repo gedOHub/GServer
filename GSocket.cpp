@@ -94,7 +94,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
     hints.ai_protocol = socketProtocol;
     hints.ai_flags = socketFlag;
     // Bandau gauti galimus rezultatus
-    int searchResult = getaddrinfo(ip, port, &hints, (struct addrinfo **)&result);
+    int searchResult = getaddrinfo(ip, port, &hints, (struct addrinfo **) &result);
     // TIkrinu ar neivyko klaida
     if (searchResult != 0) {
         // Ivyko klaida
@@ -190,3 +190,12 @@ int GServer::GSocket::acceptConnection() {
     return returnValue;
 };
 
+void GServer::GSocket::checkMaxDescriptor(int& maxDescriptor) {
+    // Tikrinu ar socketo descriptrius yra diednis uz maksimalu
+    if (this->socket_descriptor > maxDescriptor) {
+        // Didesnis, nustatau nauja
+        maxDescriptor = this->socket_descriptor;
+        this->logger->logDebug(this->className, "Nustatytas naujas didziausias "
+                "descriptrius: " + std::to_string(maxDescriptor));
+    }
+}

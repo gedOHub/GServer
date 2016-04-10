@@ -19,7 +19,17 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        TCPServerGSocket(GServer::GConfig* conf, GLogger* logger);
+        /** TCPServerGSocket **
+         * Metodas skirtas sukurti TCPSERVERGSocket objekta, kuris organizuoja 
+         * darba su nauju klientu prijsungimu
+         *  conf- objektas, kuris dirba su nustatymu failu
+         *  logger- objektas, kuris dirba su pranesimu isvedimu
+         *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
+         *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
+         * desktoriaus reikse */
+        TCPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
+                fd_set& visiSocket, int& maxDeskriptor);
+        
         virtual ~TCPServerGSocket();
         // ##### END Metodai #####        
     protected:

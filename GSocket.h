@@ -99,8 +99,11 @@ namespace GServer {
          * rezultatas- naujas pertvarkytas dydis.
             newSize- naujas pageidaujamas buferio dydis*/
         int resizeBuffer(int newSize);
-
-        /** */
+        
+        /** checkMaxDescriptor **
+         * Metodas skirtas nustatyti ar esamas deskriuptorius yra didenis nei 
+         * dabartinis didenis deskritprius */
+        void checkMaxDescriptor(int& maxDescriptor );
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
