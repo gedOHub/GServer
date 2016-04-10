@@ -44,6 +44,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/GSocket.o \
 	${OBJECTDIR}/LocalGLogger.o \
 	${OBJECTDIR}/TCPGSocket.o \
+	${OBJECTDIR}/TCPServerGSocket.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
 	${OBJECTDIR}/lib/socket.o \
@@ -118,6 +119,11 @@ ${OBJECTDIR}/TCPGSocket.o: TCPGSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPGSocket.o TCPGSocket.cpp
+
+${OBJECTDIR}/TCPServerGSocket.o: TCPServerGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPServerGSocket.o TCPServerGSocket.cpp
 
 ${OBJECTDIR}/TagGenerator.o: TagGenerator.cpp 
 	${MKDIR} -p ${OBJECTDIR}
