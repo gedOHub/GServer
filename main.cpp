@@ -15,6 +15,7 @@
 #include <fstream>
 #include <libconfig.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include "lib/socket.h"
 #include "structures.h"
@@ -42,7 +43,24 @@ void *get_in_addr(struct sockaddr *sa) {
     return &(((struct sockaddr_in6*) sa)->sin6_addr);
 }
 
+// Kintamasis kuris nuskao kada baigti darba programai
+volatile sig_atomic_t done = 0;
+// Funkcija keicianti done reiksme
+void term(int signum) {
+    done = 1;
+}
+
 int main(int argc, char** argv) {
+
+    /* Veiksmai reikalingi sustabdyti programos veikima */
+    struct sigaction action;
+    // Isvalo struktura
+    memset(&action, 0, sizeof (struct sigaction));
+    // Nustatom kuri funkcija bus kvieciama
+    action.sa_handler = term;
+    // Uzregistruojam valdyma
+    sigaction(SIGTERM, &action, NULL);
+
     /** logger **
      * Kintamsis saugantis nuoroda i obnejtak, kuris atsakingas uz pranesimu 
      * pateikima. Is pradziu pateikiama konsoleje, o po to pagal konfiguracinio 
@@ -70,23 +88,39 @@ int main(int argc, char** argv) {
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
 
+    /* Kintamasis skirtas laikyti visus socketus, naudojaa tikrinti ar yra ka 
+     * nuskaityti */
+    fd_set visiSkaitomiSocket;
+    /* Kintamasis skirtas laikyti socketus, kuriuos tikrinsiu einamu metu del
+     * gautos irnofmacijos */
+    fd_set skaitomiSocket;
+    /* Kintamasis skirtas saugoti maksimalaus socket deskriptoriaus reiksme */
+    int maxDescriptor;
+
     //TODO: prideti kitus protokolus
     // Serveroi jungciu kintamieji
     GServer::TCPServerGSocket* TCPServer = NULL;
-    
-    // Tikrinu bus dirbama su TCp jungtimis
+
+    // Tikrinu bus dirbama su TCP jungtimis
     if (config->getBoolSetting("TCP_ENABLE")) {
         // TCP jungtis ijungta
         logger->logDebug("main", "Kuriu TCP jungti");
-        TCPServer = new GServer::TCPServerGSocket(config, logger);
+        TCPServer = new GServer::TCPServerGSocket(config, logger,
+                visiSkaitomiSocket, maxDescriptor);
     }
-    
-    logger->logInfo("main", "Programa pradeda darba");
 
-    string input;
-    getline(cin, input);
+    logger->logInfo("main", "Programa pradeda darba");
     
+    // Dirbama kol programa negavo isjungimo signalo
+    while(!done){
+        // Cia vyksta visas klausimosi procesas
+    }
+
     logger->logInfo("main", "Programa baigia darba");
+    //TODO: sunaikinti visus serveriu socketus
+    // Naikinu serveriu soketus
+    delete TCPServer;
+
     // Naikinu configuracini objekta
     delete config;
     // Naikinu pranesimu rasimo objekta
