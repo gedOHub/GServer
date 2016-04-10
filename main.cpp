@@ -29,6 +29,7 @@
 #include "exitCodes.h"
 #include "GSocket.h"
 #include "TCPGSocket.h"
+#include "TCPServerGSocket.h"
 
 using namespace std;
 using namespace libconfig;
@@ -69,15 +70,22 @@ int main(int argc, char** argv) {
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
 
+    //TODO: prideti kitus protokolus
+    // Serveroi jungciu kintamieji
+    GServer::TCPServerGSocket* TCPServer = NULL;
+    
     // Tikrinu bus dirbama su TCp jungtimis
     if (config->getBoolSetting("TCP_ENABLE")) {
         // TCP jungtis ijungta
         logger->logDebug("main", "Kuriu TCP jungti");
-        GServer::TCPGSocket TCPSocket(config, logger);
+        TCPServer = new GServer::TCPServerGSocket(config, logger);
     }
     
     logger->logInfo("main", "Programa pradeda darba");
 
+    string input;
+    getline(cin, input);
+    
     logger->logInfo("main", "Programa baigia darba");
     // Naikinu configuracini objekta
     delete config;

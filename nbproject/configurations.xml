@@ -34,6 +34,8 @@
         <logicalFolder name="f1" displayName="TCP" projectFiles="true">
           <itemPath>TCPGSocket.cpp</itemPath>
           <itemPath>TCPGSocket.h</itemPath>
+          <itemPath>TCPServerGSocket.cpp</itemPath>
+          <itemPath>TCPServerGSocket.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <itemPath>GSocket.cpp</itemPath>
@@ -43,6 +45,28 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -77,6 +101,9 @@
     <itemPath>lib/socket.h</itemPath>
   </logicalFolder>
   <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>sockets</Elem>
+    <Elem>sockets/serversocket</Elem>
     <Elem>.</Elem>
     <Elem>sockets</Elem>
     <Elem>sockets/serversocket</Elem>
@@ -153,6 +180,10 @@
       <item path="TCPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TCPGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TCPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -237,6 +268,10 @@
       <item path="TCPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TCPGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TCPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
