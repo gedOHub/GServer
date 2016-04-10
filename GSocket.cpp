@@ -81,7 +81,7 @@ int GServer::GSocket::reciveData(int socketFd, vector<char>* data) {
 }
 
 int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
-        int socketType, int socketProtocol, int socketFlag, addrinfo *result) {
+        int socketType, int socketProtocol, int socketFlag, addrinfo *& result) {
     // Grazinamo socketo numeris
     int returnValue = -1;
     // Strukturos kuriso saugos visa inforamcija apie norima adresa ir prievada
@@ -94,7 +94,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
     hints.ai_protocol = socketProtocol;
     hints.ai_flags = socketFlag;
     // Bandau gauti galimus rezultatus
-    int searchResult = getaddrinfo(ip, port, &hints, &result);
+    int searchResult = getaddrinfo(ip, port, &hints, (struct addrinfo **)&result);
     // TIkrinu ar neivyko klaida
     if (searchResult != 0) {
         // Ivyko klaida
@@ -134,12 +134,12 @@ void GServer::GSocket::close() {
 int GServer::GSocket::createServerScoket(char* ip, char* port,
         int socketFamily, int socketType, int socketProtocol, int socketFlag) {
     // Kintamasis, kuris saugo gautus duomenis is adreso ir porto kombinacijos
-    addrinfo result;
+    addrinfo* result;
     // Kuriu socketa
     this->socket_descriptor = createSocket(ip, port, socketFamily, socketType,
-            socketProtocol, socketFlag, &result);
+            socketProtocol, socketFlag, result);
     // Ruosiu klausimuisi
-    bindSocket(&result);
+    bindSocket(result);
     // Pradedu klausimasi
     listenSocket();
 }
