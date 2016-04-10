@@ -47,6 +47,15 @@ namespace GServer {
          *  socketFd- socketo is kurio skaitoma nuemris
          *  data- buferis i kuri bus gaunami duomenys */
         virtual int reciveData(int socketFd, vector<char>* data);
+        
+        /** getSocket**
+         * Metodas skirtas grazinti soketo numeriui */
+        int getSocket();
+        
+        /** acceptConnection **
+         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
+         *  sukurti deskriptoriaus numeri */
+        virtual int acceptConnection();
 
         // ##### END Metodai #####
     protected:
@@ -139,11 +148,6 @@ namespace GServer {
          * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
          * prievadu. Placiau: http://linux.die.net/man/2/listen*/
         void listenSocket();
-
-        /** accept **
-         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
-         *  sukurti deskriptoriaus numeri */
-        virtual int acceptConnection();
 
         // ##### END Metodai #####
     };

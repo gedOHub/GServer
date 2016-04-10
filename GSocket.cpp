@@ -199,3 +199,7 @@ void GServer::GSocket::checkMaxDescriptor(int& maxDescriptor) {
                 "descriptrius: " + std::to_string(maxDescriptor));
     }
 }
+
+int GServer::GSocket::getSocket(){
+    return this->socket_descriptor;
+}

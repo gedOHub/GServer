@@ -11,7 +11,7 @@
 #include "ClientContainer.h"
 #include "TunnelContainer.h"
 #include "TagGenerator.h"    // Klientu saugykla
-*/
+ */
 
 #include "GConfig.h"
 #include "GLoggerFactory.h"
@@ -33,13 +33,14 @@ void *get_in_addr(struct sockaddr *sa) {
 // Kintamasis kuris nuskao kada baigti darba programai
 volatile sig_atomic_t done = 0;
 // Funkcija keicianti done reiksme
+
 void term(int signum) {
     done = 1;
 }
 
 int main(int argc, char** argv) {
 
-    /* Veiksmai reikalingi sustabdyti programos veikima */
+    /* Veiksmai reikalingi sustabdyti programos veikima pagal SIGTERM signala */
     struct sigaction action;
     // Isvalo struktura
     memset(&action, 0, sizeof (struct sigaction));
@@ -58,6 +59,11 @@ int main(int argc, char** argv) {
      * Nuoroda i objekta, kuris dirba su nustatymu nuskaitymu */
     GServer::GConfig* config = new GServer::GConfig(logger);
     // Nuskaiciau nustatymu faila
+
+    /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
+    std::map<int, GServer::GSocket*> serverSocketList;
+    /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
+    std::map<int, GServer::GSocket*>::iterator serverSocketListIterator;
 
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
@@ -79,17 +85,17 @@ int main(int argc, char** argv) {
      * nuskaityti */
     fd_set visiSkaitomiSocket;
     // Inisicjuoju struktura
-    FD_ZERO (&visiSkaitomiSocket);
+    FD_ZERO(&visiSkaitomiSocket);
     /* Kintamasis skirtas laikyti socketus, kuriuos tikrinsiu einamu metu del
      * gautos irnofmacijos */
     fd_set skaitomiSocket;
     /* Kintamasis skirtas saugoti maksimalaus socket deskriptoriaus reiksme */
-    int maxDescriptor;
+    int maxDescriptor = 0;
     /* Kintamasis saugo laiko struktura,kurioje nurodoma kas kiek laiko atlikti 
      * tikrinima del nuskaitomu duomenu is socketu */
     struct timeval time;
-    time.tv_sec = 0;        // 0 sekundziu
-    time.tv_usec = 2000;    // 2000 mikro sekundes
+    time.tv_sec = 0; // 0 sekundziu
+    time.tv_usec = 2000; // 2000 mikro sekundes
     /* Kintamasis naudojamas begant per visus deskriptorius */
     int currentD = -1;
 
@@ -103,32 +109,40 @@ int main(int argc, char** argv) {
         logger->logDebug("main", "Kuriu TCP jungti");
         TCPServer = new GServer::TCPServerGSocket(config, logger,
                 visiSkaitomiSocket, maxDescriptor);
+        // Pridedu TCP socket jungti i serveriu sarasa
+        serverSocketList[TCPServer->getSocket()] = TCPServer;
     }
 
     logger->logInfo("main", "Programa pradeda darba");
-    
+
     // Dirbama kol programa negavo isjungimo signalo
-    while(!done){
+    while (!done) {
         // Cia vyksta visas klausimosi procesas
         // Uzfiksuoju dabartinius visus socketus
         skaitomiSocket = visiSkaitomiSocket;
-        
+
         // Gaunu visus socketus, kurie turi ka nors nuskaityti
-        if( select( maxDescriptor+1,  &skaitomiSocket, NULL, NULL, &time) 
-                == -1 ){
+        if (select(maxDescriptor + 1, &skaitomiSocket, NULL, NULL, &time)
+                == -1) {
             // Ivyko klaida gaunant nuskaitomu socketu sarasa
             logger->logError("main", strerror(errno));
             // Iseinu is programos
             exit(GServer::EXIT_CODES::ERROR_IN_SELECT);
         }
-        
+
         // Begu per visus deskriptorius
         for (currentD = 0; currentD <= maxDescriptor; currentD++) {
             // Tikrinu ar deskriptius yra reikaling nuskaityti sarase
             if (FD_ISSET(currentD, &skaitomiSocket)) {
                 // Deskriptiurs is kurio reikai nusakityti duomenis
-                
+
                 // Tikrinam ar tai besiklausantis klientu prisjungimu socketas
+                serverSocketListIterator = serverSocketList.find(currentD);
+                if (serverSocketListIterator != serverSocketList.end()) {
+                    // Reikia nuskaityti is serveriu socketu saraso
+                    // Ivyks naujos sujungimo priemimas
+                    int newConenction = serverSocketList.find(currentD)->second->acceptConnection();
+                }
             }
         }
     }
