@@ -38,7 +38,9 @@ namespace GServer {
             // Nepavykus atlikti BIND veiksmo
             UNABLE_TO_BIND_SOCKET = -9,
             // Nepavykus klausytis
-            UNABLE_TO_LISTEN_ON_SOCKET = -10
+            UNABLE_TO_LISTEN_ON_SOCKET = -10,
+            // Klaida nuskaitant SELECT
+            ERROR_IN_SELECT = -11
         };
     };
 }

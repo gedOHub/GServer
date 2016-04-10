@@ -3,25 +3,15 @@
  * Author: gedas
  *
  */
-#include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <netinet/in.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <vector>
-#include <list>
-#include <stdlib.h>
-#include <fstream>
-#include <libconfig.h>
-#include <unistd.h>
 #include <signal.h>
 
+/*
 #include "lib/socket.h"
 #include "structures.h"
 #include "ClientContainer.h"
 #include "TunnelContainer.h"
 #include "TagGenerator.h"    // Klientu saugykla
+*/
 
 #include "GConfig.h"
 #include "GLoggerFactory.h"
@@ -31,9 +21,6 @@
 #include "GSocket.h"
 #include "TCPGSocket.h"
 #include "TCPServerGSocket.h"
-
-using namespace std;
-using namespace libconfig;
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
@@ -91,11 +78,20 @@ int main(int argc, char** argv) {
     /* Kintamasis skirtas laikyti visus socketus, naudojaa tikrinti ar yra ka 
      * nuskaityti */
     fd_set visiSkaitomiSocket;
+    // Inisicjuoju struktura
+    FD_ZERO (&visiSkaitomiSocket);
     /* Kintamasis skirtas laikyti socketus, kuriuos tikrinsiu einamu metu del
      * gautos irnofmacijos */
     fd_set skaitomiSocket;
     /* Kintamasis skirtas saugoti maksimalaus socket deskriptoriaus reiksme */
     int maxDescriptor;
+    /* Kintamasis saugo laiko struktura,kurioje nurodoma kas kiek laiko atlikti 
+     * tikrinima del nuskaitomu duomenu is socketu */
+    struct timeval time;
+    time.tv_sec = 0;        // 0 sekundziu
+    time.tv_usec = 2000;    // 2000 mikro sekundes
+    /* Kintamasis naudojamas begant per visus deskriptorius */
+    int currentD = -1;
 
     //TODO: prideti kitus protokolus
     // Serveroi jungciu kintamieji
@@ -114,6 +110,27 @@ int main(int argc, char** argv) {
     // Dirbama kol programa negavo isjungimo signalo
     while(!done){
         // Cia vyksta visas klausimosi procesas
+        // Uzfiksuoju dabartinius visus socketus
+        skaitomiSocket = visiSkaitomiSocket;
+        
+        // Gaunu visus socketus, kurie turi ka nors nuskaityti
+        if( select( maxDescriptor+1,  &skaitomiSocket, NULL, NULL, &time) 
+                == -1 ){
+            // Ivyko klaida gaunant nuskaitomu socketu sarasa
+            logger->logError("main", strerror(errno));
+            // Iseinu is programos
+            exit(GServer::EXIT_CODES::ERROR_IN_SELECT);
+        }
+        
+        // Begu per visus deskriptorius
+        for (currentD = 0; currentD <= maxDescriptor; currentD++) {
+            // Tikrinu ar deskriptius yra reikaling nuskaityti sarase
+            if (FD_ISSET(currentD, &skaitomiSocket)) {
+                // Deskriptiurs is kurio reikai nusakityti duomenis
+                
+                // Tikrinam ar tai besiklausantis klientu prisjungimu socketas
+            }
+        }
     }
 
     logger->logInfo("main", "Programa baigia darba");
