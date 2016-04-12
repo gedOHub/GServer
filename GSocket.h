@@ -46,7 +46,19 @@ namespace GServer {
          * duomenu kiekis.
          *  socketFd- socketo is kurio skaitoma nuemris
          *  data- buferis i kuri bus gaunami duomenys */
-        virtual int reciveData(int socketFd, vector<char>* data);
+        virtual int reciveData();
+        
+        /** getSocket**
+         * Metodas skirtas grazinti soketo numeriui */
+        int getSocket();
+        
+        /** acceptConnection **
+         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
+         *  sukurti kliento objekta
+         *  conf- objektas dirbantis su nustatymu failu
+         *  maxDescriptor- maksimalaus deskritporiaus reiksme */
+        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
+        int &maxDescriptor ){};
 
         // ##### END Metodai #####
     protected:
@@ -66,6 +78,19 @@ namespace GServer {
         /** logger
          * Kintamasis saugantis nuoroda i pranesimu rasimo objekta */
         GLogger* logger;
+        
+        /** remoteAddress **
+         * Struktura, skirta saugoti priimamo kliento duomenims, kaip IP ir
+         *  PORT */
+        sockaddr_storage remoteAddress;
+
+        /** remoteAddressSize **
+         * Kintamasis saugantis remoteAddress strukturos dydi */
+        socklen_t remoteAddressSize;
+        
+        /** skaitomiSocket**
+         * Kintamasis skirtas saugoti visu skaitomu socketu saraso nuoroda */
+        fd_set* skaitomiSocket;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -99,23 +124,17 @@ namespace GServer {
          * rezultatas- naujas pertvarkytas dydis.
             newSize- naujas pageidaujamas buferio dydis*/
         int resizeBuffer(int newSize);
-
-        /** */
+        
+        /** checkMaxDescriptor **
+         * Metodas skirtas nustatyti ar esamas deskriuptorius yra didenis nei 
+         * dabartinis didenis deskritprius */
+        void checkMaxDescriptor(int& maxDescriptor );
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
         /** MAX_BUFFER_SIZE **
          * Konstanta nurodanti koks maksimalus gali buti buferio dydis */
         const int MAX_BUFFER_SIZE;
-
-        /** remoteAddress **
-         * Struktura, skirta saugoti priimamo kliento duomenims, kaip IP ir
-         *  PORT */
-        sockaddr_storage remoteAddress;
-
-        /** remoteAddressSize **
-         * Kintamasis saugantis remoteAddress strukturos dydi */
-        socklen_t remoteAddressSize;
 
         // ##### END Kintamieji #####
         // #####################################################################
@@ -136,11 +155,6 @@ namespace GServer {
          * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
          * prievadu. Placiau: http://linux.die.net/man/2/listen*/
         void listenSocket();
-
-        /** accept **
-         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
-         *  sukurti deskriptoriaus numeri */
-        virtual int acceptConnection();
 
         // ##### END Metodai #####
     };

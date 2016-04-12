@@ -3,24 +3,15 @@
  * Author: gedas
  *
  */
-#include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <netinet/in.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <vector>
-#include <list>
-#include <stdlib.h>
-#include <fstream>
-#include <libconfig.h>
-#include <unistd.h>
+#include <signal.h>
 
+/*
 #include "lib/socket.h"
 #include "structures.h"
 #include "ClientContainer.h"
 #include "TunnelContainer.h"
 #include "TagGenerator.h"    // Klientu saugykla
+ */
 
 #include "GConfig.h"
 #include "GLoggerFactory.h"
@@ -31,9 +22,6 @@
 #include "TCPGSocket.h"
 #include "TCPServerGSocket.h"
 
-using namespace std;
-using namespace libconfig;
-
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
         return &(((struct sockaddr_in*) sa)->sin_addr);
@@ -42,7 +30,25 @@ void *get_in_addr(struct sockaddr *sa) {
     return &(((struct sockaddr_in6*) sa)->sin6_addr);
 }
 
+// Kintamasis kuris nuskao kada baigti darba programai
+volatile sig_atomic_t done = 0;
+// Funkcija keicianti done reiksme
+
+void term(int signum) {
+    done = 1;
+}
+
 int main(int argc, char** argv) {
+
+    /* Veiksmai reikalingi sustabdyti programos veikima pagal SIGTERM signala */
+    struct sigaction action;
+    // Isvalo struktura
+    memset(&action, 0, sizeof (struct sigaction));
+    // Nustatom kuri funkcija bus kvieciama
+    action.sa_handler = term;
+    // Uzregistruojam valdyma
+    sigaction(SIGTERM, &action, NULL);
+
     /** logger **
      * Kintamsis saugantis nuoroda i obnejtak, kuris atsakingas uz pranesimu 
      * pateikima. Is pradziu pateikiama konsoleje, o po to pagal konfiguracinio 
@@ -53,6 +59,15 @@ int main(int argc, char** argv) {
      * Nuoroda i objekta, kuris dirba su nustatymu nuskaitymu */
     GServer::GConfig* config = new GServer::GConfig(logger);
     // Nuskaiciau nustatymu faila
+
+    /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
+    std::map<int, GServer::GSocket*> serverSocketList;
+    /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
+    std::map<int, GServer::GSocket*>::iterator serverSocketListIterator;
+    /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
+    std::map<int, GServer::GSocket*> clientSocketList;
+    /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
+    std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
 
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
@@ -70,23 +85,109 @@ int main(int argc, char** argv) {
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
 
+    /* Kintamasis skirtas laikyti visus socketus, naudojaa tikrinti ar yra ka 
+     * nuskaityti */
+    fd_set visiSkaitomiSocket;
+    // Inisicjuoju struktura
+    FD_ZERO(&visiSkaitomiSocket);
+    /* Kintamasis skirtas laikyti socketus, kuriuos tikrinsiu einamu metu del
+     * gautos irnofmacijos */
+    fd_set skaitomiSocket;
+    /* Kintamasis skirtas saugoti maksimalaus socket deskriptoriaus reiksme */
+    int maxDescriptor = 0;
+    /* Kintamasis saugo laiko struktura,kurioje nurodoma kas kiek laiko atlikti 
+     * tikrinima del nuskaitomu duomenu is socketu */
+    struct timeval time;
+    time.tv_sec = 0; // 0 sekundziu
+    time.tv_usec = 2000; // 2000 mikro sekundes
+    /* Kintamasis naudojamas begant per visus deskriptorius */
+    int currentD = -1;
+
     //TODO: prideti kitus protokolus
     // Serveroi jungciu kintamieji
     GServer::TCPServerGSocket* TCPServer = NULL;
-    
-    // Tikrinu bus dirbama su TCp jungtimis
+
+    // Tikrinu bus dirbama su TCP jungtimis
     if (config->getBoolSetting("TCP_ENABLE")) {
         // TCP jungtis ijungta
         logger->logDebug("main", "Kuriu TCP jungti");
-        TCPServer = new GServer::TCPServerGSocket(config, logger);
+        TCPServer = new GServer::TCPServerGSocket(config, logger,
+                visiSkaitomiSocket, maxDescriptor);
+        // Pridedu TCP socket jungti i serveriu sarasa
+        serverSocketList[TCPServer->getSocket()] = TCPServer;
     }
-    
+
     logger->logInfo("main", "Programa pradeda darba");
 
-    string input;
-    getline(cin, input);
-    
+    // Dirbama kol programa negavo isjungimo signalo
+    while (!done) {
+        // Cia vyksta visas klausimosi procesas
+        // Uzfiksuoju dabartinius visus socketus
+        skaitomiSocket = visiSkaitomiSocket;
+
+        // Gaunu visus socketus, kurie turi ka nors nuskaityti
+        if (select(maxDescriptor + 1, &skaitomiSocket, NULL, NULL, &time)
+                == -1) {
+            // Ivyko klaida gaunant nuskaitomu socketu sarasa
+            logger->logError("main", strerror(errno));
+            // Iseinu is programos
+            exit(GServer::EXIT_CODES::ERROR_IN_SELECT);
+        }
+
+        // Begu per visus deskriptorius
+        for (currentD = 0; currentD <= maxDescriptor; currentD++) {
+            // Tikrinu ar deskriptius yra reikaling nuskaityti sarase
+            if (FD_ISSET(currentD, &skaitomiSocket)) {
+                // Deskriptiurs is kurio reikai nusakityti duomenis
+
+                // Tikrinam ar tai besiklausantis klientu prisjungimu socketas
+                serverSocketListIterator = serverSocketList.find(currentD);
+                if (serverSocketListIterator != serverSocketList.end()) {
+                    // Reikia nuskaityti is serveriu socketu saraso
+                    // Ivyks naujos sujungimo priemimas
+                    GServer::GSocket* newConenction = NULL;
+                    newConenction = serverSocketList.find(currentD)->second->acceptConnection( config, maxDescriptor );
+                    // Tirkinu ar pavyko priimti jungti
+                    if(newConenction == NULL){
+                        logger->logError("main", "Nepavyko priimti naujos jungties");
+                        // Tesiu sekanti cikla
+                        continue;
+                    }
+                    // Pridedu prie klientu saraso
+                    clientSocketList[newConenction->getSocket()] = newConenction;
+                }
+                // Atejo duomenys is kliento
+                else {
+                    // Surandu klienta ir duodu jam skaityti gautus duomenis
+                    if(clientSocketList[currentD]->reciveData() <= 0){
+                        // Sujungimas baigtas arba klaida
+                        delete clientSocketList[currentD];
+                    }
+                }
+            }
+        }
+    }
+
     logger->logInfo("main", "Programa baigia darba");
+    
+    // Begu per serveriu saras ir naikinu serveriu socketus
+    for (serverSocketListIterator = serverSocketList.begin(); 
+            serverSocketListIterator != serverSocketList.end(); 
+            ++serverSocketListIterator)
+    {
+        // Salinu serveriu socketus
+        delete serverSocketListIterator->second;
+        
+    }
+    // Begu per klientu saras ir naikinu serveriu socketus
+    for (clientSocketListIterator = clientSocketList.begin(); 
+            clientSocketListIterator != clientSocketList.end(); 
+            ++clientSocketListIterator)
+    {
+        // Salinu kliento socketus socketus
+        delete clientSocketListIterator->second;
+    }
+
     // Naikinu configuracini objekta
     delete config;
     // Naikinu pranesimu rasimo objekta

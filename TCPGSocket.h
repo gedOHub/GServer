@@ -41,7 +41,7 @@ namespace GServer {
          * duomenu kiekis.
          *  socketFd- socketo is kurio skaitoma nuemris
          *  data- buferis i kuri bus gaunami duomenys */
-        virtual int reciveData(int socketFd, vector<char>* data);
+        virtual int reciveData();
         
         // ##### END Metodai #####
     private:

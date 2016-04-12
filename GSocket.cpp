@@ -75,7 +75,7 @@ int GServer::GSocket::sendData(int socketFd, vector<char>* data) {
     return -1;
 }
 
-int GServer::GSocket::reciveData(int socketFd, vector<char>* data) {
+int GServer::GSocket::reciveData() {
     this->logger->logError(this->className, "Neigyvendinta reciveData funkcija");
     return -1;
 }
@@ -94,7 +94,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
     hints.ai_protocol = socketProtocol;
     hints.ai_flags = socketFlag;
     // Bandau gauti galimus rezultatus
-    int searchResult = getaddrinfo(ip, port, &hints, (struct addrinfo **)&result);
+    int searchResult = getaddrinfo(ip, port, &hints, (struct addrinfo **) &result);
     // TIkrinu ar neivyko klaida
     if (searchResult != 0) {
         // Ivyko klaida
@@ -168,25 +168,16 @@ void GServer::GSocket::listenSocket() {
             std::to_string(this->socket_descriptor) + " pradejo klausimasi");
 }
 
-int GServer::GSocket::acceptConnection() {
-    int returnValue = -1;
-    // Priimu nauja jungti
-    returnValue = accept(this->socket_descriptor, (struct sockaddr *)
-            & this->remoteAddress, &this->remoteAddressSize);
-    // Tirkinu ar pavyko priimti
-    if (returnValue < 0) {
-        // Nepavkus priimti
-        this->logger->logError(this->className, strerror(errno));
+void GServer::GSocket::checkMaxDescriptor(int& maxDescriptor) {
+    // Tikrinu ar socketo descriptrius yra diednis uz maksimalu
+    if (this->socket_descriptor > maxDescriptor) {
+        // Didesnis, nustatau nauja
+        maxDescriptor = this->socket_descriptor;
+        this->logger->logDebug(this->className, "Nustatytas naujas didziausias "
+                "descriptrius: " + std::to_string(maxDescriptor));
     }
-    // Pavyko priimti
-    char clientIP[NI_MAXHOST];
-    char clientPort[NI_MAXSERV];
-    // Gaunu prisjungusio kliento duomenis
-    getnameinfo((struct sockaddr *) &remoteAddress, remoteAddressSize,
-            clientIP, sizeof (clientIP), clientPort, sizeof (clientPort),
-            NI_NUMERICHOST | NI_NUMERICSERV);
-    this->logger->logInfo(this->className, "Prisjunge naujas klientas- " +
-            std::string(clientIP) + ":" + std::string(clientPort));
-    return returnValue;
-};
+}
 
+int GServer::GSocket::getSocket(){
+    return this->socket_descriptor;
+}
