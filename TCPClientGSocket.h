@@ -30,9 +30,11 @@ namespace GServer {
          *  descriptor- gauto nauji prisjungimo descriptrius
          *  conf- objektas dirbantis su nustatymu failu
          *  logger- objektas, kuris organizuoja pranesimu rasyma
-         *  visiSocket- sarasas visu skaitomu socketu */
+         *  visiSocket- sarasas visu skaitomu socketu
+         *  maxDescritpor- maksimalaus deskritoriaus reiksme */
         TCPClientGSocket( int descritor, GServer::GConfig* conf,
-                GServer::GLogger* logger, fd_set& visiSocket );
+                GServer::GLogger* logger, fd_set* visiSocket, 
+                int &maxDescriptor );
         virtual ~TCPClientGSocket();
         // ##### END Metodai #####
     protected:

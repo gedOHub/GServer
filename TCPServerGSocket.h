@@ -35,7 +35,8 @@ namespace GServer {
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
          *  sukurti kliento objekta */
-        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf );
+        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
+        int &maxDescriptor );
         // ##### END Metodai #####        
     protected:
         // ##### Kintamieji #####

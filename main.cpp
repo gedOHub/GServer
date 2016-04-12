@@ -64,6 +64,10 @@ int main(int argc, char** argv) {
     std::map<int, GServer::GSocket*> serverSocketList;
     /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
     std::map<int, GServer::GSocket*>::iterator serverSocketListIterator;
+    /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
+    std::map<int, GServer::GSocket*> clientSocketList;
+    /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
+    std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
 
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
@@ -142,25 +146,47 @@ int main(int argc, char** argv) {
                     // Reikia nuskaityti is serveriu socketu saraso
                     // Ivyks naujos sujungimo priemimas
                     GServer::GSocket* newConenction = NULL;
-                    newConenction = serverSocketList.find(currentD)->second->acceptConnection( config );
+                    newConenction = serverSocketList.find(currentD)->second->acceptConnection( config, maxDescriptor );
                     // Tirkinu ar pavyko priimti jungti
                     if(newConenction == NULL){
                         logger->logError("main", "Nepavyko priimti naujos jungties");
                         // Tesiu sekanti cikla
                         continue;
                     }
-                    // Pridedu prie visu besiklausnaciu socketu
-                    
                     // Pridedu prie klientu saraso
+                    clientSocketList[newConenction->getSocket()] = newConenction;
+                }
+                // Atejo duomenys is kliento
+                else {
+                    // Surandu klienta ir duodu jam skaityti gautus duomenis
+                    if(clientSocketList[currentD]->reciveData() <= 0){
+                        // Sujungimas baigtas arba klaida
+                        delete clientSocketList[currentD];
+                    }
                 }
             }
         }
     }
 
     logger->logInfo("main", "Programa baigia darba");
-    //TODO: sunaikinti visus serveriu socketus
-    // Naikinu serveriu soketus
-    delete TCPServer;
+    
+    // Begu per serveriu saras ir naikinu serveriu socketus
+    for (serverSocketListIterator = serverSocketList.begin(); 
+            serverSocketListIterator != serverSocketList.end(); 
+            ++serverSocketListIterator)
+    {
+        // Salinu serveriu socketus
+        delete serverSocketListIterator->second;
+        
+    }
+    // Begu per klientu saras ir naikinu serveriu socketus
+    for (clientSocketListIterator = clientSocketList.begin(); 
+            clientSocketListIterator != clientSocketList.end(); 
+            ++clientSocketListIterator)
+    {
+        // Salinu kliento socketus socketus
+        delete clientSocketListIterator->second;
+    }
 
     // Naikinu configuracini objekta
     delete config;

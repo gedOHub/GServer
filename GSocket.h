@@ -46,7 +46,7 @@ namespace GServer {
          * duomenu kiekis.
          *  socketFd- socketo is kurio skaitoma nuemris
          *  data- buferis i kuri bus gaunami duomenys */
-        virtual int reciveData(int socketFd, vector<char>* data);
+        virtual int reciveData();
         
         /** getSocket**
          * Metodas skirtas grazinti soketo numeriui */
@@ -54,8 +54,11 @@ namespace GServer {
         
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
-         *  sukurti kliento objekta */
-        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf ){};
+         *  sukurti kliento objekta
+         *  conf- objektas dirbantis su nustatymu failu
+         *  maxDescriptor- maksimalaus deskritporiaus reiksme */
+        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
+        int &maxDescriptor ){};
 
         // ##### END Metodai #####
     protected:
@@ -84,6 +87,10 @@ namespace GServer {
         /** remoteAddressSize **
          * Kintamasis saugantis remoteAddress strukturos dydi */
         socklen_t remoteAddressSize;
+        
+        /** skaitomiSocket**
+         * Kintamasis skirtas saugoti visu skaitomu socketu saraso nuoroda */
+        fd_set* skaitomiSocket;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

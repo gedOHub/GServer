@@ -32,14 +32,14 @@ int GServer::TCPGSocket::sendData(int socketFd, vector<char>* data){
     return returnValue;
 }
 
-int GServer::TCPGSocket::reciveData(int socketFd, vector<char>* data){
+int GServer::TCPGSocket::reciveData(){
     int returnValue = -1;
     // Siusti duomenis
-    returnValue = recv(socketFd, &data[0], data->size(), 0 );
+    returnValue = recv(this->socket_descriptor, &this->buffer[0], this->buffer.size(), 0 );
     // Pranesimas apie sekme
     this->logger->logDebug(this->className, 
             std::to_string(this->socket_descriptor) + ":" + 
-            std::to_string(data->size()) + " <---" + 
-            std::to_string(socketFd) + ":" +  std::to_string(returnValue));
+            std::to_string(this->buffer.size()) + " <---" + 
+            std::to_string(returnValue));
     return returnValue;
 }

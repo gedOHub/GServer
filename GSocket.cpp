@@ -75,7 +75,7 @@ int GServer::GSocket::sendData(int socketFd, vector<char>* data) {
     return -1;
 }
 
-int GServer::GSocket::reciveData(int socketFd, vector<char>* data) {
+int GServer::GSocket::reciveData() {
     this->logger->logError(this->className, "Neigyvendinta reciveData funkcija");
     return -1;
 }
