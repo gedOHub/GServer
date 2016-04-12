@@ -31,6 +31,11 @@ namespace GServer {
                 fd_set& visiSocket, int& maxDeskriptor);
         
         virtual ~TCPServerGSocket();
+        
+        /** acceptConnection **
+         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
+         *  sukurti kliento objekta */
+        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf );
         // ##### END Metodai #####        
     protected:
         // ##### Kintamieji #####

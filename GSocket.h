@@ -54,8 +54,8 @@ namespace GServer {
         
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
-         *  sukurti deskriptoriaus numeri */
-        virtual int acceptConnection();
+         *  sukurti kliento objekta */
+        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf ){};
 
         // ##### END Metodai #####
     protected:
@@ -75,6 +75,15 @@ namespace GServer {
         /** logger
          * Kintamasis saugantis nuoroda i pranesimu rasimo objekta */
         GLogger* logger;
+        
+        /** remoteAddress **
+         * Struktura, skirta saugoti priimamo kliento duomenims, kaip IP ir
+         *  PORT */
+        sockaddr_storage remoteAddress;
+
+        /** remoteAddressSize **
+         * Kintamasis saugantis remoteAddress strukturos dydi */
+        socklen_t remoteAddressSize;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -119,15 +128,6 @@ namespace GServer {
         /** MAX_BUFFER_SIZE **
          * Konstanta nurodanti koks maksimalus gali buti buferio dydis */
         const int MAX_BUFFER_SIZE;
-
-        /** remoteAddress **
-         * Struktura, skirta saugoti priimamo kliento duomenims, kaip IP ir
-         *  PORT */
-        sockaddr_storage remoteAddress;
-
-        /** remoteAddressSize **
-         * Kintamasis saugantis remoteAddress strukturos dydi */
-        socklen_t remoteAddressSize;
 
         // ##### END Kintamieji #####
         // #####################################################################
