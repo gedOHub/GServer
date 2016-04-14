@@ -21,7 +21,7 @@ namespace GServer {
         // ##### Metodai #####
         /** TCPServerGSocket **
          * Metodas skirtas sukurti TCPSERVERGSocket objekta, kuris organizuoja 
-         * darba su nauju klientu prijsungimu
+         * darba su nauju klientu prijsungimu per TCp protokola
          *  conf- objektas, kuris dirba su nustatymu failu
          *  logger- objektas, kuris dirba su pranesimu isvedimu
          *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa

@@ -15,8 +15,19 @@
 
 GServer::SCTPGSocket::SCTPGSocket(GConfig* conf, GLogger* logger) : 
 GSocket(conf, logger) {
+    // Nustatau objekto pavadinima
+    this->className = this->className + ":SCTPGSocket";
+    
+    this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
 GServer::SCTPGSocket::~SCTPGSocket() {
+    
+    this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
+
+int GServer::SCTPGSocket::reciveData(){
+    return -1;
+}
+
 

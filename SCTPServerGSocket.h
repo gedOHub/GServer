@@ -5,42 +5,42 @@
  */
 
 /* 
- * File:   SCTPGSocket.h
+ * File:   SCTPServerGSocket.h
  * Author: gedas
  *
- * Created on Antradienis, 2016, balandis 12, 04.41
+ * Created on Antradienis, 2016, balandis 12, 04.54
  */
 
-#ifndef SCTPGSOCKET_H
-#define SCTPGSOCKET_H
+#ifndef SCTPSERVERGSOCKET_H
+#define SCTPSERVERGSOCKET_H
 
-#include "GSocket.h"
-
+#include "SCTPGSocket.h"
 
 namespace GServer {
 
-    class SCTPGSocket :public GSocket {
+    class SCTPServerGSocket : public SCTPGSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        SCTPGSocket(GConfig* conf, GLogger* logger);
-        virtual ~SCTPGSocket();
+        /** TCPServerGSocket **
+         * Metodas skirtas sukurti SCTPServerGSocket objekta, kuris organizuoja 
+         * darba su nauju klientu prijsungimu per SCTP portokola
+         *  conf- objektas, kuris dirba su nustatymu failu
+         *  logger- objektas, kuris dirba su pranesimu isvedimu
+         *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
+         *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
+         * desktoriaus reikse */
+        SCTPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
+                fd_set& visiSocket, int& maxDeskriptor);
+        virtual ~SCTPServerGSocket();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        /** recive **
-         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
-         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
-         * duomenu kiekis. */
-        virtual int reciveData();
-        
-        
-        
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
@@ -51,5 +51,5 @@ namespace GServer {
     };
 }
 
-#endif /* SCTPGSOCKET_H */
+#endif /* SCTPSERVERGSOCKET_H */
 

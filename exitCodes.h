@@ -40,7 +40,13 @@ namespace GServer {
             // Nepavykus klausytis
             UNABLE_TO_LISTEN_ON_SOCKET = -10,
             // Klaida nuskaitant SELECT
-            ERROR_IN_SELECT = -11
+            ERROR_IN_SELECT = -11,
+            // Nepavykus sukurti TCP jungties
+            UNABLE_CREATE_TCP_SERVER_SOCKET = -12,
+            // Nepavykus sukurti STCP jungties
+            UNABLE_CREATE_SCTP_SERVER_SOCKET = -13,
+            // Neapvykus uskurti UDP jungties
+            UNABLE_CREATE_UDP_SERVER_SOCKET = -14
         };
     };
 }
