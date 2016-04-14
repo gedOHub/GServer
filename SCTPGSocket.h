@@ -14,7 +14,12 @@
 #ifndef SCTPGSOCKET_H
 #define SCTPGSOCKET_H
 
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/sctp.h>
+
 #include "GSocket.h"
+#include "exitCodes.h"
 
 
 namespace GServer {
@@ -37,10 +42,21 @@ namespace GServer {
          * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
          * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
          * duomenu kiekis. */
-        virtual int reciveData();
+        //virtual int reciveData();
         
-        
-        
+        /** createSocket **
+         * Metodas skirtas sukurti sistemos resursaui- socket. Si metoda 
+         * realizuoja kiekviena vaiko klase atskirai. 
+            socketFamily- kokio tipo tinklu bus bendraujama
+            socketType- kokiu principu bus bendraujama
+            socketProtocol- kokiu protokolu bus bendraujama
+            socketFlag- papildomi socket nustatymai
+            result - kintamsis saugnatis gautus rezultatus is IP ir PORT 
+         * kombinacijos
+         Placiau: https://msdn.microsoft.com/en-us/library/windows/desktop/ms737530(v=vs.85).aspx*/
+        virtual int createSocket(char* ip, char* port, int socketFamily,
+                int socketType, int socketProtocol, int socketFlag, 
+                addrinfo *& result);
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

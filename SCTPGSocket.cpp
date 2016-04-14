@@ -26,8 +26,20 @@ GServer::SCTPGSocket::~SCTPGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-int GServer::SCTPGSocket::reciveData(){
-    return -1;
+int GServer::SCTPGSocket::createSocket(char* ip, char* port, int socketFamily, 
+        int socketType, int socketProtocol, int socketFlag, addrinfo*& result){
+    // Grazinamo socketo numeris
+    int returnValue = -1;
+    // Bandau kurti socketa
+    returnValue = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP); 
+    
+    // Tirkinu ar pavyko kazka gauti
+    if (returnValue == -1) {
+        this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
+        exit(GServer::EXIT_CODES::UNABLE_TO_CREATE_SOCKET);
+    }
+    // Grazinu socketo numeri
+    this->logger->logDebug(this->className, "Grazinamo socketo numeris- " +
+            std::to_string(returnValue));
+    return returnValue;
 }
-
-

@@ -37,6 +37,12 @@
     </logicalFolder>
     <logicalFolder name="f1" displayName="Sockets" projectFiles="true">
       <logicalFolder name="f1" displayName="Protocol" projectFiles="true">
+        <logicalFolder name="f2" displayName="SCTP" projectFiles="true">
+          <itemPath>SCTPGSocket.cpp</itemPath>
+          <itemPath>SCTPGSocket.h</itemPath>
+          <itemPath>SCTPServerGSocket.cpp</itemPath>
+          <itemPath>SCTPServerGSocket.h</itemPath>
+        </logicalFolder>
         <logicalFolder name="f1" displayName="TCP" projectFiles="true">
           <itemPath>TCPClientGSocket.cpp</itemPath>
           <itemPath>TCPClientGSocket.h</itemPath>

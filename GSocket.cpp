@@ -103,7 +103,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
         exit(GServer::EXIT_CODES::UNABLE_TO_GET_ADDRESS_INFO);
     }
     // Begu per visus galimus variantus
-    for (addrinfo* i = result; i != NULL; i->ai_next) {
+    for (addrinfo* i = result; i != NULL; i = i->ai_next) {
         returnValue = socket(i->ai_family, i->ai_socktype, i->ai_protocol);
         // Tikrinu ar pavyko sukurti socketa
         if (returnValue == -1) {
