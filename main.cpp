@@ -21,6 +21,7 @@
 #include "GSocket.h"
 #include "TCPGSocket.h"
 #include "TCPServerGSocket.h"
+#include "SCTPServerGSocket.h"
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
@@ -113,8 +114,27 @@ int main(int argc, char** argv) {
         logger->logDebug("main", "Kuriu TCP jungti");
         TCPServer = new GServer::TCPServerGSocket(config, logger,
                 visiSkaitomiSocket, maxDescriptor);
+        if(TCPServer == NULL){
+            logger->logError("main", "Nepavyko skurti TCP jungties");
+            exit(GServer::EXIT_CODES::UNABLE_CREATE_TCP_SERVER_SOCKET);
+        }
         // Pridedu TCP socket jungti i serveriu sarasa
         serverSocketList[TCPServer->getSocket()] = TCPServer;
+    }
+    
+    GServer::SCTPServerGSocket* SCTPServer = NULL;
+    // Tikrinu ar bus dirbama su SCTP jungtimis
+    if(config->getBoolSetting("SCTP_ENABLE")){
+        //SCTP jungtis ijungta
+        logger->logDebug("main", "Kuriu SCTP jungti");
+        SCTPServer = new GServer::SCTPServerGSocket(config, logger, 
+                visiSkaitomiSocket, maxDescriptor);
+        if(SCTPServer == NULL){
+            logger->logError("main", "Nepavyko skurti TCP jungties");
+            exit(GServer::EXIT_CODES::UNABLE_CREATE_SCTP_SERVER_SOCKET);
+        }
+        // Pridedu TCP socket jungti i serveriu sarasa
+        serverSocketList[SCTPServer->getSocket()] = SCTPServer;
     }
 
     logger->logInfo("main", "Programa pradeda darba");

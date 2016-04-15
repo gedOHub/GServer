@@ -1,43 +1,47 @@
-/* 
- * File:   TCPServerGSocket.h
- * Author: gedas
- *
- * Created on Sekmadienis, 2016, balandis 10, 03.00
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-#ifndef TCPSERVERGSOCKET_H
-#define TCPSERVERGSOCKET_H
+/* 
+ * File:   SCTPServerGSocket.h
+ * Author: gedas
+ *
+ * Created on Antradienis, 2016, balandis 12, 04.54
+ */
 
-#include "TCPGSocket.h"
+#ifndef SCTPSERVERGSOCKET_H
+#define SCTPSERVERGSOCKET_H
 
+#include "SCTPGSocket.h"
 
 namespace GServer {
 
-    class TCPServerGSocket : public TCPGSocket {
+    class SCTPServerGSocket : public SCTPGSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
         /** TCPServerGSocket **
-         * Metodas skirtas sukurti TCPSERVERGSocket objekta, kuris organizuoja 
-         * darba su nauju klientu prijsungimu per TCp protokola
+         * Metodas skirtas sukurti SCTPServerGSocket objekta, kuris organizuoja 
+         * darba su nauju klientu prijsungimu per SCTP portokola
          *  conf- objektas, kuris dirba su nustatymu failu
          *  logger- objektas, kuris dirba su pranesimu isvedimu
          *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
          *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
          * desktoriaus reikse */
-        TCPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
+        SCTPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
                 fd_set& visiSocket, int& maxDeskriptor);
-        
-        virtual ~TCPServerGSocket();
+        virtual ~SCTPServerGSocket();
         
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
          *  sukurti kliento objekta */
         virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
         int &maxDescriptor );
-        // ##### END Metodai #####        
+        // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
@@ -52,5 +56,6 @@ namespace GServer {
         // ##### END Metodai #####
     };
 }
-#endif /* TCPSERVERGSOCKET_H */
+
+#endif /* SCTPSERVERGSOCKET_H */
 

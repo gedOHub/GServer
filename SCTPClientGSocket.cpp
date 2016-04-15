@@ -5,19 +5,19 @@
  */
 
 /* 
- * File:   TCPClientGSocket.cpp
+ * File:   SCTPClientGSocket.cpp
  * Author: gedas
  * 
- * Created on Antradienis, 2016, balandis 12, 02.44
+ * Created on Penktadienis, 2016, balandis 15, 20.54
  */
 
-#include "TCPClientGSocket.h"
+#include "SCTPClientGSocket.h"
 
-GServer::TCPClientGSocket::TCPClientGSocket(int descritor,
+GServer::SCTPClientGSocket::SCTPClientGSocket( int descritor, 
         GServer::GConfig* conf, GServer::GLogger* logger, fd_set* visiSocket,
-        int &maxDescriptor) : TCPGSocket(conf, logger) {
+        int &maxDescriptor ) : SCTPGSocket(conf, logger) {
     // Nustatau objekto pavadinima
-    this->className = this->className + ":TCPClientGSocket";
+    this->className = this->className + ":SCTPClientGSocket";
     // Priskiriu logeri
     this->logger = logger;
     // Pransu deskriptoriu
@@ -34,7 +34,7 @@ GServer::TCPClientGSocket::TCPClientGSocket(int descritor,
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
-GServer::TCPClientGSocket::~TCPClientGSocket() {
+GServer::SCTPClientGSocket::~SCTPClientGSocket() {
     this->logger->logDebug(this->className, "Baigiu darba su " +
             std::to_string(this->socket_descriptor) + " socketu");
     this->close();

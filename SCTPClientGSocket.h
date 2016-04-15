@@ -5,37 +5,37 @@
  */
 
 /* 
- * File:   TCPClientGSocket.h
+ * File:   SCTPClientGSocket.h
  * Author: gedas
  *
- * Created on Antradienis, 2016, balandis 12, 02.43
+ * Created on Penktadienis, 2016, balandis 15, 20.54
  */
 
-#ifndef TCPCLIENTGSOCKET_H
-#define TCPCLIENTGSOCKET_H
+#ifndef SCTPCLIENTGSOCKET_H
+#define SCTPCLIENTGSOCKET_H
 
-#include "GLogger.h"
-#include "TCPGSocket.h"
+#include "SCTPGSocket.h"
+
 
 namespace GServer {
 
-    class TCPClientGSocket : public TCPGSocket {
+    class SCTPClientGSocket : public SCTPGSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        /** TCPClientGSocket **
-         * Metodas skirtas sukurti TCPClientGSocket tipo objektui.
+        /** SCTPClientGSocket **
+         * Metodas skirtas sukurti SCTPClientGSocket tipo objektui.
          *  descriptor- gauto nauji prisjungimo descriptrius
          *  conf- objektas dirbantis su nustatymu failu
          *  logger- objektas, kuris organizuoja pranesimu rasyma
          *  visiSocket- sarasas visu skaitomu socketu
          *  maxDescritpor- maksimalaus deskritoriaus reiksme */
-        TCPClientGSocket( int descritor, GServer::GConfig* conf,
+        SCTPClientGSocket(int descritor, GServer::GConfig* conf,
                 GServer::GLogger* logger, fd_set* visiSocket, 
-                int &maxDescriptor );
-        virtual ~TCPClientGSocket();
+                int &maxDescriptor);
+        virtual ~SCTPClientGSocket();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -51,5 +51,6 @@ namespace GServer {
         // ##### END Metodai #####
     };
 }
-#endif /* TCPCLIENTGSOCKET_H */
+
+#endif /* SCTPCLIENTGSOCKET_H */
 

@@ -103,7 +103,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
         exit(GServer::EXIT_CODES::UNABLE_TO_GET_ADDRESS_INFO);
     }
     // Begu per visus galimus variantus
-    for (addrinfo* i = result; i != NULL; i->ai_next) {
+    for (addrinfo* i = result; i != NULL; i = i->ai_next) {
         returnValue = socket(i->ai_family, i->ai_socktype, i->ai_protocol);
         // Tikrinu ar pavyko sukurti socketa
         if (returnValue == -1) {
@@ -117,6 +117,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
     // Tirkinu ar pavyko kazka gauti
     if (returnValue == -1) {
         this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
+        this->logger->logError(this->className, strerror(errno));
         exit(GServer::EXIT_CODES::UNABLE_TO_CREATE_SOCKET);
     }
     // Grazinu socketo numeri
@@ -178,6 +179,35 @@ void GServer::GSocket::checkMaxDescriptor(int& maxDescriptor) {
     }
 }
 
-int GServer::GSocket::getSocket(){
+int GServer::GSocket::getSocket() {
     return this->socket_descriptor;
+}
+
+int GServer::GSocket::acceptConnectionDescriptor() {
+    // Priimu nauja jungti
+    int descriptor = accept(this->socket_descriptor, (struct sockaddr *)
+            & this->remoteAddress, &this->remoteAddressSize);
+    // Tirkinu ar pavyko priimti
+    if (descriptor <= 0) {
+        // Nepavkus priimti
+        this->logger->logError(this->className, strerror(errno));
+        return -1;
+    }
+    // Pavyko priimti
+    char clientIP[NI_MAXHOST];
+    char clientPort[NI_MAXSERV];
+    // Gaunu prisjungusio kliento duomenis
+    getnameinfo((struct sockaddr *) &remoteAddress, remoteAddressSize,
+            clientIP, sizeof (clientIP), clientPort, sizeof (clientPort),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    this->logger->logInfo(this->className, "Prisjunge naujas klientas- " +
+            std::string(clientIP) + ":" + std::string(clientPort));
+    return descriptor;
+}
+
+GServer::GSocket* GServer::GSocket::acceptConnection(GServer::GConfig* conf,
+        int &maxDescriptor){
+    this->logger->logError(this->className, 
+            "Funkcija acceptConnection neigyvendinta");
+    return NULL;
 }

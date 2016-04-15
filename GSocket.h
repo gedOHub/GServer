@@ -47,18 +47,18 @@ namespace GServer {
          *  socketFd- socketo is kurio skaitoma nuemris
          *  data- buferis i kuri bus gaunami duomenys */
         virtual int reciveData();
-        
+
         /** getSocket**
          * Metodas skirtas grazinti soketo numeriui */
         int getSocket();
-        
+
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
          *  sukurti kliento objekta
          *  conf- objektas dirbantis su nustatymu failu
          *  maxDescriptor- maksimalaus deskritporiaus reiksme */
-        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
-        int &maxDescriptor ){};
+        virtual GServer::GSocket* acceptConnection(GServer::GConfig* conf,
+                int &maxDescriptor);
 
         // ##### END Metodai #####
     protected:
@@ -78,7 +78,7 @@ namespace GServer {
         /** logger
          * Kintamasis saugantis nuoroda i pranesimu rasimo objekta */
         GLogger* logger;
-        
+
         /** remoteAddress **
          * Struktura, skirta saugoti priimamo kliento duomenims, kaip IP ir
          *  PORT */
@@ -87,7 +87,7 @@ namespace GServer {
         /** remoteAddressSize **
          * Kintamasis saugantis remoteAddress strukturos dydi */
         socklen_t remoteAddressSize;
-        
+
         /** skaitomiSocket**
          * Kintamasis skirtas saugoti visu skaitomu socketu saraso nuoroda */
         fd_set* skaitomiSocket;
@@ -104,8 +104,9 @@ namespace GServer {
             result - kintamsis saugnatis gautus rezultatus is IP ir PORT 
          * kombinacijos
          Placiau: https://msdn.microsoft.com/en-us/library/windows/desktop/ms737530(v=vs.85).aspx*/
-        int createSocket(char* ip, char* port, int socketFamily, int socketType,
-                int socketProtocol, int socketFlag, addrinfo *& result);
+        virtual int createSocket(char* ip, char* port, int socketFamily,
+                int socketType, int socketProtocol, int socketFlag, 
+                addrinfo *& result);
 
         /** createServerScoket **
          * Metodas skirtas sukurti serverio socketa, kuris sukuria socketa, 
@@ -124,11 +125,16 @@ namespace GServer {
          * rezultatas- naujas pertvarkytas dydis.
             newSize- naujas pageidaujamas buferio dydis*/
         int resizeBuffer(int newSize);
-        
+
         /** checkMaxDescriptor **
          * Metodas skirtas nustatyti ar esamas deskriuptorius yra didenis nei 
          * dabartinis didenis deskritprius */
-        void checkMaxDescriptor(int& maxDescriptor );
+        void checkMaxDescriptor(int& maxDescriptor);
+        
+        /** acceptConnectionDescriptor **
+         * Metodas skirtas priimti naujo sujungimo deskriptoriui ir ji grazinti.
+         *  Rezultatas- naujos jungties deskriptrius */
+        virtual int acceptConnectionDescriptor();
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
