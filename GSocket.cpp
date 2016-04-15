@@ -117,6 +117,7 @@ int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
     // Tirkinu ar pavyko kazka gauti
     if (returnValue == -1) {
         this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
+        this->logger->logError(this->className, strerror(errno));
         exit(GServer::EXIT_CODES::UNABLE_TO_CREATE_SOCKET);
     }
     // Grazinu socketo numeri
