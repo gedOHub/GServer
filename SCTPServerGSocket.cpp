@@ -12,6 +12,7 @@
  */
 
 #include "SCTPServerGSocket.h"
+#include "SCTPClientGSocket.h"
 
 GServer::SCTPServerGSocket::SCTPServerGSocket(GServer::GConfig* conf,
         GLogger* logger, fd_set& visiSocket, int& maxDeskriptor) :
@@ -57,7 +58,7 @@ GServer::GSocket* GServer::SCTPServerGSocket::acceptConnection(
     // Jei pavyko gauti deskriptoriu
     if( descriptor > 0 ){
         // Pavyko gauti, kuriam nauja objekta
-        returnValue = new GServer::TCPClientGSocket(descriptor, conf, 
+        returnValue = new GServer::SCTPClientGSocket(descriptor, conf, 
             this->logger, this->skaitomiSocket, maxDescriptor);
     }
     return returnValue;
