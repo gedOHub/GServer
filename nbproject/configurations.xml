@@ -38,6 +38,8 @@
     <logicalFolder name="f1" displayName="Sockets" projectFiles="true">
       <logicalFolder name="f1" displayName="Protocol" projectFiles="true">
         <logicalFolder name="f2" displayName="SCTP" projectFiles="true">
+          <itemPath>SCTPClientGSocket.cpp</itemPath>
+          <itemPath>SCTPClientGSocket.h</itemPath>
           <itemPath>SCTPGSocket.cpp</itemPath>
           <itemPath>SCTPGSocket.h</itemPath>
           <itemPath>SCTPServerGSocket.cpp</itemPath>
@@ -187,6 +189,10 @@
       </item>
       <item path="LocalGLogger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="SCTPClientGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SCTPClientGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SCTPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SCTPGSocket.h" ex="false" tool="3" flavor2="0">
@@ -286,6 +292,10 @@
       <item path="LocalGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LocalGLogger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SCTPClientGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SCTPClientGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SCTPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -179,11 +179,11 @@ void GServer::GSocket::checkMaxDescriptor(int& maxDescriptor) {
     }
 }
 
-int GServer::GSocket::getSocket(){
+int GServer::GSocket::getSocket() {
     return this->socket_descriptor;
 }
 
-int GServer::GSocket::acceptConnectionDescriptor(){
+int GServer::GSocket::acceptConnectionDescriptor() {
     // Priimu nauja jungti
     int descriptor = accept(this->socket_descriptor, (struct sockaddr *)
             & this->remoteAddress, &this->remoteAddressSize);
@@ -203,4 +203,11 @@ int GServer::GSocket::acceptConnectionDescriptor(){
     this->logger->logInfo(this->className, "Prisjunge naujas klientas- " +
             std::string(clientIP) + ":" + std::string(clientPort));
     return descriptor;
+}
+
+GServer::GSocket* GServer::GSocket::acceptConnection(GServer::GConfig* conf,
+        int &maxDescriptor){
+    this->logger->logError(this->className, 
+            "Funkcija acceptConnection neigyvendinta");
+    return NULL;
 }

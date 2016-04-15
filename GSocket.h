@@ -58,8 +58,7 @@ namespace GServer {
          *  conf- objektas dirbantis su nustatymu failu
          *  maxDescriptor- maksimalaus deskritporiaus reiksme */
         virtual GServer::GSocket* acceptConnection(GServer::GConfig* conf,
-                int &maxDescriptor) {
-        };
+                int &maxDescriptor);
 
         // ##### END Metodai #####
     protected:

@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/GSocket.o \
 	${OBJECTDIR}/LocalGLogger.o \
+	${OBJECTDIR}/SCTPClientGSocket.o \
 	${OBJECTDIR}/SCTPGSocket.o \
 	${OBJECTDIR}/SCTPServerGSocket.o \
 	${OBJECTDIR}/TCPClientGSocket.o \
@@ -117,6 +118,11 @@ ${OBJECTDIR}/LocalGLogger.o: nbproject/Makefile-${CND_CONF}.mk LocalGLogger.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocalGLogger.o LocalGLogger.cpp
+
+${OBJECTDIR}/SCTPClientGSocket.o: nbproject/Makefile-${CND_CONF}.mk SCTPClientGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SCTPClientGSocket.o SCTPClientGSocket.cpp
 
 ${OBJECTDIR}/SCTPGSocket.o: nbproject/Makefile-${CND_CONF}.mk SCTPGSocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}

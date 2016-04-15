@@ -49,3 +49,17 @@ GServer::SCTPServerGSocket::~SCTPServerGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
+GServer::GSocket* GServer::SCTPServerGSocket::acceptConnection(
+        GServer::GConfig* conf, int &maxDescriptor){
+    GServer::GSocket* returnValue = NULL;
+    // Gaunu deskriptoriu
+    int descriptor = acceptConnectionDescriptor();
+    // Jei pavyko gauti deskriptoriu
+    if( descriptor > 0 ){
+        // Pavyko gauti, kuriam nauja objekta
+        returnValue = new GServer::TCPClientGSocket(descriptor, conf, 
+            this->logger, this->skaitomiSocket, maxDescriptor);
+    }
+    return returnValue;
+}
+

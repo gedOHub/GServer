@@ -35,6 +35,12 @@ namespace GServer {
         SCTPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
                 fd_set& visiSocket, int& maxDeskriptor);
         virtual ~SCTPServerGSocket();
+        
+        /** acceptConnection **
+         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
+         *  sukurti kliento objekta */
+        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
+        int &maxDescriptor );
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
