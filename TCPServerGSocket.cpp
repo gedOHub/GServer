@@ -47,25 +47,13 @@ GServer::TCPServerGSocket::~TCPServerGSocket() {
 GServer::GSocket* GServer::TCPServerGSocket::acceptConnection( 
 GServer::GConfig* conf, int &maxDescriptor ) {
     GServer::GSocket* returnValue = NULL;
-    // Priimu nauja jungti
-    int descriptor = accept(this->socket_descriptor, (struct sockaddr *)
-            & this->remoteAddress, &this->remoteAddressSize);
-    // Tirkinu ar pavyko priimti
-    if (descriptor < 0) {
-        // Nepavkus priimti
-        this->logger->logError(this->className, strerror(errno));
-        return NULL;
-    }
-    // Pavyko priimti
-    char clientIP[NI_MAXHOST];
-    char clientPort[NI_MAXSERV];
-    // Gaunu prisjungusio kliento duomenis
-    getnameinfo((struct sockaddr *) &remoteAddress, remoteAddressSize,
-            clientIP, sizeof (clientIP), clientPort, sizeof (clientPort),
-            NI_NUMERICHOST | NI_NUMERICSERV);
-    this->logger->logInfo(this->className, "Prisjunge naujas klientas- " +
-            std::string(clientIP) + ":" + std::string(clientPort));
-    returnValue = new GServer::TCPClientGSocket(descriptor, conf, 
+    // Gaunu deskriptoriu
+    int descriptor = acceptConnectionDescriptor();
+    // Jei pavyko gauti deskriptoriu
+    if( descriptor > 0 ){
+        // Pavyko gauti, kuriam nauja objekta
+        returnValue = new GServer::TCPClientGSocket(descriptor, conf, 
             this->logger, this->skaitomiSocket, maxDescriptor);
+    }
     return returnValue;
 };

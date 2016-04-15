@@ -182,3 +182,25 @@ void GServer::GSocket::checkMaxDescriptor(int& maxDescriptor) {
 int GServer::GSocket::getSocket(){
     return this->socket_descriptor;
 }
+
+int GServer::GSocket::acceptConnectionDescriptor(){
+    // Priimu nauja jungti
+    int descriptor = accept(this->socket_descriptor, (struct sockaddr *)
+            & this->remoteAddress, &this->remoteAddressSize);
+    // Tirkinu ar pavyko priimti
+    if (descriptor <= 0) {
+        // Nepavkus priimti
+        this->logger->logError(this->className, strerror(errno));
+        return -1;
+    }
+    // Pavyko priimti
+    char clientIP[NI_MAXHOST];
+    char clientPort[NI_MAXSERV];
+    // Gaunu prisjungusio kliento duomenis
+    getnameinfo((struct sockaddr *) &remoteAddress, remoteAddressSize,
+            clientIP, sizeof (clientIP), clientPort, sizeof (clientPort),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    this->logger->logInfo(this->className, "Prisjunge naujas klientas- " +
+            std::string(clientIP) + ":" + std::string(clientPort));
+    return descriptor;
+}

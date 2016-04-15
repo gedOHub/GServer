@@ -131,6 +131,11 @@ namespace GServer {
          * Metodas skirtas nustatyti ar esamas deskriuptorius yra didenis nei 
          * dabartinis didenis deskritprius */
         void checkMaxDescriptor(int& maxDescriptor);
+        
+        /** acceptConnectionDescriptor **
+         * Metodas skirtas priimti naujo sujungimo deskriptoriui ir ji grazinti.
+         *  Rezultatas- naujos jungties deskriptrius */
+        virtual int acceptConnectionDescriptor();
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

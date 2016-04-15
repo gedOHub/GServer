@@ -22,6 +22,8 @@
 #include "exitCodes.h"
 
 
+/* Pagal: http://www.ibm.com/developerworks/library/l-sctp/ */
+
 namespace GServer {
 
     class SCTPGSocket :public GSocket {
@@ -54,9 +56,10 @@ namespace GServer {
             result - kintamsis saugnatis gautus rezultatus is IP ir PORT 
          * kombinacijos
          Placiau: https://msdn.microsoft.com/en-us/library/windows/desktop/ms737530(v=vs.85).aspx*/
-        virtual int createSocket(char* ip, char* port, int socketFamily,
+        /*virtual int createSocket(char* ip, char* port, int socketFamily,
                 int socketType, int socketProtocol, int socketFlag, 
                 addrinfo *& result);
+         * */
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

@@ -26,6 +26,7 @@ GServer::SCTPGSocket::~SCTPGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
+/*
 int GServer::SCTPGSocket::createSocket(char* ip, char* port, int socketFamily, 
         int socketType, int socketProtocol, int socketFlag, addrinfo*& result){
     // Grazinamo socketo numeris
@@ -43,3 +44,4 @@ int GServer::SCTPGSocket::createSocket(char* ip, char* port, int socketFamily,
             std::to_string(returnValue));
     return returnValue;
 }
+ * */
