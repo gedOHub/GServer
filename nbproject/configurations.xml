@@ -53,6 +53,8 @@
           <itemPath>TCPServerGSocket.cpp</itemPath>
           <itemPath>TCPServerGSocket.h</itemPath>
         </logicalFolder>
+        <logicalFolder name="f3" displayName="UDP" projectFiles="true">
+        </logicalFolder>
       </logicalFolder>
       <itemPath>GSocket.cpp</itemPath>
       <itemPath>GSocket.h</itemPath>
