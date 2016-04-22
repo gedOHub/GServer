@@ -17,6 +17,8 @@
       <itemPath>GConfig.h</itemPath>
       <itemPath>GObject.cpp</itemPath>
       <itemPath>GObject.h</itemPath>
+      <itemPath>TagGenerator.cpp</itemPath>
+      <itemPath>TagGenerator.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f3" displayName="Containers" projectFiles="true">
       <itemPath>ClientContainer.cpp</itemPath>
@@ -112,8 +114,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>TagGenerator.cpp</itemPath>
-    <itemPath>TagGenerator.h</itemPath>
     <itemPath>server.conf</itemPath>
     <itemPath>lib/socket.cpp</itemPath>
     <itemPath>lib/socket.h</itemPath>

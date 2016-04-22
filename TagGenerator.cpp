@@ -7,26 +7,33 @@
 
 #include "TagGenerator.h"
 #include "TunnelContainer.h"
+#include "GLogger.h"
 
-TagGenerator::TagGenerator() {
-
+GServer::TagGenerator::TagGenerator( GServer::GLogger* logger ) {
+    // Nustatau objekto pavadinima
+    this->className = this->className + ":TagGenerator";
+    // Priskiriu pranesimu isvedimu objekta
+    this->logger = logger;
+    // Nustatau kritines reiksmes
     this->MIN = 1000;
     this->MAX = 65534;
-
-    this->tag = MIN;
+    // Nustatau pradine reiksme
+    this->Reset();
+    // Pranesu apie objekto sukurima
+    this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
-TagGenerator::TagGenerator(const TagGenerator& orig) {
+GServer::TagGenerator::~TagGenerator() {
+    this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-TagGenerator::~TagGenerator() {
-}
-
-void TagGenerator::Reset() {
+void GServer::TagGenerator::Reset() {
+    this->logger->logDebug(this->className, "Nustatau skaitliuka i pradine "
+            "maziausia reiksme: " + std::to_string(this->MIN));
     this->tag = this->MIN;
 }
 
-int TagGenerator::Generate(TunnelContainer* tunnels) {
+int GServer::TagGenerator::Generate(TunnelContainer* tunnels) {
     if (this->tag >= MAX)
         this->Reset();
 
@@ -42,6 +49,8 @@ int TagGenerator::Generate(TunnelContainer* tunnels) {
             this->Reset();
     }
 
+    this->logger->logDebug(this->className, "Sugeneruota reiksme: " + 
+            std::to_string(this->tag));
     return this->tag;
 }
 

@@ -23,6 +23,7 @@
 #include "TCPServerGSocket.h"
 #include "SCTPServerGSocket.h"
 #include "UDPServerGSocket.h"
+#include "TagGenerator.h"
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
@@ -71,6 +72,9 @@ int main(int argc, char** argv) {
     /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
     std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
 
+    // Kuriu zymiu generatoriu
+    GServer::TagGenerator tGenerator(logger);
+    
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
     GServer::GLogger* oldLogger = logger;
