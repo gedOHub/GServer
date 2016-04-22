@@ -54,6 +54,8 @@
           <itemPath>TCPServerGSocket.h</itemPath>
         </logicalFolder>
         <logicalFolder name="f3" displayName="UDP" projectFiles="true">
+          <itemPath>UDPGSocket.cpp</itemPath>
+          <itemPath>UDPGSocket.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <itemPath>GSocket.cpp</itemPath>
@@ -223,6 +225,10 @@
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="exitCodes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
@@ -326,6 +332,10 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="exitCodes.h" ex="false" tool="3" flavor2="0">
       </item>

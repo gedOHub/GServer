@@ -51,6 +51,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/TCPServerGSocket.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
+	${OBJECTDIR}/UDPGSocket.o \
 	${OBJECTDIR}/lib/socket.o \
 	${OBJECTDIR}/main.o
 
@@ -158,6 +159,11 @@ ${OBJECTDIR}/TunnelContainer.o: nbproject/Makefile-${CND_CONF}.mk TunnelContaine
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
+
+${OBJECTDIR}/UDPGSocket.o: nbproject/Makefile-${CND_CONF}.mk UDPGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPGSocket.o UDPGSocket.cpp
 
 ${OBJECTDIR}/lib/socket.o: nbproject/Makefile-${CND_CONF}.mk lib/socket.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib
