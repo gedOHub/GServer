@@ -22,6 +22,7 @@
 #include "TCPGSocket.h"
 #include "TCPServerGSocket.h"
 #include "SCTPServerGSocket.h"
+#include "UDPServerGSocket.h"
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
@@ -115,7 +116,7 @@ int main(int argc, char** argv) {
         TCPServer = new GServer::TCPServerGSocket(config, logger,
                 visiSkaitomiSocket, maxDescriptor);
         if(TCPServer == NULL){
-            logger->logError("main", "Nepavyko skurti TCP jungties");
+            logger->logError("main", "Nepavyko sukurti TCP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_TCP_SERVER_SOCKET);
         }
         // Pridedu TCP socket jungti i serveriu sarasa
@@ -130,11 +131,26 @@ int main(int argc, char** argv) {
         SCTPServer = new GServer::SCTPServerGSocket(config, logger, 
                 visiSkaitomiSocket, maxDescriptor);
         if(SCTPServer == NULL){
-            logger->logError("main", "Nepavyko skurti TCP jungties");
+            logger->logError("main", "Nepavyko sukurti SCTP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_SCTP_SERVER_SOCKET);
         }
         // Pridedu TCP socket jungti i serveriu sarasa
         serverSocketList[SCTPServer->getSocket()] = SCTPServer;
+    }
+    
+    GServer::UDPServerGSocket* UDPServer = NULL;
+    // Tikrinu ar bus dirbama su UDP jungtimis
+    if(config->getBoolSetting("UDP_ENABLE")){
+        //UDP jungtis ijungta
+        logger->logDebug("main", "Kuriu UDP jungti");
+        UDPServer = new GServer::UDPServerGSocket(config, logger, 
+                visiSkaitomiSocket, maxDescriptor);
+        if(UDPServer == NULL){
+            logger->logError("main", "Nepavyko sukurti UDP jungties");
+            exit(GServer::EXIT_CODES::UNABLE_CREATE_UDP_SERVER_SOCKET);
+        }
+        // Pridedu TCP socket jungti i serveriu sarasa
+        serverSocketList[UDPServer->getSocket()] = UDPServer;
     }
 
     logger->logInfo("main", "Programa pradeda darba");
@@ -181,6 +197,8 @@ int main(int argc, char** argv) {
                     // Surandu klienta ir duodu jam skaityti gautus duomenis
                     if(clientSocketList[currentD]->reciveData() <= 0){
                         // Sujungimas baigtas arba klaida
+                        logger->logInfo("main","Sujungimas " + 
+                                std::to_string(currentD) + " atsijunge");
                         delete clientSocketList[currentD];
                     }
                 }

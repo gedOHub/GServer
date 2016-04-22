@@ -1,48 +1,46 @@
 /* 
- * File:   TCPServerGSocket.h
+ * File:   UDPServerGSocket.h
  * Author: gedas
  *
- * Created on Sekmadienis, 2016, balandis 10, 03.00
+ * Created on Šeštadienis, 2016, balandis 23, 00.47
  */
 
-#ifndef TCPSERVERGSOCKET_H
-#define TCPSERVERGSOCKET_H
+#ifndef UDPSERVERGSOCKET_H
+#define UDPSERVERGSOCKET_H
 
-#include "TCPGSocket.h"
+#include "UDPGSocket.h"
 
 
 namespace GServer {
 
-    class TCPServerGSocket : public TCPGSocket {
+    class UDPServerGSocket : public UDPGSocket {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        /** TCPServerGSocket **
-         * Metodas skirtas sukurti TCPSERVERGSocket objekta, kuris organizuoja 
-         * darba su nauju klientu prijsungimu per TCP protokola
+        /** UDPServerGSocket **
+         * Metodas skirtas sukurti UDPServerGSocket objekta, kuris organizuoja 
+         * darba su nauju klientu prijsungimu per UDP protokola
          *  conf- objektas, kuris dirba su nustatymu failu
          *  logger- objektas, kuris dirba su pranesimu isvedimu
          *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
          *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
          * desktoriaus reikse */
-        TCPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
+        UDPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
                 fd_set& visiSocket, int& maxDeskriptor);
-        
-        virtual ~TCPServerGSocket();
-        
-        /** acceptConnection **
-         * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
-         *  sukurti kliento objekta */
-        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
-        int &maxDescriptor );
-        // ##### END Metodai #####        
+        virtual ~UDPServerGSocket();
+        // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
+        /** listen **
+         * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
+         * prievadu. Placiau: http://linux.die.net/man/2/listen
+         * UDP nepaliko listen saukinio */
+        virtual void listenSocket(){};
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
@@ -52,5 +50,6 @@ namespace GServer {
         // ##### END Metodai #####
     };
 }
-#endif /* TCPSERVERGSOCKET_H */
+
+#endif /* UDPSERVERGSOCKET_H */
 

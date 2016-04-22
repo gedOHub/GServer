@@ -5,10 +5,10 @@
  * Created on Šeštadienis, 2016, balandis 23, 00.31
  */
 
-#include "GSocket.h"
-
 #ifndef UDPGSOCKET_H
 #define UDPGSOCKET_H
+
+#include "GSocket.h"
 
 namespace GServer {
 
