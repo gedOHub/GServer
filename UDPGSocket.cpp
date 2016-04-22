@@ -12,10 +12,17 @@
  */
 
 #include "UDPGSocket.h"
+#include "GSocket.h"
 
-GServer::UDPGSocket::UDPGSocket() {
+GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger) 
+:GSocket(conf,logger) {
+    // Nustatau pavadinima
+    this->className = this->className + ":UDPGSocket";
+
+    this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
 GServer::UDPGSocket::~UDPGSocket() {
+    this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
