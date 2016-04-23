@@ -13,6 +13,8 @@
         <itemPath>LocalGLogger.cpp</itemPath>
         <itemPath>LocalGLogger.h</itemPath>
       </logicalFolder>
+      <itemPath>GCommandExecution.cpp</itemPath>
+      <itemPath>GCommandExecution.h</itemPath>
       <itemPath>GConfig.cpp</itemPath>
       <itemPath>GConfig.h</itemPath>
       <itemPath>GObject.cpp</itemPath>

@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ConsoleGLogger.o \
 	${OBJECTDIR}/FileGLogger.o \
 	${OBJECTDIR}/GClientContainer.o \
+	${OBJECTDIR}/GCommandExecution.o \
 	${OBJECTDIR}/GConfig.o \
 	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
@@ -95,6 +96,11 @@ ${OBJECTDIR}/GClientContainer.o: GClientContainer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GClientContainer.o GClientContainer.cpp
+
+${OBJECTDIR}/GCommandExecution.o: GCommandExecution.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GCommandExecution.o GCommandExecution.cpp
 
 ${OBJECTDIR}/GConfig.o: GConfig.cpp 
 	${MKDIR} -p ${OBJECTDIR}
