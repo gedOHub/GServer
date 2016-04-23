@@ -11,8 +11,11 @@
 #include <list>
 #include <netinet/in.h>
 #include "structures.h"
+#include "GObject.h"
+#include "GLogger.h"
 #include <stdio.h>
 #include <string.h>
+#include <ostream>
 
 #define PAGE_SIZE 20
 #define OneMBofChar 1048576
@@ -21,16 +24,17 @@ using namespace std;
 
 namespace GServer {
 
-    class ClientContainer {
+    class GClientContainer: public GObject {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
         /*** ClientContainer ***
-         * Metodas skirtas sukurti ClientContainer tipo objektui. */
-        ClientContainer();
-        virtual ~ClientContainer();
+         * Metodas skirtas sukurti ClientContainer tipo objektui. 
+            logger- nuoroda i pranesimu isvedimo objekta*/
+        GClientContainer( GLogger* logger );
+        virtual ~GClientContainer();
 
         /*** Add ***
          * Metodas skirtas prideti kliento duomenis i klientu sarasa
@@ -85,17 +89,36 @@ namespace GServer {
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
+        /*** logger ***
+         * Kintamasis skirtas asugoti nuoroda i pranesimu isvedimo objekta */
+        GLogger* logger;
+        
+        /*** Container ***
+         * Kintamasis skirtas saugoti klientu inforamcijai */
+        std::list<Client> Container;
+        
+        /*** printBuffer ***
+         * Kintamasis skirtas saugoti nuoroda i buferi, kuriame organizuojamas 
+         * klientu informacijos paruosimas spausdinimui */
+        char* printBuffer; // Buferis klientu grazinimui
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
         // ##### END Metodai #####
-        std::list<Client> Container; // Sarasas, kuriame saugomas
-        char* printBuffer; // Buferis klientu grazinimui
-
-        // Pridedu klientus
-        void Add(Client client); // Generuoja ID numeri
-        // Tirkinama ar egzistuoja nurodytas puslapis
+        /*** Add ***
+         * Metodas skirtas prideti prideti klienta i kleintu sarasa */
+        void Add(Client client);
+        
+        /*** IsValidPage ***
+         * Metodas skirtas patikrinti ar ka spausdinti nurodytu numeriu
+            pageNr- tikrinamo puslapio numeris */
         bool IsValidPage(int pageNr);
+        
+        /*** printClientInfo ***
+         * Metodas skirtas isspausdinti liento informacijai. Rezultatas- kliento
+         *  informacijos suformuotas stringas
+            client- klientas, kurio informacija bus spausdinama */
+        std::string printClientInfo(Client client);
     };
 }
 #endif /* CLIENTCONTAINER_H */

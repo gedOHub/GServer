@@ -5,24 +5,38 @@
  * Created on April 24, 2014, 4:05 PM
  */
 
-#include "ClientContainer.h"
+#include "GClientContainer.h"
 #include "structures.h"
 #include <iostream>
 
-GServer::ClientContainer::ClientContainer() {
+GServer::GClientContainer::GClientContainer(GLogger* logger) {
+    // Nustatau pavadinima
+    this->className = this->className + ":GConfig";
+    // Nustatau nuoroda i pranesimu objekta
+    this->logger = logger;
+    // Sukriu spausdinimo masyva
     this->printBuffer = new char[OneMBofChar];
+    
+    this->logger->logDebug(this->className, "Objektas sekmingai sukurtas");
 }
 
-GServer::ClientContainer::~ClientContainer() {
+GServer::GClientContainer::~GClientContainer() {
+    this->logger->logDebug(this->className, "Isvalau klientu konteineri");
     this->Container.clear();
+    
+    this->logger->logDebug(this->className, "Naikinu spausdinimo buferi");
     delete this->printBuffer;
+    
+    this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-void GServer::ClientContainer::Add(Client client) {
+void GServer::GClientContainer::Add(Client client) {
+    this->logger->logDebug(this->className, "Pridedu klienta:\n" +
+            this->printClientInfo(client));
     this->Container.push_back(client);
 }
 
-void GServer::ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+void GServer::GClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
         char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1],
         char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
 
@@ -36,29 +50,34 @@ void GServer::ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENG
     this->Add(temp);
 }
 
-void GServer::ClientContainer::DeleteByID(int id) {
+void GServer::GClientContainer::DeleteByID(int id) {
     std::list<Client>::iterator i;
 
     for (i = this->Container.begin(); i != this->Container.end(); i++) {
         if (i->id == id) {
+            this->logger->logDebug(this->className, "Salinu klienta:\n" +
+            this->printClientInfo((Client &)i));
             this->Container.erase(i);
             break;
         }
     }
 }
 
-Client GServer::ClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+Client GServer::GClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH + 1],
         char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1], char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
     std::list<Client>::iterator i;
 
     for (i = this->Container.begin(); i != this->Container.end(); i++) {
-        if (i->domainName == sritis && i->pcName == kompiuteris && i->userName == naudotojas) {
+        if (i->domainName == sritis && i->pcName == kompiuteris &&
+                i->userName == naudotojas) {
+            this->logger->logDebug(this->className, "Salinu klienta:\n" +
+            this->printClientInfo((Client &)i));
             this->Container.erase(i);
         }
     }
 }
 
-Client GServer::ClientContainer::FindByID(int id) {
+Client GServer::GClientContainer::FindByID(int id) {
     std::list<Client>::iterator i;
     for (i = this->Container.begin(); i != this->Container.end(); i++) {
         if (i->id == id) {
@@ -67,7 +86,7 @@ Client GServer::ClientContainer::FindByID(int id) {
     }
 }
 
-void GServer::ClientContainer::PrintPage(int id, int page, char* buffer, int &length) {
+void GServer::GClientContainer::PrintPage(int id, int page, char* buffer, int &length) {
     // Tikrinu ar yra toks puslapis
     if (!this->IsValidPage(page)) {
         // Nera topio puslapio
@@ -102,8 +121,16 @@ void GServer::ClientContainer::PrintPage(int id, int page, char* buffer, int &le
     length = count * sizeof ( Client);
 }
 
-// Tirkinama ar egzistuoja nurodytas puslapis
-
-bool GServer::ClientContainer::IsValidPage(int pageNr) {
+bool GServer::GClientContainer::IsValidPage(int pageNr) {
     return ( (this->Container.size() - (pageNr * PAGE_SIZE)) > (-1 * PAGE_SIZE));
+}
+
+std::string GServer::GClientContainer::printClientInfo(Client client){
+    std::stringstream ss;
+    ss << "Kliento informacija:\n";
+    ss << "ID: " << client.id << "\n";
+    ss << "Sritis: " << client.domainName << "\n";
+    ss << "Kompiuterio pavadinimas: " << client.pcName << "\n";
+    ss << "Naudotojo vardas: " << client.userName << "\n";
+    return ss.str();
 }
