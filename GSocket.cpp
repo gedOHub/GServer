@@ -70,7 +70,7 @@ int GServer::GSocket::setBufferSize(int newSize) {
     return this->buffer.size();
 }
 
-int GServer::GSocket::sendData(int socketFd, vector<char>* data) {
+int GServer::GSocket::sendData(char* data, int size) {
     this->logger->logError(this->className, "Neigyvendinta sendData funkcija");
     return -1;
 }

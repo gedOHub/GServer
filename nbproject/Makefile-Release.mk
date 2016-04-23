@@ -51,6 +51,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/TCPServerGSocket.o \
 	${OBJECTDIR}/TagGenerator.o \
 	${OBJECTDIR}/TunnelContainer.o \
+	${OBJECTDIR}/UDPGSocket.o \
+	${OBJECTDIR}/UDPServerGSocket.o \
 	${OBJECTDIR}/lib/socket.o \
 	${OBJECTDIR}/main.o
 
@@ -158,6 +160,16 @@ ${OBJECTDIR}/TunnelContainer.o: TunnelContainer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
+
+${OBJECTDIR}/UDPGSocket.o: UDPGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPGSocket.o UDPGSocket.cpp
+
+${OBJECTDIR}/UDPServerGSocket.o: UDPServerGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPServerGSocket.o UDPServerGSocket.cpp
 
 ${OBJECTDIR}/lib/socket.o: lib/socket.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib

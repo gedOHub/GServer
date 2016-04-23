@@ -43,4 +43,3 @@ GServer::TCPClientGSocket::~TCPClientGSocket() {
 
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
-

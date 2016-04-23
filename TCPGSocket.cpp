@@ -20,22 +20,22 @@ GServer::TCPGSocket::~TCPGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-int GServer::TCPGSocket::sendData(int socketFd, vector<char>* data){
+int GServer::TCPGSocket::sendData(char * data, int size){
     int returnValue = -1;
     // Siusti duomenis
-    returnValue = send(socketFd, &data[0], data->size(), 0 );
+    returnValue = send(this->socket_descriptor, &data, size, 0 );
     // Pranesimas apie sekme
     this->logger->logDebug(this->className, 
-            std::to_string(this->socket_descriptor) + ":" + 
-            std::to_string(data->size()) + " --->" + 
-            std::to_string(socketFd) + ":" +  std::to_string(returnValue));
+            std::to_string(this->socket_descriptor) + " --->" + 
+            std::to_string(returnValue));
     return returnValue;
 }
 
 int GServer::TCPGSocket::reciveData(){
     int returnValue = -1;
     // Siusti duomenis
-    returnValue = recv(this->socket_descriptor, &this->buffer[0], this->buffer.size(), 0 );
+    returnValue = recv(this->socket_descriptor, this->buffer.data(), 
+            this->buffer.size(), 0 );
     // Pranesimas apie sekme
     this->logger->logDebug(this->className, 
             std::to_string(this->socket_descriptor) + ":" + 

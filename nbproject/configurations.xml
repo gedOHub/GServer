@@ -17,6 +17,8 @@
       <itemPath>GConfig.h</itemPath>
       <itemPath>GObject.cpp</itemPath>
       <itemPath>GObject.h</itemPath>
+      <itemPath>TagGenerator.cpp</itemPath>
+      <itemPath>TagGenerator.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f3" displayName="Containers" projectFiles="true">
       <itemPath>ClientContainer.cpp</itemPath>
@@ -52,6 +54,12 @@
           <itemPath>TCPGSocket.h</itemPath>
           <itemPath>TCPServerGSocket.cpp</itemPath>
           <itemPath>TCPServerGSocket.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="f3" displayName="UDP" projectFiles="true">
+          <itemPath>UDPGSocket.cpp</itemPath>
+          <itemPath>UDPGSocket.h</itemPath>
+          <itemPath>UDPServerGSocket.cpp</itemPath>
+          <itemPath>UDPServerGSocket.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <itemPath>GSocket.cpp</itemPath>
@@ -106,8 +114,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>TagGenerator.cpp</itemPath>
-    <itemPath>TagGenerator.h</itemPath>
     <itemPath>server.conf</itemPath>
     <itemPath>lib/socket.cpp</itemPath>
     <itemPath>lib/socket.h</itemPath>
@@ -221,6 +227,14 @@
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="UDPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPServerGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="exitCodes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/socket.cpp" ex="false" tool="1" flavor2="0">
@@ -324,6 +338,14 @@
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="UDPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPServerGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="exitCodes.h" ex="false" tool="3" flavor2="0">
       </item>

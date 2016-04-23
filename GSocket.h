@@ -38,7 +38,7 @@ namespace GServer {
          * issiustu duomenu kiekis. 
          *  socketFd- socketo i kuri siusi nuemris
             data- suformuoti duomenys, kurie bus issiunciami*/
-        virtual int sendData(int socketFd, vector<char>* data);
+        virtual int sendData(char * data, int size);
 
         /** recive **
          * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
@@ -135,6 +135,11 @@ namespace GServer {
          * Metodas skirtas priimti naujo sujungimo deskriptoriui ir ji grazinti.
          *  Rezultatas- naujos jungties deskriptrius */
         virtual int acceptConnectionDescriptor();
+        
+        /** listen **
+         * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
+         * prievadu. Placiau: http://linux.die.net/man/2/listen*/
+        virtual void listenSocket();
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
@@ -156,11 +161,6 @@ namespace GServer {
             result- kintamsis saugnatis gautus rezultatus is IP ir PORT 
          * kombinacijos. Placiau: http://linux.die.net/man/2/bind*/
         void bindSocket(addrinfo * result);
-
-        /** listen **
-         * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
-         * prievadu. Placiau: http://linux.die.net/man/2/listen*/
-        void listenSocket();
 
         // ##### END Metodai #####
     };

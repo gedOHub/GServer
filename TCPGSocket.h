@@ -31,9 +31,9 @@ namespace GServer {
          * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
          * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
          * issiustu duomenu kiekis. 
-         *  socketFd- socketo i kuri siusi nuemris
-            data- suformuoti duomenys, kurie bus issiunciami*/
-        virtual int sendData(int socketFd, vector<char>* data);
+            data- suformuoti duomenys, kurie bus issiunciami
+            size- duomenu kiekis, kiek reikia issiusti is nurodyto buferio */
+        virtual int sendData(char * data, int size);
         
         /** recive **
          * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
