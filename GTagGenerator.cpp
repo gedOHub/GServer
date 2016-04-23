@@ -6,7 +6,7 @@
  */
 
 #include "GTagGenerator.h"
-#include "TunnelContainer.h"
+#include "GTunnelContainer.h"
 #include "GLogger.h"
 
 GServer::GTagGenerator::GTagGenerator( GServer::GLogger* logger ) {
@@ -33,7 +33,7 @@ void GServer::GTagGenerator::Reset() {
     this->tag = this->MIN;
 }
 
-int GServer::GTagGenerator::Generate(TunnelContainer* tunnels) {
+int GServer::GTagGenerator::Generate(GTunnelContainer* tunnels) {
     if (this->tag >= MAX)
         this->Reset();
 

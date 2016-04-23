@@ -7,7 +7,7 @@
 
 #ifndef TAGGENERATOR_H
 #define TAGGENERATOR_H
-#include "TunnelContainer.h"
+#include "GTunnelContainer.h"
 #include "GObject.h"
 #include "GLogger.h"
 
@@ -31,7 +31,7 @@ namespace GServer {
         /*** Generate ***
          * Metodas skirtas grazinti sekancia laisva skaitliuko reiksme. 
          * Rezultatas- nauja, nenaudojama zyme */
-        int Generate(TunnelContainer* tunnels);
+        int Generate(GTunnelContainer* tunnels);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
