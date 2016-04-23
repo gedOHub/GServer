@@ -24,6 +24,7 @@
 #include "SCTPServerGSocket.h"
 #include "UDPServerGSocket.h"
 #include "GTagGenerator.h"
+#include "GCommandExecution.h"
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
@@ -74,6 +75,9 @@ int main(int argc, char** argv) {
 
     // Kuriu zymiu generatoriu
     GServer::GTagGenerator tGenerator(logger);
+    
+    // Kuriu komandu apdorojimo objekta
+    GServer::GCommandExecution cmdExec(logger, &tGenerator);
     
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
@@ -230,6 +234,10 @@ int main(int argc, char** argv) {
         delete clientSocketListIterator->second;
     }
 
+    // Naikinu komandu vykdymo objekta
+    delete &cmdExec;
+    // Naikinu zymu generavimo objekta
+    delete &tGenerator;
     // Naikinu configuracini objekta
     delete config;
     // Naikinu pranesimu rasimo objekta

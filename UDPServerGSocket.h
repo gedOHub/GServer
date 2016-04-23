@@ -31,11 +31,12 @@ namespace GServer {
                 fd_set& visiSocket, int& maxDeskriptor);
         virtual ~UDPServerGSocket();
         
+        //TODO: fix it
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
          *  sukurti kliento objekta */
-        virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
-        int &maxDescriptor );
+        //virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
+        //int &maxDescriptor );
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
