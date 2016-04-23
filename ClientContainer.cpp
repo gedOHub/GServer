@@ -9,23 +9,20 @@
 #include "structures.h"
 #include <iostream>
 
-ClientContainer::ClientContainer() {
+GServer::ClientContainer::ClientContainer() {
     this->printBuffer = new char[OneMBofChar];
 }
 
-ClientContainer::ClientContainer(const ClientContainer& orig) {
-}
-
-ClientContainer::~ClientContainer() {
+GServer::ClientContainer::~ClientContainer() {
     this->Container.clear();
     delete this->printBuffer;
 }
 
-void ClientContainer::Add(Client client) {
+void GServer::ClientContainer::Add(Client client) {
     this->Container.push_back(client);
 }
 
-void ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+void GServer::ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
         char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1],
         char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
 
@@ -39,7 +36,7 @@ void ClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
     this->Add(temp);
 }
 
-void ClientContainer::DeleteByID(int id) {
+void GServer::ClientContainer::DeleteByID(int id) {
     std::list<Client>::iterator i;
 
     for (i = this->Container.begin(); i != this->Container.end(); i++) {
@@ -50,7 +47,7 @@ void ClientContainer::DeleteByID(int id) {
     }
 }
 
-Client ClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+Client GServer::ClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH + 1],
         char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1], char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
     std::list<Client>::iterator i;
 
@@ -61,7 +58,7 @@ Client ClientContainer::DeleteByClient(char sritis[MAX_COMPUTERNAME_LENGTH + 1],
     }
 }
 
-Client ClientContainer::FindByID(int id) {
+Client GServer::ClientContainer::FindByID(int id) {
     std::list<Client>::iterator i;
     for (i = this->Container.begin(); i != this->Container.end(); i++) {
         if (i->id == id) {
@@ -70,7 +67,7 @@ Client ClientContainer::FindByID(int id) {
     }
 }
 
-void ClientContainer::PrintPage(int id, int page, char* buffer, int &length) {
+void GServer::ClientContainer::PrintPage(int id, int page, char* buffer, int &length) {
     // Tikrinu ar yra toks puslapis
     if (!this->IsValidPage(page)) {
         // Nera topio puslapio
@@ -107,6 +104,6 @@ void ClientContainer::PrintPage(int id, int page, char* buffer, int &length) {
 
 // Tirkinama ar egzistuoja nurodytas puslapis
 
-bool ClientContainer::IsValidPage(int pageNr) {
+bool GServer::ClientContainer::IsValidPage(int pageNr) {
     return ( (this->Container.size() - (pageNr * PAGE_SIZE)) > (-1 * PAGE_SIZE));
 }
