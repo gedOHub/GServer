@@ -17,6 +17,7 @@
 #include "GObject.h"
 #include "GLogger.h"
 #include "GTagGenerator.h"
+#include "GClientContainer.h"
 
 namespace GServer {
 
@@ -30,8 +31,10 @@ namespace GServer {
          * Metodas skirtas sukurti GCommandExecution. Si klase analizuoja ir
          * vykdo gautas komandas. 
             logger- pranesimu isvedimo objektas 
-            tagGenerato- objektas, generuojantis zymas*/
-        GCommandExecution( GLogger* logger, GTagGenerator* tagGenerator );
+            tagGenerato- objektas, generuojantis zymas
+            clients- klientu sarao objektas*/
+        GCommandExecution( GLogger* logger, GTagGenerator* tagGenerator, 
+                GClientContainer* clients );
         virtual ~GCommandExecution();
         // ##### END Metodai #####
     protected:
@@ -49,6 +52,10 @@ namespace GServer {
         /*** tagGenerator ***
          * Kintamasis skirtas asugoti nuoroda i zymy generavimo objekta */
         GTagGenerator* tagGenerator;
+        
+        /*** clients ***
+         * Kintamasis saugo nuoroda i klientu saraso objekta */
+        GClientContainer* clients;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

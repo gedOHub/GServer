@@ -14,13 +14,15 @@
 #include "GCommandExecution.h"
 
 GServer::GCommandExecution::GCommandExecution(GLogger* logger, 
-        GTagGenerator* tagGenerator) :GObject() {
+        GTagGenerator* tagGenerator, GClientContainer* clients) :GObject() {
     // Nustatau objekto pavadinima
     this->className = this->className + ":GCommandExecution";
     // Priskiriu pranesimu isvedimu objekta
     this->logger = logger;
     // Priskiriu zymu generatoriu
     this->tagGenerator = tagGenerator;
+    // Priskiriu klientu sarao objekta
+    this->clients = clients;
 
     // Pranesu apie objekto sukurima
     this->logger->logDebug(this->className, "Objektas sukurtas");

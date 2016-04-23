@@ -11,7 +11,7 @@
 
 GServer::GClientContainer::GClientContainer(GLogger* logger) {
     // Nustatau pavadinima
-    this->className = this->className + ":GConfig";
+    this->className = this->className + ":GClientContainer";
     // Nustatau nuoroda i pranesimu objekta
     this->logger = logger;
     // Sukriu spausdinimo masyva
