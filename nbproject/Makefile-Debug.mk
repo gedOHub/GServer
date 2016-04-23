@@ -38,7 +38,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/ConsoleGLogger.o \
 	${OBJECTDIR}/FileGLogger.o \
 	${OBJECTDIR}/GClientContainer.o \
-	${OBJECTDIR}/GCommandExecution.o \
 	${OBJECTDIR}/GConfig.o \
 	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
@@ -96,11 +95,6 @@ ${OBJECTDIR}/GClientContainer.o: nbproject/Makefile-${CND_CONF}.mk GClientContai
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GClientContainer.o GClientContainer.cpp
-
-${OBJECTDIR}/GCommandExecution.o: nbproject/Makefile-${CND_CONF}.mk GCommandExecution.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GCommandExecution.o GCommandExecution.cpp
 
 ${OBJECTDIR}/GConfig.o: nbproject/Makefile-${CND_CONF}.mk GConfig.cpp 
 	${MKDIR} -p ${OBJECTDIR}

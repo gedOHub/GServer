@@ -9,6 +9,7 @@
 #define TCPGSOCKET_H
 
 #include "GSocket.h"
+#include "GCommandExecution.h"
 
 
 namespace GServer {
@@ -19,11 +20,20 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        TCPGSocket(GServer::GConfig* conf, GLogger* logger);
+        /*** TCPSocket ***
+         * Metodas skirtas sukurti TCPSocket tipo objektui. 
+            conf- nuoroda i objekta, kuris dirba su konfiguraciniu failu
+            logger- nuorda i objekta, kuris rupinasi pranesimu isvedimu
+            command- nuoroda i objekta, kuris rupinasi komandu aprodojimu*/
+        TCPGSocket(GServer::GConfig* conf, GLogger* logger, 
+                GCommandExecution* command);
         virtual ~TCPGSocket();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
+        /*** commands ***
+         * Kintamasis skirtas saugoti nuoroda i komandu apdorojimo objekta */
+        GCommandExecution* commands;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -45,7 +55,7 @@ namespace GServer {
         
         // ##### END Metodai #####
     private:
-        // ##### Kintamieji #####
+        // ##### Kintamieji #####        
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

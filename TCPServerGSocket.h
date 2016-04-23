@@ -26,9 +26,10 @@ namespace GServer {
          *  logger- objektas, kuris dirba su pranesimu isvedimu
          *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
          *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
-         * desktoriaus reikse */
+         * desktoriaus reikse
+         *  commands- nuoroda i komandu apdrodojimo obejkta */
         TCPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
-                fd_set& visiSocket, int& maxDeskriptor);
+                fd_set& visiSocket, int& maxDeskriptor, GCommandExecution* commands);
         
         virtual ~TCPServerGSocket();
         

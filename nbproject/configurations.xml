@@ -24,7 +24,7 @@
       <itemPath>GClientContainer.cpp</itemPath>
       <itemPath>GClientContainer.h</itemPath>
       <itemPath>GTunnelContainer.cpp</itemPath>
-      <itemPath>TunnelContainer.h</itemPath>
+      <itemPath>GTunnelContainer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -201,6 +201,8 @@
       </item>
       <item path="GTunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="GTunnelContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="LocalGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LocalGLogger.h" ex="false" tool="3" flavor2="0">
@@ -228,8 +230,6 @@
       <item path="TCPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -317,6 +317,8 @@
       </item>
       <item path="GTunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="GTunnelContainer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="LocalGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="LocalGLogger.h" ex="false" tool="3" flavor2="0">
@@ -344,8 +346,6 @@
       <item path="TCPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="TunnelContainer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>

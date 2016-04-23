@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
         // TCP jungtis ijungta
         logger->logDebug("main", "Kuriu TCP jungti");
         TCPServer = new GServer::TCPServerGSocket(config, logger,
-                visiSkaitomiSocket, maxDescriptor);
+                visiSkaitomiSocket, maxDescriptor, &cmdExec);
         if(TCPServer == NULL){
             logger->logError("main", "Nepavyko sukurti TCP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_TCP_SERVER_SOCKET);
@@ -237,7 +237,7 @@ int main(int argc, char** argv) {
     }
 
     // Naikinu komandu vykdymo objekta
-    delete &cmdExec;
+    //delete &cmdExec;
     // Naikinu zymu generavimo objekta
     delete &tGenerator;
     // Naikinu configuracini objekta
