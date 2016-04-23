@@ -28,6 +28,19 @@ namespace GServer {
         TCPGSocket(GServer::GConfig* conf, GLogger* logger, 
                 GCommandExecution* command);
         virtual ~TCPGSocket();
+        
+        /** recive **
+         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
+         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
+         * duomenu kiekis */
+        virtual int reciveData();
+        
+        /** reciveData **
+         * Metodas skirtas gauti duomenis is tinklo. Rezultatas- gautu duomenu
+         * kiekis. 
+            buffer- nuoroda i buferi kuri gauti
+            size- nurodoma kiek duomenu gauti*/
+        virtual int reciveData( char* buffer, int size );
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -44,14 +57,6 @@ namespace GServer {
             data- suformuoti duomenys, kurie bus issiunciami
             size- duomenu kiekis, kiek reikia issiusti is nurodyto buferio */
         virtual int sendData(char * data, int size);
-        
-        /** recive **
-         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
-         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
-         * duomenu kiekis.
-         *  socketFd- socketo is kurio skaitoma nuemris
-         *  data- buferis i kuri bus gaunami duomenys */
-        virtual int reciveData();
         
         // ##### END Metodai #####
     private:

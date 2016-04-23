@@ -42,7 +42,7 @@ namespace GServer {
             sritis- angl. domain, kompiuterio srieties pavadinimas
             kompiuteris- kompiuterio pavadinimas
             naudtojas- naudotojo pavadinimas*/
-        void Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+        Client Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
                 char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1],
                 char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]);
 
@@ -107,7 +107,7 @@ namespace GServer {
         // ##### END Metodai #####
         /*** Add ***
          * Metodas skirtas prideti prideti klienta i kleintu sarasa */
-        void Add(Client client);
+        Client Add(Client client);
         
         /*** IsValidPage ***
          * Metodas skirtas patikrinti ar ka spausdinti nurodytu numeriu

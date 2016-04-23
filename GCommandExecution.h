@@ -18,6 +18,7 @@
 #include "GLogger.h"
 #include "GTagGenerator.h"
 #include "GClientContainer.h"
+#include "GSocket.h"
 
 namespace GServer {
 
@@ -36,6 +37,15 @@ namespace GServer {
         GCommandExecution( GLogger* logger, GTagGenerator* tagGenerator, 
                 GClientContainer* clients );
         virtual ~GCommandExecution();
+        
+        /*** executeCommand ***
+         * Metodas ksirtas nuskaityti is buferio komanda ir grazinti atsakyma i 
+         * ta pati buferi. Rezultatas- true, jei pavyko apdoroti komanda, false,
+         *  jei ne 
+            buffer- buferis, kuriame gauti ir apdorojimi duomenys
+            size- apdoroto atsakymo dydis buferyje
+            socket- kliento objektas, kuris gavo duomenis */
+        bool executeCommand(vector<char>& buffer, int& size, GSocket* socket);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -59,6 +69,27 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
+        /*** analizeHeader ***
+         * Metodas skirtas nustatyti atejusiu duomenu headerio reiksmems. 
+         * Rezultatas- true, pavykus nustatyti, false- nepavykus
+            buffer- buferis, kuraime ieskoma
+            tag- nustatyta tag reiksme
+            size- nustatyta duomenu dydzio reiksme*/
+        bool analizeHeader(char* buffer, int& tag, int& size);
+        
+        /*** analizeCommandHeader ***
+         * Metodas skirtas nustatyti atejusios koamndos lauku reiksmes. 
+         * Rezultatas- true, pavykus nustatyti, false- nepavykus
+            buffer- buferis, kuraime ieskoma
+            command- nustatyta komandos reiksme*/
+        bool analizeCommandHeader(char* buffer, int& command);
+        
+        /*** commandHello ***
+         * Metodas skirtas ivykdyti HELLO komandai. Rezultatas pridetas kliento
+         *  objektas 
+            buffer- buferis, kuriame saugomi duomenys
+            socket- socketas, kuriame gauta si komanda*/
+        Client commandHello(char* buffer, int socket);
         // ##### END Metodai #####
     };
 }

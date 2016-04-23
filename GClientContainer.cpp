@@ -30,13 +30,14 @@ GServer::GClientContainer::~GClientContainer() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-void GServer::GClientContainer::Add(Client client) {
+Client GServer::GClientContainer::Add(Client client) {
     this->logger->logDebug(this->className, "Pridedu klienta:\n" +
             this->printClientInfo(client));
     this->Container.push_back(client);
+    return client;
 }
 
-void GServer::GClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
+Client GServer::GClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LENGTH + 1],
         char kompiuteris[MAX_COMPUTERNAME_LENGTH + 1],
         char naudotojas[MAX_COMPUTERNAME_LENGTH + 1]) {
 
@@ -47,7 +48,7 @@ void GServer::GClientContainer::Add(int socket, char sritis[MAX_COMPUTERNAME_LEN
     memcpy(temp.pcName, kompiuteris, sizeof temp.pcName);
     memcpy(temp.userName, naudotojas, sizeof temp.userName);
 
-    this->Add(temp);
+    return this->Add(temp);
 }
 
 void GServer::GClientContainer::DeleteByID(int id) {
@@ -131,6 +132,6 @@ std::string GServer::GClientContainer::printClientInfo(Client client){
     ss << "ID: " << client.id << "\n";
     ss << "Sritis: " << client.domainName << "\n";
     ss << "Kompiuterio pavadinimas: " << client.pcName << "\n";
-    ss << "Naudotojo vardas: " << client.userName << "\n";
+    ss << "Naudotojo vardas: " << client.userName;
     return ss.str();
 }

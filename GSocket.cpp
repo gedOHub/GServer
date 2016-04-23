@@ -80,6 +80,11 @@ int GServer::GSocket::reciveData() {
     return -1;
 }
 
+int GServer::GSocket::reciveData(char* buffer, int size) {
+    this->logger->logError(this->className, "Neigyvendinta reciveData funkcija");
+    return -1;
+}
+
 int GServer::GSocket::createSocket(char* ip, char* port, int socketFamily,
         int socketType, int socketProtocol, int socketFlag, addrinfo *& result) {
     // Grazinamo socketo numeris
@@ -206,8 +211,8 @@ int GServer::GSocket::acceptConnectionDescriptor() {
 }
 
 GServer::GSocket* GServer::GSocket::acceptConnection(GServer::GConfig* conf,
-        int &maxDescriptor){
-    this->logger->logError(this->className, 
+        int &maxDescriptor) {
+    this->logger->logError(this->className,
             "Funkcija acceptConnection neigyvendinta");
     return NULL;
 }

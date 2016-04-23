@@ -37,15 +37,23 @@ int GServer::TCPGSocket::sendData(char * data, int size){
 
 int GServer::TCPGSocket::reciveData(){
     int returnValue = -1;
+    int headerSize = sizeof (header);
+    returnValue = this->reciveData(this->buffer.data(), headerSize);
+    // Perduodu duomenis apdorojimui
+    this->commands->executeCommand(this->buffer, returnValue, (GSocket *) this);
+    
+    return returnValue;
+}
+
+int GServer::TCPGSocket::reciveData( char* buffer, int size ){
+    int returnValue = -1;
     // Siusti duomenis
-    returnValue = recv(this->socket_descriptor, this->buffer.data(), 
-            this->buffer.size(), 0 );
+    returnValue = recv(this->socket_descriptor, buffer, size, 0 );
     // Pranesimas gautus duomenis
     this->logger->logDebug(this->className, 
             std::to_string(this->socket_descriptor) + ":" + 
             std::to_string(this->buffer.size()) + " <---" + 
             std::to_string(returnValue));
-    // Perduodu duomenis apdorojimui
     
     return returnValue;
 }
