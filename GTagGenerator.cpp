@@ -5,11 +5,11 @@
  * Created on May 7, 2014, 11:07 PM
  */
 
-#include "TagGenerator.h"
+#include "GTagGenerator.h"
 #include "TunnelContainer.h"
 #include "GLogger.h"
 
-GServer::TagGenerator::TagGenerator( GServer::GLogger* logger ) {
+GServer::GTagGenerator::GTagGenerator( GServer::GLogger* logger ) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":TagGenerator";
     // Priskiriu pranesimu isvedimu objekta
@@ -23,17 +23,17 @@ GServer::TagGenerator::TagGenerator( GServer::GLogger* logger ) {
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
-GServer::TagGenerator::~TagGenerator() {
+GServer::GTagGenerator::~GTagGenerator() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-void GServer::TagGenerator::Reset() {
+void GServer::GTagGenerator::Reset() {
     this->logger->logDebug(this->className, "Nustatau skaitliuka i pradine "
             "maziausia reiksme: " + std::to_string(this->MIN));
     this->tag = this->MIN;
 }
 
-int GServer::TagGenerator::Generate(TunnelContainer* tunnels) {
+int GServer::GTagGenerator::Generate(TunnelContainer* tunnels) {
     if (this->tag >= MAX)
         this->Reset();
 

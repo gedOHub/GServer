@@ -17,8 +17,8 @@
       <itemPath>GConfig.h</itemPath>
       <itemPath>GObject.cpp</itemPath>
       <itemPath>GObject.h</itemPath>
-      <itemPath>TagGenerator.cpp</itemPath>
-      <itemPath>TagGenerator.h</itemPath>
+      <itemPath>GTagGenerator.cpp</itemPath>
+      <itemPath>GTagGenerator.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f3" displayName="Containers" projectFiles="true">
       <itemPath>ClientContainer.cpp</itemPath>
@@ -173,6 +173,10 @@
       </item>
       <item path="FileGLogger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="GCommandExecution.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GCommandExecution.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GConfig.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GConfig.h" ex="false" tool="3" flavor2="0">
@@ -190,6 +194,10 @@
       <item path="GSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GTagGenerator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GTagGenerator.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LocalGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -218,10 +226,6 @@
       <item path="TCPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="TagGenerator.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -285,6 +289,10 @@
       </item>
       <item path="FileGLogger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="GCommandExecution.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GCommandExecution.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GConfig.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GConfig.h" ex="false" tool="3" flavor2="0">
@@ -302,6 +310,10 @@
       <item path="GSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GTagGenerator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GTagGenerator.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LocalGLogger.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -330,10 +342,6 @@
       <item path="TCPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="TagGenerator.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="TagGenerator.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TunnelContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>

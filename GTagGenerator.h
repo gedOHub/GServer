@@ -13,7 +13,7 @@
 
 namespace GServer {
 
-    class TagGenerator : public GObject {
+    class GTagGenerator : public GObject {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
@@ -24,9 +24,9 @@ namespace GServer {
          * atsakingas uz unikaliu zymiu kurima ir grazinima tolimesniam 
          * naudojimui 
             logger- pranesimu isvedimo objektas*/
-        TagGenerator( GServer::GLogger* logger );
+        GTagGenerator( GServer::GLogger* logger );
         
-        virtual ~TagGenerator();
+        virtual ~GTagGenerator();
         
         /*** Generate ***
          * Metodas skirtas grazinti sekancia laisva skaitliuko reiksme. 
