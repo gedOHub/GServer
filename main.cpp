@@ -23,7 +23,9 @@
 #include "TCPServerGSocket.h"
 #include "SCTPServerGSocket.h"
 #include "UDPServerGSocket.h"
-#include "TagGenerator.h"
+#include "GTagGenerator.h"
+#include "GCommandExecution.h"
+#include "GClientContainer.h"
 
 void *get_in_addr(struct sockaddr *sa) {
     if (sa->sa_family == AF_INET) {
@@ -73,7 +75,11 @@ int main(int argc, char** argv) {
     std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
 
     // Kuriu zymiu generatoriu
-    GServer::TagGenerator tGenerator(logger);
+    GServer::GTagGenerator tGenerator(logger);
+    // Kuriu klientu saraso objekta
+    GServer::GClientContainer clients(logger);
+    // Kuriu komandu apdorojimo objekta
+    GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients);
     
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
@@ -118,7 +124,7 @@ int main(int argc, char** argv) {
         // TCP jungtis ijungta
         logger->logDebug("main", "Kuriu TCP jungti");
         TCPServer = new GServer::TCPServerGSocket(config, logger,
-                visiSkaitomiSocket, maxDescriptor);
+                visiSkaitomiSocket, maxDescriptor, &cmdExec);
         if(TCPServer == NULL){
             logger->logError("main", "Nepavyko sukurti TCP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_TCP_SERVER_SOCKET);
@@ -133,7 +139,7 @@ int main(int argc, char** argv) {
         //SCTP jungtis ijungta
         logger->logDebug("main", "Kuriu SCTP jungti");
         SCTPServer = new GServer::SCTPServerGSocket(config, logger, 
-                visiSkaitomiSocket, maxDescriptor);
+                visiSkaitomiSocket, maxDescriptor, &cmdExec);
         if(SCTPServer == NULL){
             logger->logError("main", "Nepavyko sukurti SCTP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_SCTP_SERVER_SOCKET);
@@ -148,7 +154,7 @@ int main(int argc, char** argv) {
         //UDP jungtis ijungta
         logger->logDebug("main", "Kuriu UDP jungti");
         UDPServer = new GServer::UDPServerGSocket(config, logger, 
-                visiSkaitomiSocket, maxDescriptor);
+                visiSkaitomiSocket, maxDescriptor, &cmdExec);
         if(UDPServer == NULL){
             logger->logError("main", "Nepavyko sukurti UDP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_UDP_SERVER_SOCKET);
@@ -230,6 +236,10 @@ int main(int argc, char** argv) {
         delete clientSocketListIterator->second;
     }
 
+    // Naikinu komandu vykdymo objekta
+    //delete &cmdExec;
+    // Naikinu zymu generavimo objekta
+    delete &tGenerator;
     // Naikinu configuracini objekta
     delete config;
     // Naikinu pranesimu rasimo objekta

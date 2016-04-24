@@ -24,6 +24,8 @@ GServer::GConfig::GConfig(GServer::GLogger* log) : CONFIG_FILE_NAME("server.conf
 
     // Inicijuoju nustatymu failo skaityma
     this->openConfigFile();
+    
+    this->logger->logDebug(this->className, "Objektas sekmingai sukurtas");
 }
 
 GServer::GConfig::~GConfig() {

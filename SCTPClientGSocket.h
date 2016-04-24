@@ -31,10 +31,11 @@ namespace GServer {
          *  conf- objektas dirbantis su nustatymu failu
          *  logger- objektas, kuris organizuoja pranesimu rasyma
          *  visiSocket- sarasas visu skaitomu socketu
-         *  maxDescritpor- maksimalaus deskritoriaus reiksme */
+         *  maxDescritpor- maksimalaus deskritoriaus reiksme 
+            command- nuoroda i komandu aprodjimo objekta*/
         SCTPClientGSocket(int descritor, GServer::GConfig* conf,
                 GServer::GLogger* logger, fd_set* visiSocket, 
-                int &maxDescriptor);
+                int &maxDescriptor, GCommandExecution* command);
         virtual ~SCTPClientGSocket();
         // ##### END Metodai #####
     protected:

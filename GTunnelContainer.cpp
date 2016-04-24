@@ -5,19 +5,17 @@
  * Created on April 30, 2014, 1:28 PM
  */
 
-#include "TunnelContainer.h"
+#include "GTunnelContainer.h"
 
-TunnelContainer::TunnelContainer() {
+
+GServer::GTunnelContainer::GTunnelContainer( GLogger* logger ) : GObject() {
     this->skaitliukas = 0;
 }
 
-TunnelContainer::TunnelContainer(const TunnelContainer& orig) {
+GServer::GTunnelContainer::~GTunnelContainer() {
 }
 
-TunnelContainer::~TunnelContainer() {
-}
-
-int TunnelContainer::InitConnect(int admSocket, connectInitCommand* connect, int clientTag) {
+int GServer::GTunnelContainer::InitConnect(int admSocket, connectInitCommand* connect, int clientTag) {
     // Kuriu tunelio objekta
     tunnel tunelis;
     tunelis.id = this->GetID();
@@ -37,7 +35,7 @@ int TunnelContainer::InitConnect(int admSocket, connectInitCommand* connect, int
     return tunelis.id;
 }
 
-int TunnelContainer::InitConnect(int admSocket, jsonConnectInitCommand* connect, int clientTag) {
+int GServer::GTunnelContainer::InitConnect(int admSocket, jsonConnectInitCommand* connect, int clientTag) {
     // Kuriu tunelio objekta
     tunnel tunelis;
     tunelis.id = this->GetID();
@@ -59,7 +57,7 @@ int TunnelContainer::InitConnect(int admSocket, jsonConnectInitCommand* connect,
 
 //TODO: Patikra del statuso
 
-tunnel* TunnelContainer::ConnectAck(connectAckCommand* ack) {
+tunnel* GServer::GTunnelContainer::ConnectAck(connectAckCommand* ack) {
     try {
         tunnel* tunelis = this->FindById(ack->tunnelID);
         tunelis->status = ack->status;
@@ -72,7 +70,7 @@ tunnel* TunnelContainer::ConnectAck(connectAckCommand* ack) {
 
 //TODO: Patikra del statuso
 
-tunnel* TunnelContainer::ConnectAck(jsonConnectAckCommand* ack) {
+tunnel* GServer::GTunnelContainer::ConnectAck(jsonConnectAckCommand* ack) {
     try {
         tunnel* tunelis = this->FindById(ack->tunnelID);
         tunelis->status = ack->status;
@@ -83,12 +81,12 @@ tunnel* TunnelContainer::ConnectAck(jsonConnectAckCommand* ack) {
     return NULL;
 }
 
-int TunnelContainer::GetID() {
+int GServer::GTunnelContainer::GetID() {
     this->skaitliukas = this->skaitliukas + 1;
     return this->skaitliukas;
 }
 
-void TunnelContainer::FindByPear(int arr_socket, int arr_tag, int& dep_socket, int& dep_tag) {
+void GServer::GTunnelContainer::FindByPear(int arr_socket, int arr_tag, int& dep_socket, int& dep_tag) {
     list<tunnel>::iterator it;
     for (it = this->container.begin(); it != this->container.end(); it++) {
         // Ieskau pagal admino duomenis
@@ -106,7 +104,7 @@ void TunnelContainer::FindByPear(int arr_socket, int arr_tag, int& dep_socket, i
     }
 }
 
-tunnel* TunnelContainer::FindById(int id) {
+tunnel* GServer::GTunnelContainer::FindById(int id) {
     list<tunnel>::iterator it;
     for (it = this->container.begin(); it != this->container.end(); it++) {
         if (it->id == id) {
@@ -116,7 +114,7 @@ tunnel* TunnelContainer::FindById(int id) {
     return NULL;
 }
 
-bool TunnelContainer::IsClient(int tag) {
+bool GServer::GTunnelContainer::IsClient(int tag) {
     list<tunnel>::iterator it;
     for (it = this->container.begin(); it != this->container.end(); it++) {
         // Ieskau pagal kliento duomenis
@@ -126,7 +124,7 @@ bool TunnelContainer::IsClient(int tag) {
     return false;
 }
 
-tunnel TunnelContainer::RemoveBySocketTag(int socket, int tag) {
+tunnel GServer::GTunnelContainer::RemoveBySocketTag(int socket, int tag) {
     tunnel tunelis;
     // Begu per sarasa ir ieskau nuroditos kombinacijos
     list<tunnel>::iterator it;

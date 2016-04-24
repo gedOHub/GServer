@@ -31,9 +31,11 @@ namespace GServer {
          *  logger- objektas, kuris dirba su pranesimu isvedimu
          *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
          *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
-         * desktoriaus reikse */
+         * desktoriaus reikse 
+            command- nuoroda i komandu apdorojimo objekta*/
         SCTPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
-                fd_set& visiSocket, int& maxDeskriptor);
+                fd_set& visiSocket, int& maxDeskriptor, 
+                GCommandExecution* command);
         virtual ~SCTPServerGSocket();
         
         /** acceptConnection **

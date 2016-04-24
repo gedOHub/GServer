@@ -9,8 +9,8 @@
 #include "TCPClientGSocket.h"
 
 GServer::TCPServerGSocket::TCPServerGSocket(GServer::GConfig* conf, 
-        GLogger* logger, fd_set& visiSocket, int& maxDeskriptor) 
-: TCPGSocket(conf, logger) {
+        GLogger* logger, fd_set& visiSocket, int& maxDeskriptor, 
+        GCommandExecution* commands) : TCPGSocket(conf, logger, commands) {
     // Nustatau pavadinima
     this->className = this->className + ":TCPServerGSocket";
     // Objektui reikalingi veiksmai
@@ -53,7 +53,7 @@ GServer::GConfig* conf, int &maxDescriptor ) {
     if( descriptor > 0 ){
         // Pavyko gauti, kuriam nauja objekta
         returnValue = new GServer::TCPClientGSocket(descriptor, conf, 
-            this->logger, this->skaitomiSocket, maxDescriptor);
+            this->logger, this->skaitomiSocket, maxDescriptor, this->commands);
     }
     return returnValue;
 };

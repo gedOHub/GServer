@@ -9,6 +9,8 @@
 #define UDPGSOCKET_H
 
 #include "GSocket.h"
+#include "structures.h"
+#include "GCommandExecution.h"
 
 namespace GServer {
 
@@ -18,17 +20,40 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        UDPGSocket(GServer::GConfig* conf, GLogger* logger);
+        UDPGSocket(GServer::GConfig* conf, GLogger* logger, 
+                GCommandExecution* command);
         virtual ~UDPGSocket();
+        
+        /** reciveData **
+         * Metodas skirtas gauti duomenis is tinklo. Rezultatas- gautu duomenu
+         * kiekis. 
+            buffer- nuoroda i buferi kuri gauti
+            size- nurodoma kiek duomenu gauti*/
+        virtual int reciveData( char* buffer, int size );
         // ##### END Metodai #####
-    public:
+    protected:
         // ##### Kintamieji #####
+        /*** commands ***
+         * Kintamasis skirtas saugoti nuoroda i komandu apdorojimo objekta */
+        GCommandExecution* commands;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
+        /** listen **
+         * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
+         * prievadu. Placiau: http://linux.die.net/man/2/listen
+         * UDP nepaliko listen saukinio */
+        virtual void listenSocket();
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
+        /*** serverStorage ***
+         * Kintamasis skirtas saugoti adreso inforamcija */
+        struct sockaddr_storage serverStorage;
+        
+        /*** addr_size ***
+         * Kintamasis skirtas saugoti adreso inforamcijos dydi */
+        socklen_t addr_size = sizeof serverStorage;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

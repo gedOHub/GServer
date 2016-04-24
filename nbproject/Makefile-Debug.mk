@@ -35,13 +35,16 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/ClientContainer.o \
 	${OBJECTDIR}/ConsoleGLogger.o \
 	${OBJECTDIR}/FileGLogger.o \
+	${OBJECTDIR}/GClientContainer.o \
+	${OBJECTDIR}/GCommandExecution.o \
 	${OBJECTDIR}/GConfig.o \
 	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/GSocket.o \
+	${OBJECTDIR}/GTagGenerator.o \
+	${OBJECTDIR}/GTunnelContainer.o \
 	${OBJECTDIR}/LocalGLogger.o \
 	${OBJECTDIR}/SCTPClientGSocket.o \
 	${OBJECTDIR}/SCTPGSocket.o \
@@ -49,8 +52,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/TCPClientGSocket.o \
 	${OBJECTDIR}/TCPGSocket.o \
 	${OBJECTDIR}/TCPServerGSocket.o \
-	${OBJECTDIR}/TagGenerator.o \
-	${OBJECTDIR}/TunnelContainer.o \
 	${OBJECTDIR}/UDPGSocket.o \
 	${OBJECTDIR}/UDPServerGSocket.o \
 	${OBJECTDIR}/lib/socket.o \
@@ -81,11 +82,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gserver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gserver ${OBJECTFILES} ${LDLIBSOPTIONS} -lconfig++ -Wall
 
-${OBJECTDIR}/ClientContainer.o: nbproject/Makefile-${CND_CONF}.mk ClientContainer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ClientContainer.o ClientContainer.cpp
-
 ${OBJECTDIR}/ConsoleGLogger.o: nbproject/Makefile-${CND_CONF}.mk ConsoleGLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -95,6 +91,16 @@ ${OBJECTDIR}/FileGLogger.o: nbproject/Makefile-${CND_CONF}.mk FileGLogger.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileGLogger.o FileGLogger.cpp
+
+${OBJECTDIR}/GClientContainer.o: nbproject/Makefile-${CND_CONF}.mk GClientContainer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GClientContainer.o GClientContainer.cpp
+
+${OBJECTDIR}/GCommandExecution.o: nbproject/Makefile-${CND_CONF}.mk GCommandExecution.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GCommandExecution.o GCommandExecution.cpp
 
 ${OBJECTDIR}/GConfig.o: nbproject/Makefile-${CND_CONF}.mk GConfig.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -115,6 +121,16 @@ ${OBJECTDIR}/GSocket.o: nbproject/Makefile-${CND_CONF}.mk GSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GSocket.o GSocket.cpp
+
+${OBJECTDIR}/GTagGenerator.o: nbproject/Makefile-${CND_CONF}.mk GTagGenerator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GTagGenerator.o GTagGenerator.cpp
+
+${OBJECTDIR}/GTunnelContainer.o: nbproject/Makefile-${CND_CONF}.mk GTunnelContainer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GTunnelContainer.o GTunnelContainer.cpp
 
 ${OBJECTDIR}/LocalGLogger.o: nbproject/Makefile-${CND_CONF}.mk LocalGLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -150,16 +166,6 @@ ${OBJECTDIR}/TCPServerGSocket.o: nbproject/Makefile-${CND_CONF}.mk TCPServerGSoc
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPServerGSocket.o TCPServerGSocket.cpp
-
-${OBJECTDIR}/TagGenerator.o: nbproject/Makefile-${CND_CONF}.mk TagGenerator.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TagGenerator.o TagGenerator.cpp
-
-${OBJECTDIR}/TunnelContainer.o: nbproject/Makefile-${CND_CONF}.mk TunnelContainer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
 
 ${OBJECTDIR}/UDPGSocket.o: nbproject/Makefile-${CND_CONF}.mk UDPGSocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}

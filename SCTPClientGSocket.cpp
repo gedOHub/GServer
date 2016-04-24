@@ -15,7 +15,8 @@
 
 GServer::SCTPClientGSocket::SCTPClientGSocket( int descritor, 
         GServer::GConfig* conf, GServer::GLogger* logger, fd_set* visiSocket,
-        int &maxDescriptor ) : SCTPGSocket(conf, logger) {
+        int &maxDescriptor, GCommandExecution* command ) : 
+        SCTPGSocket(conf, logger, command) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":SCTPClientGSocket";
     // Priskiriu logeri

@@ -13,8 +13,8 @@
 
 #include "SCTPGSocket.h"
 
-GServer::SCTPGSocket::SCTPGSocket(GConfig* conf, GLogger* logger) : 
-GSocket(conf, logger) {
+GServer::SCTPGSocket::SCTPGSocket(GConfig* conf, GLogger* logger, 
+        GCommandExecution* command) : GSocket(conf, logger, command) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":SCTPGSocket";
     

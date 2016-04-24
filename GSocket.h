@@ -16,16 +16,19 @@
 
 #include "GLogger.h"
 #include "GConfig.h"
+#include "GCommandExecution.h"
 
 namespace GServer {
 
+    class GCommandExecution;
+    
     class GSocket : public GObject {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        GSocket(GConfig* conf, GLogger* logger);
+        GSocket(GConfig* conf, GLogger* logger,  GCommandExecution* command);
         virtual ~GSocket();
 
         /** close **
@@ -43,10 +46,15 @@ namespace GServer {
         /** recive **
          * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
          * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
-         * duomenu kiekis.
-         *  socketFd- socketo is kurio skaitoma nuemris
-         *  data- buferis i kuri bus gaunami duomenys */
+         * duomenu kiekis */
         virtual int reciveData();
+        
+        /** reciveData **
+         * Metodas skirtas gauti duomenis is tinklo. Rezultatas- gautu duomenu
+         * kiekis. 
+            buffer- nuoroda i buferi kuri gauti
+            size- nurodoma kiek duomenu gauti*/
+        virtual int reciveData( char* buffer, int size );
 
         /** getSocket**
          * Metodas skirtas grazinti soketo numeriui */
@@ -91,6 +99,10 @@ namespace GServer {
         /** skaitomiSocket**
          * Kintamasis skirtas saugoti visu skaitomu socketu saraso nuoroda */
         fd_set* skaitomiSocket;
+
+        /*** commands ***
+         * Kintamasis skirtas saugoti nuoroda i komandu apdorojimo objekta */
+        GCommandExecution* commands;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

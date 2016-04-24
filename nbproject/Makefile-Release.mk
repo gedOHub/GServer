@@ -35,13 +35,16 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/ClientContainer.o \
 	${OBJECTDIR}/ConsoleGLogger.o \
 	${OBJECTDIR}/FileGLogger.o \
+	${OBJECTDIR}/GClientContainer.o \
+	${OBJECTDIR}/GCommandExecution.o \
 	${OBJECTDIR}/GConfig.o \
 	${OBJECTDIR}/GLogger.o \
 	${OBJECTDIR}/GObject.o \
 	${OBJECTDIR}/GSocket.o \
+	${OBJECTDIR}/GTagGenerator.o \
+	${OBJECTDIR}/GTunnelContainer.o \
 	${OBJECTDIR}/LocalGLogger.o \
 	${OBJECTDIR}/SCTPClientGSocket.o \
 	${OBJECTDIR}/SCTPGSocket.o \
@@ -49,8 +52,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/TCPClientGSocket.o \
 	${OBJECTDIR}/TCPGSocket.o \
 	${OBJECTDIR}/TCPServerGSocket.o \
-	${OBJECTDIR}/TagGenerator.o \
-	${OBJECTDIR}/TunnelContainer.o \
 	${OBJECTDIR}/UDPGSocket.o \
 	${OBJECTDIR}/UDPServerGSocket.o \
 	${OBJECTDIR}/lib/socket.o \
@@ -81,11 +82,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gserver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gserver ${OBJECTFILES} ${LDLIBSOPTIONS} -lconfig++ -Wall
 
-${OBJECTDIR}/ClientContainer.o: ClientContainer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ClientContainer.o ClientContainer.cpp
-
 ${OBJECTDIR}/ConsoleGLogger.o: ConsoleGLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -95,6 +91,16 @@ ${OBJECTDIR}/FileGLogger.o: FileGLogger.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileGLogger.o FileGLogger.cpp
+
+${OBJECTDIR}/GClientContainer.o: GClientContainer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GClientContainer.o GClientContainer.cpp
+
+${OBJECTDIR}/GCommandExecution.o: GCommandExecution.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GCommandExecution.o GCommandExecution.cpp
 
 ${OBJECTDIR}/GConfig.o: GConfig.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -115,6 +121,16 @@ ${OBJECTDIR}/GSocket.o: GSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GSocket.o GSocket.cpp
+
+${OBJECTDIR}/GTagGenerator.o: GTagGenerator.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GTagGenerator.o GTagGenerator.cpp
+
+${OBJECTDIR}/GTunnelContainer.o: GTunnelContainer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GTunnelContainer.o GTunnelContainer.cpp
 
 ${OBJECTDIR}/LocalGLogger.o: LocalGLogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -150,16 +166,6 @@ ${OBJECTDIR}/TCPServerGSocket.o: TCPServerGSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPServerGSocket.o TCPServerGSocket.cpp
-
-${OBJECTDIR}/TagGenerator.o: TagGenerator.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TagGenerator.o TagGenerator.cpp
-
-${OBJECTDIR}/TunnelContainer.o: TunnelContainer.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TunnelContainer.o TunnelContainer.cpp
 
 ${OBJECTDIR}/UDPGSocket.o: UDPGSocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}

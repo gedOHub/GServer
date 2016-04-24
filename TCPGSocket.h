@@ -9,6 +9,7 @@
 #define TCPGSOCKET_H
 
 #include "GSocket.h"
+#include "GCommandExecution.h"
 
 
 namespace GServer {
@@ -19,11 +20,24 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        TCPGSocket(GServer::GConfig* conf, GLogger* logger);
+        /*** TCPSocket ***
+         * Metodas skirtas sukurti TCPSocket tipo objektui. 
+            conf- nuoroda i objekta, kuris dirba su konfiguraciniu failu
+            logger- nuorda i objekta, kuris rupinasi pranesimu isvedimu
+            command- nuoroda i objekta, kuris rupinasi komandu aprodojimu*/
+        TCPGSocket(GServer::GConfig* conf, GLogger* logger, 
+                GCommandExecution* command);
         virtual ~TCPGSocket();
+        
+        /** reciveData **
+         * Metodas skirtas gauti duomenis is tinklo. Rezultatas- gautu duomenu
+         * kiekis. 
+            buffer- nuoroda i buferi kuri gauti
+            size- nurodoma kiek duomenu gauti*/
+        virtual int reciveData( char* buffer, int size );
         // ##### END Metodai #####
     protected:
-        // ##### Kintamieji #####
+        
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -35,17 +49,9 @@ namespace GServer {
             size- duomenu kiekis, kiek reikia issiusti is nurodyto buferio */
         virtual int sendData(char * data, int size);
         
-        /** recive **
-         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
-         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
-         * duomenu kiekis.
-         *  socketFd- socketo is kurio skaitoma nuemris
-         *  data- buferis i kuri bus gaunami duomenys */
-        virtual int reciveData();
-        
         // ##### END Metodai #####
     private:
-        // ##### Kintamieji #####
+        // ##### Kintamieji #####        
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

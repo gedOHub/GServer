@@ -15,8 +15,8 @@
 #include "SCTPClientGSocket.h"
 
 GServer::SCTPServerGSocket::SCTPServerGSocket(GServer::GConfig* conf,
-        GLogger* logger, fd_set& visiSocket, int& maxDeskriptor) :
-SCTPGSocket(conf, logger) {
+        GLogger* logger, fd_set& visiSocket, int& maxDeskriptor, 
+        GCommandExecution* command) : SCTPGSocket(conf, logger, command) {
     // Nustatau pavadinima
     this->className = this->className + ":SCTPServerGSocket";
     // Objektui reikalingi veiksmai
@@ -59,7 +59,7 @@ GServer::GSocket* GServer::SCTPServerGSocket::acceptConnection(
     if( descriptor > 0 ){
         // Pavyko gauti, kuriam nauja objekta
         returnValue = new GServer::SCTPClientGSocket(descriptor, conf, 
-            this->logger, this->skaitomiSocket, maxDescriptor);
+            this->logger, this->skaitomiSocket, maxDescriptor, this->commands);
     }
     return returnValue;
 }

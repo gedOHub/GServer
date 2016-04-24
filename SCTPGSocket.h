@@ -32,7 +32,7 @@ namespace GServer {
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        SCTPGSocket(GConfig* conf, GLogger* logger);
+        SCTPGSocket(GConfig* conf, GLogger* logger, GCommandExecution* command);
         virtual ~SCTPGSocket();
         // ##### END Metodai #####
     protected:

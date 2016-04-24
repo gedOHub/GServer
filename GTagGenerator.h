@@ -7,13 +7,13 @@
 
 #ifndef TAGGENERATOR_H
 #define TAGGENERATOR_H
-#include "TunnelContainer.h"
+#include "GTunnelContainer.h"
 #include "GObject.h"
 #include "GLogger.h"
 
 namespace GServer {
 
-    class TagGenerator : public GObject {
+    class GTagGenerator : public GObject {
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
@@ -24,14 +24,14 @@ namespace GServer {
          * atsakingas uz unikaliu zymiu kurima ir grazinima tolimesniam 
          * naudojimui 
             logger- pranesimu isvedimo objektas*/
-        TagGenerator( GServer::GLogger* logger );
+        GTagGenerator( GServer::GLogger* logger );
         
-        virtual ~TagGenerator();
+        virtual ~GTagGenerator();
         
         /*** Generate ***
          * Metodas skirtas grazinti sekancia laisva skaitliuko reiksme. 
          * Rezultatas- nauja, nenaudojama zyme */
-        int Generate(TunnelContainer* tunnels);
+        int Generate(GTunnelContainer* tunnels);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
