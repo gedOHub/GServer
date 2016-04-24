@@ -29,12 +29,6 @@ namespace GServer {
                 GCommandExecution* command);
         virtual ~TCPGSocket();
         
-        /** recive **
-         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
-         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
-         * duomenu kiekis */
-        virtual int reciveData();
-        
         /** reciveData **
          * Metodas skirtas gauti duomenis is tinklo. Rezultatas- gautu duomenu
          * kiekis. 
@@ -43,10 +37,7 @@ namespace GServer {
         virtual int reciveData( char* buffer, int size );
         // ##### END Metodai #####
     protected:
-        // ##### Kintamieji #####
-        /*** commands ***
-         * Kintamasis skirtas saugoti nuoroda i komandu apdorojimo objekta */
-        GCommandExecution* commands;
+        
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

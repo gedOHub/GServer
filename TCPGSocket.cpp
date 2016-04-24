@@ -8,7 +8,7 @@
 #include "TCPGSocket.h"
 
 GServer::TCPGSocket::TCPGSocket(GServer::GConfig* conf, GLogger* logger, 
-        GCommandExecution* command) : GSocket(conf, logger) {
+        GCommandExecution* command) : GSocket(conf, logger, command) {
     // Nustatau pavadinima
     this->className = this->className + ":TCPGSocket";
     // Priskiriu nuorda i pranesimu objekta
@@ -32,16 +32,6 @@ int GServer::TCPGSocket::sendData(char * data, int size){
     this->logger->logDebug(this->className, 
             std::to_string(this->socket_descriptor) + " --->" + 
             std::to_string(returnValue));
-    return returnValue;
-}
-
-int GServer::TCPGSocket::reciveData(){
-    int returnValue = -1;
-    int headerSize = sizeof (header);
-    returnValue = this->reciveData(this->buffer.data(), headerSize);
-    // Perduodu duomenis apdorojimui
-    this->commands->executeCommand(this->buffer, returnValue, (GSocket *) this);
-    
     return returnValue;
 }
 

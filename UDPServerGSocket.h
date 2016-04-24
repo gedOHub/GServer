@@ -9,6 +9,7 @@
 #define UDPSERVERGSOCKET_H
 
 #include "UDPGSocket.h"
+#include "GCommandExecution.h"
 
 
 namespace GServer {
@@ -26,9 +27,11 @@ namespace GServer {
          *  logger- objektas, kuris dirba su pranesimu isvedimu
          *  visiSocket- kintamaisi, kuris saugo visu socketu sarasa
          *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
-         * desktoriaus reikse */
+         * desktoriaus reikse 
+            command- nuoroda i objekta, kuris atsakingas uz komandu vykdyma*/
         UDPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
-                fd_set& visiSocket, int& maxDeskriptor);
+                fd_set& visiSocket, int& maxDeskriptor, 
+                GCommandExecution* command);
         virtual ~UDPServerGSocket();
         
         //TODO: fix it
@@ -37,17 +40,22 @@ namespace GServer {
          *  sukurti kliento objekta */
         //virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
         //int &maxDescriptor );
+        
+        /** acceptConnection **
+         * Metodas skirtas priimti kliento duomenims, nes sio protokolo socketai
+         *  neuzmeezga sesijos. Si funkcija tokia pati kaip recive. Sio 
+         * protokolo socketams niekada nebus saukiamas recive, nes visada 
+         * bus accept dalis.
+         *  conf- objektas dirbantis su nustatymu failu
+         *  maxDescriptor- maksimalaus deskritporiaus reiksme */
+        virtual GServer::GSocket* acceptConnection(GServer::GConfig* conf,
+                int &maxDescriptor);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        /** listen **
-         * Metodas sksirtas pradeti klausimuisi klientu prisjungimu nurodytu 
-         * prievadu. Placiau: http://linux.die.net/man/2/listen
-         * UDP nepaliko listen saukinio */
-        virtual void listenSocket(){};
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####

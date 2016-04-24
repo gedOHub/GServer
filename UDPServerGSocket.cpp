@@ -7,19 +7,19 @@
 
 #include "UDPServerGSocket.h"
 
-GServer::UDPServerGSocket::UDPServerGSocket(GServer::GConfig* conf, 
-        GLogger* logger, fd_set& visiSocket, int& maxDeskriptor) : 
-        UDPGSocket(conf,logger) {
-    
+GServer::UDPServerGSocket::UDPServerGSocket(GServer::GConfig* conf,
+        GLogger* logger, fd_set& visiSocket, int& maxDeskriptor,
+        GCommandExecution* command) : UDPGSocket(conf, logger, command) {
+
     // Nustatau pavadinima
     this->className = this->className + ":UDPServerGSocket";
     // Objektui reikalingi veiksmai
-    
+
     // Sukuriu socketa klausimuisi
-    this->createServerScoket( 
-            const_cast<char*>(conf->getStringSetting("IP").c_str()),
-            const_cast<char*>(conf->getStringSetting("PORT").c_str()), 
-            conf->getIntSetting("NETWORK_TYPE"), SOCK_DGRAM, IPPROTO_UDP, 
+    this->createServerScoket(
+            const_cast<char*> (conf->getStringSetting("IP").c_str()),
+            const_cast<char*> (conf->getStringSetting("PORT").c_str()),
+            conf->getIntSetting("NETWORK_TYPE"), SOCK_DGRAM, IPPROTO_UDP,
             AI_PASSIVE);
     // Nustatau skaitomu socketu sarasa
     this->skaitomiSocket = &visiSocket;
@@ -27,21 +27,27 @@ GServer::UDPServerGSocket::UDPServerGSocket(GServer::GConfig* conf,
     FD_SET(this->socket_descriptor, this->skaitomiSocket);
     // Tikrinu ar nera didenis deskritprious nei dabartinis
     this->checkMaxDescriptor(maxDeskriptor);
-    
+
     // Objektas sukurtas pilnai
     this->logger->logDebug(this->className, "Objektas sukurtas");
-    
 }
 
 GServer::UDPServerGSocket::~UDPServerGSocket() {
     // Naikinimas
-    this->logger->logDebug(this->className, "Baigiu darba su " + 
+    this->logger->logDebug(this->className, "Baigiu darba su " +
             std::to_string(this->socket_descriptor) + " socketu");
     this->close();
     this->logger->logDebug(this->className, "Pasalinu is skaitomu saraso");
     FD_CLR(this->socket_descriptor, this->skaitomiSocket);
-    
+
     // Objektas sunaikintas
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
+GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
+        GServer::GConfig* conf, int& maxDescriptor) {
+    
+    GSocket::reciveData();
+
+    return NULL;
+}

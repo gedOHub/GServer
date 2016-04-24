@@ -10,14 +10,17 @@
 
 // TODO: lookupus perdaryti per objekta
 
-GServer::GSocket::GSocket(GServer::GConfig* conf, GLogger* logger) :
-MAX_BUFFER_SIZE(conf->getIntSetting("MAX_SOCKET_BUFFER_SIZE")) {
+GServer::GSocket::GSocket(GServer::GConfig* conf, GLogger* logger,  
+        GCommandExecution* command) : 
+        MAX_BUFFER_SIZE(conf->getIntSetting("MAX_SOCKET_BUFFER_SIZE")) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":GSocket";
     // Nustatau numatytaja socket_descritptor reiksme
     this->socket_descriptor = -1;
     // Nustatau logeri
     this->logger = logger;
+    // Nustatau komandu vykdymo objekta
+    this->commands = command;
     // Nustatu buferio dydi
     this->buffer.resize(conf->getIntSetting("SOCKET_BUFFER_SIZE"));
     // Spausdinu nustatytai buferio dydi
@@ -72,11 +75,6 @@ int GServer::GSocket::setBufferSize(int newSize) {
 
 int GServer::GSocket::sendData(char* data, int size) {
     this->logger->logError(this->className, "Neigyvendinta sendData funkcija");
-    return -1;
-}
-
-int GServer::GSocket::reciveData() {
-    this->logger->logError(this->className, "Neigyvendinta reciveData funkcija");
     return -1;
 }
 
@@ -215,4 +213,14 @@ GServer::GSocket* GServer::GSocket::acceptConnection(GServer::GConfig* conf,
     this->logger->logError(this->className,
             "Funkcija acceptConnection neigyvendinta");
     return NULL;
+}
+
+int GServer::GSocket::reciveData(){
+    int returnValue = -1;
+    int headerSize = sizeof (header);
+    returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
+    // Perduodu duomenis apdorojimui
+    this->commands->executeCommand(this->buffer, returnValue, (GSocket *) this);
+    
+    return returnValue;
 }

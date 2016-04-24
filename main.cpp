@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
         //SCTP jungtis ijungta
         logger->logDebug("main", "Kuriu SCTP jungti");
         SCTPServer = new GServer::SCTPServerGSocket(config, logger, 
-                visiSkaitomiSocket, maxDescriptor);
+                visiSkaitomiSocket, maxDescriptor, &cmdExec);
         if(SCTPServer == NULL){
             logger->logError("main", "Nepavyko sukurti SCTP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_SCTP_SERVER_SOCKET);
@@ -154,7 +154,7 @@ int main(int argc, char** argv) {
         //UDP jungtis ijungta
         logger->logDebug("main", "Kuriu UDP jungti");
         UDPServer = new GServer::UDPServerGSocket(config, logger, 
-                visiSkaitomiSocket, maxDescriptor);
+                visiSkaitomiSocket, maxDescriptor, &cmdExec);
         if(UDPServer == NULL){
             logger->logError("main", "Nepavyko sukurti UDP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_UDP_SERVER_SOCKET);

@@ -14,15 +14,34 @@
 #include "UDPGSocket.h"
 #include "GSocket.h"
 
-GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger) 
-:GSocket(conf,logger) {
+GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger, 
+        GCommandExecution* command) : GSocket(conf, logger, command) {
     // Nustatau pavadinima
     this->className = this->className + ":UDPGSocket";
+    this->commands = command;
 
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
 GServer::UDPGSocket::~UDPGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
+}
+
+void GServer::UDPGSocket::listenSocket() {
+    // Si funkcija padeda uzblokuoti listen funkcijos kvietima UDP protokokui
+}
+
+int GServer::UDPGSocket::reciveData(char* buffer, int size) {
+    int returnValue = -1;
+    // Siusti duomenis
+    returnValue = recvfrom(this->socket_descriptor, buffer, size, MSG_WAITALL, 
+            (struct sockaddr *) &serverStorage, &addr_size);
+    // Pranesimas gautus duomenis
+    this->logger->logDebug(this->className,
+            std::to_string(this->socket_descriptor) + ":" +
+            std::to_string(this->buffer.size()) + " <---" +
+            std::to_string(returnValue));
+
+    return returnValue;
 }
 

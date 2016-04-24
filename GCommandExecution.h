@@ -21,6 +21,8 @@
 #include "GSocket.h"
 
 namespace GServer {
+    
+    class GSocket;
 
     class GCommandExecution : public GObject {
     public:

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   GCommandExecution.cpp
  * Author: gedas
@@ -32,10 +26,10 @@ GServer::GCommandExecution::~GCommandExecution() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-bool GServer::GCommandExecution::executeCommand(vector<char>& buffer, 
+bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         int& sendDataSize, GSocket* socket) {
     bool returnValue = false;
-    int temp;
+    int tempCmd = -1;
     int tag, size;
 
     // Analizuoju headeri
@@ -44,34 +38,26 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         switch (tag) {
                 // Atejo komanda
             case 0:
-                // Gaunu likusius duomenis
-                temp = socket->reciveData(&buffer.data()[sizeof (header)], 
-                        size);
-                // Tirkinu ar gauta tiek kiek reikia
-                if (temp == size) {
-                    // Gautas tinkamas kiekis duomenu
-                    // Analizuoju kokia komanda atejo
-                    int command = -1;
-                    if (this->analizeCommandHeader(
-                            &buffer.data()[sizeof (header)], command)) {
-                        // Pavyko nustatyti kokia komanda atejo
-                        // TOliau atlieku veiksmus su atitinkama komanda
-                        switch (command){
-                            case Commands::HELLO:
-                                this->logger->logDebug(this->className, "Gauta "
-                                        "HELLO komanda");
-                                this->commandHello(
-                                        &buffer.data()[sizeof (header)], 
-                                                socket->getSocket());
-                                break;
-                            default:
-                                this->logger->logError(this->className, "Gauta "
-                                        "nezinoma komanda: " + 
-                                        std::to_string(command));
-                                break;
-                        }
-                    }// END Analizuoju kokia komanda atejo
-                } // END Tirkinu ar gauta tiek kiek reikia
+                // Analizuoju kokia komanda atejo
+                if (this->analizeCommandHeader(
+                        &buffer.data()[sizeof (header)], tempCmd)) {
+                    // Pavyko nustatyti kokia komanda atejo
+                    // TOliau atlieku veiksmus su atitinkama komanda
+                    switch (tempCmd) {
+                        case Commands::HELLO:
+                            this->logger->logDebug(this->className, "Gauta "
+                                    "HELLO komanda");
+                            this->commandHello(
+                                    &buffer.data()[sizeof (header)],
+                                    socket->getSocket());
+                            break;
+                        default:
+                            this->logger->logError(this->className, "Gauta "
+                                    "nezinoma komanda: " +
+                                    std::to_string(tempCmd));
+                            break;
+                    }
+                }// END Analizuoju kokia komanda atejo
                 break;
                 // Bus persiunciami duomenys
             default:
@@ -82,7 +68,7 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
     return returnValue;
 }
 
-bool GServer::GCommandExecution::analizeHeader(char* buffer, int& tag, 
+bool GServer::GCommandExecution::analizeHeader(char* buffer, int& tag,
         int& size) {
     try {
         header* head = (struct header*) &buffer[0];
@@ -101,13 +87,13 @@ bool GServer::GCommandExecution::analizeHeader(char* buffer, int& tag,
     return false;
 }
 
-bool GServer::GCommandExecution::analizeCommandHeader(char* buffer, 
-        int& command){
+bool GServer::GCommandExecution::analizeCommandHeader(char* buffer,
+        int& command) {
     try {
         Command* cmd = (struct Command*) &buffer[0];
         // Suvartau gautus duomenis i suprantama puse
         command = ntohs(cmd->command);
-        this->logger->logDebug(this->className, "Gauta komanda:  " + 
+        this->logger->logDebug(this->className, "Gauta komanda:  " +
                 std::to_string(command));
         return true;
     } catch (int e) {
@@ -118,10 +104,10 @@ bool GServer::GCommandExecution::analizeCommandHeader(char* buffer,
     return false;
 }
 
-Client GServer::GCommandExecution::commandHello(char* buffer, int socket){
+Client GServer::GCommandExecution::commandHello(char* buffer, int socket) {
     helloCommand* hello = (struct helloCommand*) &buffer[0];
     // Suvartau likusius komandos laukus
     // Vartyti nereikia, gautas tekstats
-    return this->clients->Add(socket, hello->domainName, hello->pcName, 
+    return this->clients->Add(socket, hello->domainName, hello->pcName,
             hello->userName);
 }
