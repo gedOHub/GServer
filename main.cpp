@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     std::map<int, GServer::GSocket*> serverSocketList;
     /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
     std::map<int, GServer::GSocket*>::iterator serverSocketListIterator;
-    /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
+    /* Sarasas saugantis sokcetus, kurie klausosi prisjungimu sarasa */
     std::map<int, GServer::GSocket*> clientSocketList;
     /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
     std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
@@ -79,7 +79,8 @@ int main(int argc, char** argv) {
     // Kuriu klientu saraso objekta
     GServer::GClientContainer clients(logger);
     // Kuriu komandu apdorojimo objekta
-    GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients);
+    GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients, 
+            &clientSocketList, config);
     
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
@@ -196,15 +197,11 @@ int main(int argc, char** argv) {
                             currentD)->second->acceptConnection( 
                             config, maxDescriptor );
                     // Tirkinu ar pavyko priimti jungti
-                    if(newConenction == NULL){
-                        logger->logError("main", "Nepavyko priimti naujos "
-                        "jungties");
-                        // Tesiu sekanti cikla
-                        continue;
-                    }
-                    // Pridedu prie klientu saraso
-                    clientSocketList[newConenction->getSocket()] = 
+                    if(newConenction != NULL){
+                        // Pridedu prie klientu saraso
+                        clientSocketList[newConenction->getSocket()] = 
                             newConenction;
+                    }
                 }
                 // Atejo duomenys is kliento
                 else {

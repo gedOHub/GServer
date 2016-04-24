@@ -52,8 +52,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/TCPClientGSocket.o \
 	${OBJECTDIR}/TCPGSocket.o \
 	${OBJECTDIR}/TCPServerGSocket.o \
+	${OBJECTDIR}/UDPClientGSocket.o \
 	${OBJECTDIR}/UDPGSocket.o \
-	${OBJECTDIR}/UDPGSocketClient.o \
 	${OBJECTDIR}/UDPServerGSocket.o \
 	${OBJECTDIR}/lib/socket.o \
 	${OBJECTDIR}/main.o
@@ -168,15 +168,15 @@ ${OBJECTDIR}/TCPServerGSocket.o: nbproject/Makefile-${CND_CONF}.mk TCPServerGSoc
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TCPServerGSocket.o TCPServerGSocket.cpp
 
+${OBJECTDIR}/UDPClientGSocket.o: nbproject/Makefile-${CND_CONF}.mk UDPClientGSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPClientGSocket.o UDPClientGSocket.cpp
+
 ${OBJECTDIR}/UDPGSocket.o: nbproject/Makefile-${CND_CONF}.mk UDPGSocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPGSocket.o UDPGSocket.cpp
-
-${OBJECTDIR}/UDPGSocketClient.o: nbproject/Makefile-${CND_CONF}.mk UDPGSocketClient.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/include -Isockets -Isockets/serversocket -Ilogger -include /usr/include/libconfig.h++ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPGSocketClient.o UDPGSocketClient.cpp
 
 ${OBJECTDIR}/UDPServerGSocket.o: nbproject/Makefile-${CND_CONF}.mk UDPServerGSocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}

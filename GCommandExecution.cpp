@@ -6,9 +6,15 @@
  */
 
 #include "GCommandExecution.h"
+#include "UDPServerGSocket.h"
+#include "TCPServerGSocket.h"
+#include "TCPClientGSocket.h"
+#include "UDPClientGSocket.h"
 
 GServer::GCommandExecution::GCommandExecution(GLogger* logger,
-        GTagGenerator* tagGenerator, GClientContainer* clients) : GObject() {
+        GTagGenerator* tagGenerator, GClientContainer* clients,
+        std::map<int, GServer::GSocket*>* clientSocketList, GConfig* conf) :
+GObject() {
     // Nustatau objekto pavadinima
     this->className = this->className + ":GCommandExecution";
     // Priskiriu pranesimu isvedimu objekta
@@ -17,6 +23,10 @@ GServer::GCommandExecution::GCommandExecution(GLogger* logger,
     this->tagGenerator = tagGenerator;
     // Priskiriu klientu sarao objekta
     this->clients = clients;
+    // Nuoroda i nustatymu faila
+    this->config = conf;
+
+    this->clientSocketList = clientSocketList;
 
     // Pranesu apie objekto sukurima
     this->logger->logDebug(this->className, "Objektas sukurtas");
@@ -47,9 +57,29 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                         case Commands::HELLO:
                             this->logger->logDebug(this->className, "Gauta "
                                     "HELLO komanda");
-                            this->commandHello(
-                                    &buffer.data()[sizeof (header)],
-                                    socket->getSocket());
+                            // Tirkinu kuris protokolas
+                            // Tirkinu ar ne TCP
+                            if (socket->getClassName().find("TCP") !=
+                                    std::string::npos) {
+                                // TCP protokolas
+                                this->commandHello(
+                                        &buffer.data()[sizeof (header)],
+                                        socket->getSocket());
+                            }
+                            if (socket->getClassName().find("UDP") !=
+                                    std::string::npos) {
+                                // UDP protokolas
+                                UDPServerGSocket* udp =
+                                        (UDPServerGSocket*) socket;
+
+                                this->commandHelloUDP(
+                                        &buffer.data()[sizeof (header)],
+                                                // Generuojamas fake ID
+                                                65535,
+                                        udp->getSocket(),
+                                        udp->returnClientAddressInfo() );
+                            }
+
                             break;
                         default:
                             this->logger->logError(this->className, "Gauta "
@@ -108,6 +138,24 @@ Client GServer::GCommandExecution::commandHello(char* buffer, int socket) {
     helloCommand* hello = (struct helloCommand*) &buffer[0];
     // Suvartau likusius komandos laukus
     // Vartyti nereikia, gautas tekstats
+    return this->clients->Add(socket, hello->domainName, hello->pcName,
+            hello->userName);
+}
+
+Client GServer::GCommandExecution::commandHelloUDP(char* buffer, int socket,
+        int serverSocket, sockaddr_storage klientoDuomenys) {
+    // Nustatau struktura buferyje
+    helloCommand* hello = (struct helloCommand*) &buffer[0];
+    // Suvartau likusius komandos laukus
+
+    // Kuriu UDPCLientGSocket objekta
+    GSocket* udpClient = new GServer::UDPClientGSocket(
+            this->config, this->logger, (GCommandExecution *)this, socket, 
+            serverSocket, klientoDuomenys);
+    // Pridedu prie klientu saraso
+    clientSocketList->insert( std::pair<int, GSocket*>(
+            udpClient->getSocket(), udpClient) );
+
     return this->clients->Add(socket, hello->domainName, hello->pcName,
             hello->userName);
 }

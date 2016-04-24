@@ -11,19 +11,23 @@
  * Created on Sekmadienis, 2016, balandis 24, 21.52
  */
 
-#include "UDPGSocketClient.h"
+#include "UDPClientGSocket.h"
 
-GServer::UDPGSocketClient::UDPGSocketClient( GServer::GConfig* 
-conf, GLogger* logger,  GCommandExecution* command ) : UDPGSocket(conf, 
-        logger, command) {
+GServer::UDPClientGSocket::UDPClientGSocket(GServer::GConfig*
+        conf, GLogger* logger, GCommandExecution* command, int id, int serverSocket,
+        sockaddr_storage klientoDuomenys) : UDPGSocket(conf, logger, command) {
     // Nustatau objekto pavadinima
     this->className = this->className + ":UDPGSocketClient";
-    
+    // Nustatau socketo numeri
+    this->socket_descriptor = id;
+    // Nustatau adreso informacija
+    this->serverStorage = klientoDuomenys;
+
     // Pranesu apie objekto sukurima
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
 
-GServer::UDPGSocketClient::~UDPGSocketClient() {
+GServer::UDPClientGSocket::~UDPClientGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 

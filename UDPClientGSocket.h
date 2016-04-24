@@ -19,15 +19,19 @@
 
 namespace GServer {
 
-    class UDPGSocketClient : public UDPGSocket{
+    class GCommandExecution;
+    class UDPClientGSocket;
+    
+    class UDPClientGSocket : public UDPGSocket{
     public:
         // ##### Kintamieji #####
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
-        UDPGSocketClient( GServer::GConfig* conf, GLogger* logger, 
-        GCommandExecution* command );
-        virtual ~UDPGSocketClient();
+        UDPClientGSocket( GServer::GConfig* conf, GLogger* logger, 
+        GCommandExecution* command, int id,int serverSocket, 
+                sockaddr_storage klientoDuomenys );
+        virtual ~UDPClientGSocket();
         // ##### END Metodai #####      
     protected:
         // ##### Kintamieji #####
@@ -37,6 +41,10 @@ namespace GServer {
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
+        /*** serverSocket ***
+         * Kintamasis skirtas saugoti serverio socketa, per kuri bus siunciami
+         *  duomenys klientams */
+        int serverSocket;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

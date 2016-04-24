@@ -50,6 +50,12 @@ namespace GServer {
          *  maxDescriptor- maksimalaus deskritporiaus reiksme */
         virtual GServer::GSocket* acceptConnection(GServer::GConfig* conf,
                 int &maxDescriptor);
+        
+        /** recive **
+         * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
+         * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
+         * duomenu kiekis */
+        virtual int reciveData();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####

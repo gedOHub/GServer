@@ -14,15 +14,16 @@
 #ifndef GCOMMANDEXECUTION_H
 #define GCOMMANDEXECUTION_H
 
-#include "GObject.h"
+#include "GCommandExecution.h"
 #include "GLogger.h"
 #include "GTagGenerator.h"
 #include "GClientContainer.h"
-#include "GSocket.h"
+#include <vector>
 
 namespace GServer {
-    
+
     class GSocket;
+    class UDPClientGSocket;
 
     class GCommandExecution : public GObject {
     public:
@@ -35,11 +36,15 @@ namespace GServer {
          * vykdo gautas komandas. 
             logger- pranesimu isvedimo objektas 
             tagGenerato- objektas, generuojantis zymas
-            clients- klientu sarao objektas*/
-        GCommandExecution( GLogger* logger, GTagGenerator* tagGenerator, 
-                GClientContainer* clients );
+            clients- klientu sarao objektas
+            clientSocketList- klientu ir socketu sarasas 
+            conf- nuododa i objekta, kuris dirba su konfiguraciniu failu*/
+        GCommandExecution(GLogger* logger, GTagGenerator* tagGenerator,
+                GClientContainer* clients,
+                std::map<int, GServer::GSocket*>* clientSocketList,
+                GConfig* conf);
         virtual ~GCommandExecution();
-        
+
         /*** executeCommand ***
          * Metodas ksirtas nuskaityti is buferio komanda ir grazinti atsakyma i 
          * ta pati buferi. Rezultatas- true, jei pavyko apdoroti komanda, false,
@@ -60,14 +65,27 @@ namespace GServer {
         /*** logger ***
          * Kintamassis skirtas saugoti nuoroda i pranesimu isvedimo objekta */
         GLogger* logger;
-        
+
         /*** tagGenerator ***
          * Kintamasis skirtas asugoti nuoroda i zymy generavimo objekta */
         GTagGenerator* tagGenerator;
-        
+
         /*** clients ***
          * Kintamasis saugo nuoroda i klientu saraso objekta */
         GClientContainer* clients;
+
+        /*** clientSocketList ***
+         * Kintamasis sksirtas saugoti nurooda i klientu ir ju objektu sarasa */
+        std::map<int, GServer::GSocket*>* clientSocketList;
+
+        /*** clientSocketListIterator ***
+         * Kintamasis skirtas begti per sockeut ir ju orbjektu sarasa */
+        std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
+
+        /*** config ***
+         * Kintamasis saugnatis nuoroda i objekta, kuris dirba su nustatymu 
+         * failu */
+        GServer::GConfig* config;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -78,20 +96,28 @@ namespace GServer {
             tag- nustatyta tag reiksme
             size- nustatyta duomenu dydzio reiksme*/
         bool analizeHeader(char* buffer, int& tag, int& size);
-        
+
         /*** analizeCommandHeader ***
          * Metodas skirtas nustatyti atejusios koamndos lauku reiksmes. 
          * Rezultatas- true, pavykus nustatyti, false- nepavykus
             buffer- buferis, kuraime ieskoma
             command- nustatyta komandos reiksme*/
         bool analizeCommandHeader(char* buffer, int& command);
-        
+
         /*** commandHello ***
          * Metodas skirtas ivykdyti HELLO komandai. Rezultatas pridetas kliento
          *  objektas 
             buffer- buferis, kuriame saugomi duomenys
             socket- socketas, kuriame gauta si komanda*/
         Client commandHello(char* buffer, int socket);
+
+        /*** commandHelloUDP ***
+         * Metodas skirtas ivykdyti HELLO komandai ir uzregistruoti UDP klienta.
+         * Rezultatas- naujas kliento objektas 
+            buffer- buferis, kuriame saugomi duomenys
+            socket- socketas, kuriame gauta si komanda*/
+        Client commandHelloUDP(char* buffer, int socket, int serverSocket,
+                sockaddr_storage klientoDuomenys);
         // ##### END Metodai #####
     };
 }

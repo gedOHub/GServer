@@ -58,6 +58,8 @@
           <itemPath>TCPServerGSocket.h</itemPath>
         </logicalFolder>
         <logicalFolder name="f3" displayName="UDP" projectFiles="true">
+          <itemPath>UDPClientGSocket.cpp</itemPath>
+          <itemPath>UDPClientGSocket.h</itemPath>
           <itemPath>UDPGSocket.cpp</itemPath>
           <itemPath>UDPGSocket.h</itemPath>
           <itemPath>UDPServerGSocket.cpp</itemPath>
@@ -233,13 +235,13 @@
       </item>
       <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="UDPClientGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPClientGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="UDPGSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="UDPGSocketClient.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="UDPGSocketClient.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="UDPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -353,13 +355,13 @@
       </item>
       <item path="TCPServerGSocket.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="UDPClientGSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="UDPClientGSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="UDPGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="UDPGSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="UDPGSocketClient.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="UDPGSocketClient.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="UDPServerGSocket.cpp" ex="false" tool="1" flavor2="0">
       </item>

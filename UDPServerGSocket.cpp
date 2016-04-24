@@ -44,11 +44,13 @@ GServer::UDPServerGSocket::~UDPServerGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
+int GServer::UDPServerGSocket::reciveData(){
+    // Tirkinu ar gauti duomenys is naujo kliento ar jau esamo
+    
+}
+
 GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         GServer::GConfig* conf, int& maxDescriptor) {
-    
-    // Apdoroju komanda
-    GSocket::reciveData();
-    
-    return (GSocket* ) this;
+    this->reciveData();
+    return NULL;
 }

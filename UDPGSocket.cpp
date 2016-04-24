@@ -45,3 +45,6 @@ int GServer::UDPGSocket::reciveData(char* buffer, int size) {
     return returnValue;
 }
 
+sockaddr_storage GServer::UDPGSocket::returnClientAddressInfo(){
+    return this->serverStorage;
+}

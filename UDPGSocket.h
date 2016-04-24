@@ -30,12 +30,24 @@ namespace GServer {
             buffer- nuoroda i buferi kuri gauti
             size- nurodoma kiek duomenu gauti*/
         virtual int reciveData( char* buffer, int size );
+        
+        /*** returnClientAddressInfo ***
+         * Metodas sksirtras grazinti kliento adreso informacijos strukturai */
+        sockaddr_storage returnClientAddressInfo();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
         /*** commands ***
          * Kintamasis skirtas saugoti nuoroda i komandu apdorojimo objekta */
         GCommandExecution* commands;
+        
+        /*** serverStorage ***
+         * Kintamasis skirtas saugoti adreso inforamcija */
+        struct sockaddr_storage serverStorage;
+        
+         /*** addr_size ***
+         * Kintamasis skirtas saugoti adreso inforamcijos dydi */
+        socklen_t addr_size = sizeof serverStorage;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -47,13 +59,6 @@ namespace GServer {
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
-        /*** serverStorage ***
-         * Kintamasis skirtas saugoti adreso inforamcija */
-        struct sockaddr_storage serverStorage;
-        
-        /*** addr_size ***
-         * Kintamasis skirtas saugoti adreso inforamcijos dydi */
-        socklen_t addr_size = sizeof serverStorage;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
