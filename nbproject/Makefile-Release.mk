@@ -53,6 +53,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/TCPGSocket.o \
 	${OBJECTDIR}/TCPServerGSocket.o \
 	${OBJECTDIR}/UDPGSocket.o \
+	${OBJECTDIR}/UDPGSocketClient.o \
 	${OBJECTDIR}/UDPServerGSocket.o \
 	${OBJECTDIR}/lib/socket.o \
 	${OBJECTDIR}/main.o
@@ -171,6 +172,11 @@ ${OBJECTDIR}/UDPGSocket.o: UDPGSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPGSocket.o UDPGSocket.cpp
+
+${OBJECTDIR}/UDPGSocketClient.o: UDPGSocketClient.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UDPGSocketClient.o UDPGSocketClient.cpp
 
 ${OBJECTDIR}/UDPServerGSocket.o: UDPServerGSocket.cpp 
 	${MKDIR} -p ${OBJECTDIR}

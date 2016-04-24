@@ -192,15 +192,19 @@ int main(int argc, char** argv) {
                     // Reikia nuskaityti is serveriu socketu saraso
                     // Ivyks naujos sujungimo priemimas
                     GServer::GSocket* newConenction = NULL;
-                    newConenction = serverSocketList.find(currentD)->second->acceptConnection( config, maxDescriptor );
+                    newConenction = serverSocketList.find(
+                            currentD)->second->acceptConnection( 
+                            config, maxDescriptor );
                     // Tirkinu ar pavyko priimti jungti
                     if(newConenction == NULL){
-                        logger->logError("main", "Nepavyko priimti naujos jungties");
+                        logger->logError("main", "Nepavyko priimti naujos "
+                        "jungties");
                         // Tesiu sekanti cikla
                         continue;
                     }
                     // Pridedu prie klientu saraso
-                    clientSocketList[newConenction->getSocket()] = newConenction;
+                    clientSocketList[newConenction->getSocket()] = 
+                            newConenction;
                 }
                 // Atejo duomenys is kliento
                 else {

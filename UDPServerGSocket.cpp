@@ -47,7 +47,8 @@ GServer::UDPServerGSocket::~UDPServerGSocket() {
 GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         GServer::GConfig* conf, int& maxDescriptor) {
     
+    // Apdoroju komanda
     GSocket::reciveData();
-
-    return NULL;
+    
+    return (GSocket* ) this;
 }

@@ -41,7 +41,7 @@ int GServer::UDPGSocket::reciveData(char* buffer, int size) {
             std::to_string(this->socket_descriptor) + ":" +
             std::to_string(this->buffer.size()) + " <---" +
             std::to_string(returnValue));
-
+    
     return returnValue;
 }
 

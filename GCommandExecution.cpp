@@ -97,7 +97,7 @@ bool GServer::GCommandExecution::analizeCommandHeader(char* buffer,
                 std::to_string(command));
         return true;
     } catch (int e) {
-        this->logger->logError(this->className, "Nepavyko nustatyti koamndos "
+        this->logger->logError(this->className, "Nepavyko nustatyti komandos "
                 "duomenu. Klaida: " + std::to_string(e));
         return false;
     }
