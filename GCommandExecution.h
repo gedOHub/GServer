@@ -50,7 +50,7 @@ namespace GServer {
             tunnels- nuoroda i tuneliu saugojimo objekta*/
         GCommandExecution(GLogger* logger, GTagGenerator* tagGenerator,
                 GClientContainer* clients,
-                std::map<int, GServer::GSocket&>* clientSocketList,
+                std::map<int, GServer::GSocket*>* clientSocketList,
                 GConfig* conf, GTunnelContainer* tunnels);
         virtual ~GCommandExecution();
 
@@ -65,10 +65,14 @@ namespace GServer {
 
         /*** registerUDPAccept ***
          * Metodas sksirtas uzregistruoti UDP kliento jungti */
-        void registerUDPAccept(GSocket& udp);
+        void registerUDPAccept(GSocket* udp);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
+        /*** clientSocketList ***
+         * Kintamasis sksirtas saugoti nurooda i klientu ir ju objektu sarasa */
+        std::map<int, GServer::GSocket*>* clientSocketList;
+
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -86,14 +90,6 @@ namespace GServer {
         /*** clients ***
          * Kintamasis saugo nuoroda i klientu saraso objekta */
         GClientContainer* clients;
-
-        /*** clientSocketList ***
-         * Kintamasis sksirtas saugoti nurooda i klientu ir ju objektu sarasa */
-        std::map<int, GServer::GSocket&>* clientSocketList;
-
-        /*** clientSocketListIterator ***
-         * Kintamasis skirtas begti per sockeut ir ju orbjektu sarasa */
-        std::map<int, GServer::GSocket&>::iterator clientSocketListIterator;
 
         /*** config ***
          * Kintamasis saugnatis nuoroda i objekta, kuris dirba su nustatymu 
@@ -149,22 +145,22 @@ namespace GServer {
         /*** commandInitCommand ***
          * Metodas skirtas inicijuosti sujungimui */
         void commandInitCommand(vector<char>& buffer, int& duomCount,
-                int socket, int reciverID);
+                int socket, int& reciverID);
 
         /*** commandInitCommand ***
          * Metodas skirtas inicijuosti sujungimui */
         void commandJsonInitCommand(vector<char>& buffer, int& duomCount,
-                int socket, int reciverID);
+                int socket, int& reciverID);
 
         /*** commandConnecACK ***
          * Metodas skirtas realizuoti CONNECT_AK komandai */
         void commandConnecACK(vector<char>& buffer, int& duomCount, int socket,
-                int reciverSocket);
+                int& reciverSocket);
 
         /*** commandJsonConnecACK ***
          * Metodas skirtas realizuoti CONNECT_AK komandai */
         void commandJsonConnecACK(vector<char>& buffer, int& duomCount, int socket,
-                int reciverSocket);
+                int& reciverSocket);
 
         /*** commandClientConnect ***
          * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */

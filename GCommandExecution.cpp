@@ -10,7 +10,7 @@
 
 GServer::GCommandExecution::GCommandExecution(GLogger* logger,
         GTagGenerator* tagGenerator, GClientContainer* clients,
-        std::map<int, GServer::GSocket&>* clientSocketList, GConfig* conf,
+        std::map<int, GServer::GSocket*>* clientSocketList, GConfig* conf,
         GTunnelContainer* tunnels) :
 GObject() {
     // Nustatau objekto pavadinima
@@ -41,6 +41,12 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
     bool returnValue = false;
     int tempCmd = -1;
     int tag, size;
+
+    // Tikrinu ar nera uzdaryta jungtis
+    if (sendDataSize == 0) {
+        // Uzdaryta jungtis
+        return false;
+    }
 
     // Analizuoju headeri
     if (analizeHeader(buffer.data(), tag, size)) {
@@ -91,17 +97,20 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             int reciverID = -1, duomCout = -1;
                             this->commandInitCommand(buffer, duomCout,
                                     socket->getSocket(), reciverID);
-                            GSocket* client = (GSocket*) &clientSocketList->find(reciverID)->second;
+                            GSocket* client = NULL;
+                            client = &(*this->clientSocketList->find(
+                                    reciverID)->second);
                             // Siunciu duomenis klientui
                             client->sendData(buffer.data(), duomCout);
+                            break;
                         }
                         case Commands::JSON_INIT_CONNECT:
                         {
                             int reciverID = -1, duomCout = -1;
                             this->commandJsonInitCommand(buffer, duomCout,
                                     socket->getSocket(), reciverID);
-                            GSocket* client = (GSocket*) &this->clientSocketList->
-                                    find(reciverID)->second;
+                            GSocket* client = &(*this->clientSocketList->find(
+                                    reciverID)->second);
                             // Siunciu duomenis klientui
                             client->sendData(buffer.data(), duomCout);
                             break;
@@ -111,8 +120,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             int duomCount = -1, reciverSocket = -1;
                             this->commandConnecACK(buffer, duomCount,
                                     socket->getSocket(), reciverSocket);
-                            GSocket* reciver = (GSocket*) &this->clientSocketList->
-                                    find(reciverSocket)->second;
+                            GSocket* reciver = &(*this->clientSocketList->find(
+                                    reciverSocket)->second);
                             reciver->sendData(buffer.data(), duomCount);
                             break;
                         }
@@ -121,8 +130,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             int duomCount = -1, reciverSocket = -1;
                             this->commandJsonConnecACK(buffer, duomCount,
                                     socket->getSocket(), reciverSocket);
-                            GSocket* reciver = (GSocket*) &this->clientSocketList->
-                                    find(reciverSocket)->second;
+                            GSocket* reciver = &(*this->clientSocketList->find(
+                                    reciverSocket)->second);
                             reciver->sendData(buffer.data(), duomCount);
                             break;
                         }
@@ -131,53 +140,36 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             int duomCount = -1, reciverSocket = -1;
                             this->commandClientConnect(buffer, duomCount,
                                     socket->getSocket(), reciverSocket);
-                            GSocket* reciver = (GSocket*) &this->clientSocketList->
-                                    find(reciverSocket)->second;
+                            GSocket* reciver = &(*this->clientSocketList->find(
+                                    reciverSocket)->second);
                             reciver->sendData(buffer.data(), duomCount);
+                            break;
                         }
                         case Commands::BEGIN_READ_ACK:
                         {
                             int duomCount = -1, reciverSocket = -1;
                             this->commandBeginReadAck(buffer, duomCount,
                                     socket->getSocket(), reciverSocket);
-                            GSocket* reciver = (GSocket*) &this->clientSocketList->
-                                    find(reciverSocket)->second;
+                            GSocket* reciver = &(*this->clientSocketList->find(
+                                    reciverSocket)->second);
                             reciver->sendData(buffer.data(), duomCount);
+                            break;
                         }
                         case Commands::CLOSE_TUNNEL:
                         {
                             int duomCount = -1, reciverSocket = -1;
                             this->commandCloseTunnel(buffer, duomCount,
                                     socket->getSocket(), reciverSocket);
-                            GSocket* reciver = (GSocket*) &this->clientSocketList->
-                                    find(reciverSocket)->second;
+                            GSocket* reciver = &(*this->clientSocketList->find(
+                                    reciverSocket)->second);
                             reciver->sendData(buffer.data(), duomCount);
+                            break;
                         }
                         default:
                         {
-                            header* head = (struct header*) &buffer.data()[0];
-                            // Duomenu permetimas i kita socketa
-                            int dep_socket = -1,
-                                    dep_tag = -1,
-                                    lenght = head->lenght + sizeof (header);
-                            this->tunnels->FindByPear(socket->getSocket(),
-                                    head->tag, dep_socket, dep_tag);
-                            GSocket* reciver = (GSocket*) &this->clientSocketList->
-                                    find(dep_socket)->second;
-
-                            // Tikrinu ar rastas sujungimas
-                            if (dep_socket != -1 && dep_tag != -1) {
-                                // Permetineju paketa i reikiama socketa
-                                head->tag = htons(dep_tag);
-                                head->lenght = htonl(head->lenght);
-                                int rSend = 0;
-                                while (rSend != lenght) {
-                                    rSend = rSend +
-                                            reciver->sendData(
-                                            &buffer.data()[rSend],
-                                            lenght - rSend);
-                                }
-                            }
+                            this->logger->logError(this->className, "Gauta "
+                                    "nezinoma komanda: " +
+                                    std::to_string(tempCmd));
                             break;
                         }
                     } //END switch (tempCmd) {
@@ -185,6 +177,30 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                 break;
                 // Bus persiunciami duomenys
             default:
+                header* head = (struct header*) &buffer.data()[0];
+                // Duomenu permetimas i kita socketa
+                int dep_socket = -1,
+                        dep_tag = -1,
+                        lenght = ntohl(head->lenght) + sizeof (header);
+                this->tunnels->FindByPear(socket->getSocket(),
+                        ntohs(head->tag), dep_socket, dep_tag);
+                GSocket* reciver = &(*this->clientSocketList->find(
+                        dep_socket)->second);
+
+
+                // Tikrinu ar rastas sujungimas
+                if (dep_socket != -1 && dep_tag != -1) {
+                    // Permetineju paketa i reikiama socketa
+                    //head->tag = dep_tag;
+                    //head->lenght = head->lenght;
+                    int rSend = 0;
+                    while (rSend != lenght) {
+                        rSend = rSend +
+                                reciver->sendData(
+                                &buffer.data()[rSend],
+                                lenght - rSend);
+                    }
+                }
                 break;
         } // switch (tag)
     } //if (analizeHeader(buffer, tag, size))
@@ -236,8 +252,8 @@ Client GServer::GCommandExecution::commandHello(char* buffer, int socket) {
             hello->userName);
 }
 
-void GServer::GCommandExecution::registerUDPAccept(GSocket& udp) {
-    clientSocketList->insert(std::pair<int, GSocket&>(udp.getSocket(), udp));
+void GServer::GCommandExecution::registerUDPAccept(GSocket* udp) {
+    //clientSocketList[udp->getSocket()] = udp;
 }
 
 void GServer::GCommandExecution::commandList(vector<char>& buffer, int& duomCount, int socket) {
@@ -302,7 +318,7 @@ void GServer::GCommandExecution::commandJsonList(vector<char>& buffer,
 }
 
 void GServer::GCommandExecution::commandInitCommand(vector<char>& buffer,
-        int& duomCount, int socket, int reciverID) {
+        int& duomCount, int socket, int& reciverID) {
     connectInitCommand* connect = (struct connectInitCommand*)
             &buffer.data()[ sizeof ( header) ];
     // Suvartau paketo laukus i tinkama puse
@@ -336,7 +352,7 @@ void GServer::GCommandExecution::commandInitCommand(vector<char>& buffer,
 }
 
 void GServer::GCommandExecution::commandJsonInitCommand(vector<char>& buffer,
-        int& duomCount, int socket, int reciverID) {
+        int& duomCount, int socket, int& reciverID) {
     jsonConnectInitCommand* connect = (struct jsonConnectInitCommand*)
             &buffer.data()[ sizeof ( header) ];
     // Suvartau paketo laukus i tinkama puse
@@ -372,7 +388,7 @@ void GServer::GCommandExecution::commandJsonInitCommand(vector<char>& buffer,
 }
 
 void GServer::GCommandExecution::commandConnecACK(vector<char>& buffer,
-        int& duomCount, int socket, int reciverSocket) {
+        int& duomCount, int socket, int& reciverSocket) {
     // Atejo atsakas is sujungimo
     connectAckCommand* connectAck =
             (struct connectAckCommand*) &buffer.data()[sizeof (header)];
@@ -407,11 +423,11 @@ void GServer::GCommandExecution::commandConnecACK(vector<char>& buffer,
     head->lenght = htonl(sizeof (connectInitAckCommand));
 
     duomCount = sizeof (header) + sizeof (connectInitAckCommand);
-    reciverSocket = ntohs(tunelis->adm_socket);
+    reciverSocket = tunelis->adm_socket;
 }
 
 void GServer::GCommandExecution::commandJsonConnecACK(vector<char>& buffer,
-        int& duomCount, int socket, int reciverSocket) {
+        int& duomCount, int socket, int& reciverSocket) {
     // Atejo atsakas is sujungimo
     jsonConnectAckCommand* connectAck =
             (struct jsonConnectAckCommand*) &buffer.data()[sizeof (header)];
