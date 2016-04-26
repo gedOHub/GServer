@@ -15,12 +15,12 @@
 #define CONSOLEGLOGGER_H
 
 #include <string>
-
 #include "LocalGLogger.h"
-
 
 namespace GServer {
 
+    class LocalGLogger;
+    
     class ConsoleGLogger : public LocalGLogger {
     public:
         // ##### Kintamieji #####

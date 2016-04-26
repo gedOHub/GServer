@@ -14,11 +14,15 @@
 #ifndef GOBJECT_H
 #define GOBJECT_H
 
+#include <libconfig.h>
+#include <string>
 #include <sstream>
 #include <string>
 
 namespace GServer {
 
+    class GLogger;
+    
     class GObject {
     public:
         // ##### Kintamieji #####

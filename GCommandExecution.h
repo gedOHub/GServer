@@ -15,14 +15,22 @@
 #define GCOMMANDEXECUTION_H
 
 #include "GCommandExecution.h"
+#include "GObject.h"
 #include "GLogger.h"
-#include "GTagGenerator.h"
+
 #include "GClientContainer.h"
-#include <vector>
+#include "GSocket.h"
+#include "GTunnelContainer.h"
+
+#include <map>
 
 namespace GServer {
 
     class GSocket;
+    class GTagGenerator;
+    class UDPServerGSocket;
+    class TCPServerGSocket;
+    class TCPClientGSocket;
     class UDPClientGSocket;
 
     class GCommandExecution : public GObject {
@@ -38,11 +46,12 @@ namespace GServer {
             tagGenerato- objektas, generuojantis zymas
             clients- klientu sarao objektas
             clientSocketList- klientu ir socketu sarasas 
-            conf- nuododa i objekta, kuris dirba su konfiguraciniu failu*/
+            conf- nuododa i objekta, kuris dirba su konfiguraciniu failu
+            tunnels- nuoroda i tuneliu saugojimo objekta*/
         GCommandExecution(GLogger* logger, GTagGenerator* tagGenerator,
                 GClientContainer* clients,
-                std::map<int, GServer::GSocket*>* clientSocketList,
-                GConfig* conf);
+                std::map<int, GServer::GSocket&>* clientSocketList,
+                GConfig* conf, GTunnelContainer* tunnels);
         virtual ~GCommandExecution();
 
         /*** executeCommand ***
@@ -53,6 +62,10 @@ namespace GServer {
             size- apdoroto atsakymo dydis buferyje
             socket- kliento objektas, kuris gavo duomenis */
         bool executeCommand(vector<char>& buffer, int& size, GSocket* socket);
+
+        /*** registerUDPAccept ***
+         * Metodas sksirtas uzregistruoti UDP kliento jungti */
+        void registerUDPAccept(GSocket& udp);
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -76,16 +89,20 @@ namespace GServer {
 
         /*** clientSocketList ***
          * Kintamasis sksirtas saugoti nurooda i klientu ir ju objektu sarasa */
-        std::map<int, GServer::GSocket*>* clientSocketList;
+        std::map<int, GServer::GSocket&>* clientSocketList;
 
         /*** clientSocketListIterator ***
          * Kintamasis skirtas begti per sockeut ir ju orbjektu sarasa */
-        std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
+        std::map<int, GServer::GSocket&>::iterator clientSocketListIterator;
 
         /*** config ***
          * Kintamasis saugnatis nuoroda i objekta, kuris dirba su nustatymu 
          * failu */
         GServer::GConfig* config;
+
+        /*** tunnels ***
+         * Kintamasis skirtas saugoti nuoroda i tuneliu saro objekta */
+        GServer::GTunnelContainer* tunnels;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -111,13 +128,58 @@ namespace GServer {
             socket- socketas, kuriame gauta si komanda*/
         Client commandHello(char* buffer, int socket);
 
-        /*** commandHelloUDP ***
-         * Metodas skirtas ivykdyti HELLO komandai ir uzregistruoti UDP klienta.
-         * Rezultatas- naujas kliento objektas 
-            buffer- buferis, kuriame saugomi duomenys
-            socket- socketas, kuriame gauta si komanda*/
-        Client commandHelloUDP(char* buffer, int socket, int serverSocket,
-                sockaddr_storage klientoDuomenys);
+        /*** commandList ***
+         * Metodas skirtas ivygdyti LIST komanda, kuri grazina klientui 
+         * prisjungusiu kientu sarasa. Rezultatas- suformuotas klientu sarasa 
+         * tame paciame masyve, kuris paduotas komandai
+            buffer- nuoroda i buferi
+            duomCount- suformuoto atsakymo duomenu kiekis
+            socket- kintamasis nusakantis kurios soketo nereikai grazinti*/
+        void commandList(vector<char>& buffer, int& duomCount, int socket);
+
+        /*** commandJsonList ***
+         * Metodas skirtas ivygdyti JSON_LIST komanda, kuri grazina klientui 
+         * prisjungusiu kientu sarasa. Rezultatas- suformuotas klientu sarasa 
+         * tame paciame masyve, kuris paduotas komandai
+            buffer- nuoroda i buferi
+            duomCount- suformuoto atsakymo duomenu kiekis
+            socket- kintamasis nusakantis kurios soketo nereikai grazinti*/
+        void commandJsonList(vector<char>& buffer, int& duomCount, int socket);
+
+        /*** commandInitCommand ***
+         * Metodas skirtas inicijuosti sujungimui */
+        void commandInitCommand(vector<char>& buffer, int& duomCount,
+                int socket, int reciverID);
+
+        /*** commandInitCommand ***
+         * Metodas skirtas inicijuosti sujungimui */
+        void commandJsonInitCommand(vector<char>& buffer, int& duomCount,
+                int socket, int reciverID);
+
+        /*** commandConnecACK ***
+         * Metodas skirtas realizuoti CONNECT_AK komandai */
+        void commandConnecACK(vector<char>& buffer, int& duomCount, int socket,
+                int reciverSocket);
+
+        /*** commandJsonConnecACK ***
+         * Metodas skirtas realizuoti CONNECT_AK komandai */
+        void commandJsonConnecACK(vector<char>& buffer, int& duomCount, int socket,
+                int reciverSocket);
+
+        /*** commandClientConnect ***
+         * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */
+        void commandClientConnect(vector<char>& buffer, int& duomCount,
+                int socket, int& reciver);
+        
+        /*** commandBeginReadAck ***
+         * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */
+        void commandBeginReadAck(vector<char>& buffer, int& duomCount,
+                int socket, int& reciver);
+        
+        /*** commandCloseTunnel ***
+         * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */
+        void commandCloseTunnel(vector<char>& buffer, int& duomCount,
+                int socket, int& reciver);
         // ##### END Metodai #####
     };
 }

@@ -10,10 +10,13 @@
 
 #include "GSocket.h"
 #include "structures.h"
+#include "GConfig.h"
 #include "GCommandExecution.h"
 
 namespace GServer {
 
+    class GCommandExecution;
+    
     class UDPGSocket : public GSocket {
     public:
         // ##### Kintamieji #####

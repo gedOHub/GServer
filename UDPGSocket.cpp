@@ -13,6 +13,7 @@
 
 #include "UDPGSocket.h"
 #include "GSocket.h"
+#include "GLogger.h"
 
 GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger, 
         GCommandExecution* command) : GSocket(conf, logger, command) {

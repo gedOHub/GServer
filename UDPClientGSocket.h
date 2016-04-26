@@ -20,7 +20,6 @@
 namespace GServer {
 
     class GCommandExecution;
-    class UDPClientGSocket;
     
     class UDPClientGSocket : public UDPGSocket{
     public:

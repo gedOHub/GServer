@@ -16,13 +16,12 @@
 
 #include "GObject.h"
 #include "GLogger.h"
-#include <libconfig.h>
-#include <string>
 
 namespace GServer {
 
     class GLogger;
-
+    class GObject;
+    
     class GConfig : public GObject {
     public:
         // ##### Kintamieji #####

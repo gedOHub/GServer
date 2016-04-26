@@ -6,7 +6,10 @@
  */
 
 #include "GSocket.h"
+#include "GCommandExecution.h"
+#include "TCPClientGSocket.h"
 #include "exitCodes.h"
+
 
 // TODO: lookupus perdaryti per objekta
 
@@ -221,6 +224,6 @@ int GServer::GSocket::reciveData(){
     returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
     // Perduodu duomenis apdorojimui
     this->commands->executeCommand(this->buffer, returnValue, (GSocket *) this);
-    
+    //returnValue = this->sendData(this->buffer.data(), returnValue);
     return returnValue;
 }

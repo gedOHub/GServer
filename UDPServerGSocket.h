@@ -10,6 +10,10 @@
 
 #include "UDPGSocket.h"
 #include "GCommandExecution.h"
+#include "UDPClientGSocket.h"
+#include "GConfig.h"
+
+#include <arpa/inet.h>
 
 
 namespace GServer {
@@ -29,18 +33,18 @@ namespace GServer {
          *  maxDeskriptor- nuoroda i kintamji, kuris saugo didziuasio 
          * desktoriaus reikse 
             command- nuoroda i objekta, kuris atsakingas uz komandu vykdyma*/
-        UDPServerGSocket(GServer::GConfig* conf, GLogger* logger, 
-                fd_set& visiSocket, int& maxDeskriptor, 
+        UDPServerGSocket(GServer::GConfig* conf, GLogger* logger,
+                fd_set& visiSocket, int& maxDeskriptor,
                 GCommandExecution* command);
         virtual ~UDPServerGSocket();
-        
+
         //TODO: fix it
         /** acceptConnection **
          * Metodas skirtas priimti kliento prisjugimui. Metodas grazina naujai
          *  sukurti kliento objekta */
         //virtual GServer::GSocket* acceptConnection( GServer::GConfig* conf, 
         //int &maxDescriptor );
-        
+
         /** acceptConnection **
          * Metodas skirtas priimti kliento duomenims, nes sio protokolo socketai
          *  neuzmeezga sesijos. Si funkcija tokia pati kaip recive. Sio 
@@ -50,12 +54,12 @@ namespace GServer {
          *  maxDescriptor- maksimalaus deskritporiaus reiksme */
         virtual GServer::GSocket* acceptConnection(GServer::GConfig* conf,
                 int &maxDescriptor);
-        
+
         /** recive **
          * Metodas skirtas gauti duomenis is tinklo. Sia funkcija turi 
          * igyvendinti kiekvienas protokolas savaitp. Rezultatas- gautu 
          * duomenu kiekis */
-        virtual int reciveData();
+        //virtual int reciveData();
         // ##### END Metodai #####
     protected:
         // ##### Kintamieji #####
@@ -65,6 +69,14 @@ namespace GServer {
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
+        /*** UDPClientList ***
+         * Kintamasis skirtas saugoti klientu sarasa surysta su ju objektais */
+        std::map< std::string, UDPClientGSocket* > UDPClientList;
+
+        /*** UDPClientListIterator ***
+         * KKintamasis skirtas vaikscioti per UDPClientList kintamojo duomenis*/
+        std::map< std::string, UDPClientGSocket* >::iterator
+        UDPClientListIterator;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

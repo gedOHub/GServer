@@ -12,6 +12,7 @@
  */
 
 #include "UDPClientGSocket.h"
+#include "GLogger.h"
 
 GServer::UDPClientGSocket::UDPClientGSocket(GServer::GConfig*
         conf, GLogger* logger, GCommandExecution* command, int id, int serverSocket,
@@ -22,6 +23,8 @@ GServer::UDPClientGSocket::UDPClientGSocket(GServer::GConfig*
     this->socket_descriptor = id;
     // Nustatau adreso informacija
     this->serverStorage = klientoDuomenys;
+    // Nustatua per kuri socketa siusti
+    this->serverSocket = serverSocket;
 
     // Pranesu apie objekto sukurima
     this->logger->logDebug(this->className, "Objektas sukurtas");

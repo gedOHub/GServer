@@ -44,13 +44,41 @@ GServer::UDPServerGSocket::~UDPServerGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-int GServer::UDPServerGSocket::reciveData(){
-    // Tirkinu ar gauti duomenys is naujo kliento ar jau esamo
-    
-}
-
 GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         GServer::GConfig* conf, int& maxDescriptor) {
-    this->reciveData();
+    int returnValue = -1;
+
+    // Priimu gaunamus duomenis
+    returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
+    UDPClientGSocket* client;
+    //Tirkinu ar pavyko kazka gauti
+    if (returnValue != -1) {
+        // Pavyko
+        // Ieskau ar esamas klientas ar naujas
+        // Gaminu IP ir PORT kombinacija
+        sockaddr_in* addr = (struct sockaddr_in*)&this->serverStorage;
+        string address (inet_ntoa(addr->sin_addr));
+        address.append(":" + std::to_string(ntohs(addr->sin_port)));
+        
+
+        //this->serverStorage
+        UDPClientListIterator = UDPClientList.find( address );
+        // Tikrinu esamas ar ne
+        if (UDPClientListIterator == UDPClientList.end()) {
+            // Naujas
+            // Reikia sukurti objekta prie soketu
+            //TODO: Generuoti netikra ID
+            client = new UDPClientGSocket(conf, logger, commands, 65535,
+                    this->getSocket(), this->serverStorage);
+            //GSocket g = (GSocket* ) &client;
+            //commands->registerUDPAccept(g);
+        } else {
+            // Esamas
+            client = UDPClientListIterator->second;
+        }
+        // Bandau vygdyti gauta komanda
+        this->commands->executeCommand(this->buffer, returnValue, (GSocket*) &client);
+    }
+
     return NULL;
 }
