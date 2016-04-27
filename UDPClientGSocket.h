@@ -31,6 +31,14 @@ namespace GServer {
         GCommandExecution* command, int id,int serverSocket, 
                 sockaddr_storage klientoDuomenys );
         virtual ~UDPClientGSocket();
+        
+        /** sendData **
+         * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
+         * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
+         * issiustu duomenu kiekis. 
+         *  socketFd- socketo i kuri siusi nuemris
+            data- suformuoti duomenys, kurie bus issiunciami*/
+        virtual int sendData(char * data, int size);
         // ##### END Metodai #####      
     protected:
         // ##### Kintamieji #####

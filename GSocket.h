@@ -34,7 +34,7 @@ namespace GServer {
          * Metodas skirtas baigti darbui su socketu */
         virtual void close();
 
-        /** send **
+        /** sendData **
          * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
          * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
          * issiustu duomenu kiekis. 

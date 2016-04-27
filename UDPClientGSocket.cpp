@@ -34,3 +34,15 @@ GServer::UDPClientGSocket::~UDPClientGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
+int GServer::UDPClientGSocket::sendData(char * data, int size){
+    int temp  = this->socket_descriptor, resultValue= 0;
+    // Nustatau laikinai deskritpriu
+    this->socket_descriptor = this->serverSocket;
+    // Issiucui duomensi
+    resultValue = GServer::UDPGSocket::sendData(data, size);
+    // ATstatau deskritpriu
+    this->socket_descriptor = temp;
+    // Grazinu rezultatus
+    return resultValue;
+}
+
