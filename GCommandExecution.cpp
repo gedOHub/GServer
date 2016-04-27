@@ -43,8 +43,18 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
     int tag, size;
 
     // Tikrinu ar nera uzdaryta jungtis
-    if (sendDataSize == 0) {
+    if (sendDataSize < 0) {
         // Uzdaryta jungtis
+        this->logger->logInfo(this->className, "Klientas " +
+                std::to_string(socket->getSocket()) + +" uzdare sujungima");
+        // Nutraukiu is klientu saraso
+        this->clients->DeleteByID(socket->getSocket());
+        std::map<int, GSocket*>::iterator it = this->clientSocketList->
+                find(socket->getSocket());
+        // Salinu is klineto->Objekta sarso
+        this->clientSocketList->erase(it);
+        // Naikinu pati si objketa
+        delete socket;
         return false;
     }
 
