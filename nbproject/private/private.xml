@@ -6,17 +6,6 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GClientContainer.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/TCPGSocket.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/main.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/TCPClientGSocket.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GCommandExecution.h</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/TCPServerGSocket.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GSocket.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GTunnelContainer.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/UDPServerGSocket.cpp</file>
-            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GCommandExecution.cpp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

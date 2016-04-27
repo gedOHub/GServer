@@ -56,13 +56,11 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         // Pavyko
         // Ieskau ar esamas klientas ar naujas
         // Gaminu IP ir PORT kombinacija
-        sockaddr_in* addr = (struct sockaddr_in*)&this->serverStorage;
-        string address (inet_ntoa(addr->sin_addr));
+        sockaddr_in* addr = (struct sockaddr_in*) & this->serverStorage;
+        string address(inet_ntoa(addr->sin_addr));
         address.append(":" + std::to_string(ntohs(addr->sin_port)));
-        
 
-        //this->serverStorage
-        UDPClientListIterator = UDPClientList.find( address );
+        this->UDPClientListIterator = this->UDPClientList.find(address);
         // Tikrinu esamas ar ne
         if (UDPClientListIterator == UDPClientList.end()) {
             // Naujas
@@ -70,14 +68,23 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
             //TODO: Generuoti netikra ID
             client = new UDPClientGSocket(conf, logger, commands, 65535,
                     this->getSocket(), this->serverStorage);
-            //GSocket g = (GSocket* ) &client;
-            //commands->registerUDPAccept(g);
+            GSocket* g = (GSocket*) & client;
+            // Pridedu prie klientu saraso
+            commands->registerUDPAccept(g);
+            // Pridedu prie UDP kleintu saraso
+            this->UDPClientList.insert(std::pair<string, UDPClientGSocket*>(
+                    address, client));
+            
         } else {
             // Esamas
-            client = UDPClientListIterator->second;
+            client = (UDPClientGSocket*) UDPClientList[address];
+            for (const auto &p : UDPClientList) {
+                std::cout << "m[" << p.first << "] = " << p.second << '\n';
+            }
         }
         // Bandau vygdyti gauta komanda
-        this->commands->executeCommand(this->buffer, returnValue, (GSocket*) &client);
+        this->commands->executeCommand(this->buffer, returnValue,
+                (GSocket*) client);
     }
 
     return NULL;

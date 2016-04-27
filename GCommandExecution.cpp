@@ -263,7 +263,7 @@ Client GServer::GCommandExecution::commandHello(char* buffer, int socket) {
 }
 
 void GServer::GCommandExecution::registerUDPAccept(GSocket* udp) {
-    //clientSocketList[udp->getSocket()] = udp;
+    clientSocketList->insert(std::pair<int, GSocket*>(udp->getSocket(), udp));
 }
 
 void GServer::GCommandExecution::commandList(vector<char>& buffer, int& duomCount, int socket) {
