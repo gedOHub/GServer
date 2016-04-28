@@ -7,19 +7,18 @@
 
 #ifndef GSOCKET_H
 #define GSOCKET_H
-
 #include <vector>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <cerrno>
 
-#include "GLogger.h"
+#include "GObject.h"
 #include "GConfig.h"
 #include "GCommandExecution.h"
 
 namespace GServer {
-
+    
     class GCommandExecution;
     
     class GSocket : public GObject {
@@ -35,7 +34,7 @@ namespace GServer {
          * Metodas skirtas baigti darbui su socketu */
         virtual void close();
 
-        /** send **
+        /** sendData **
          * Meotdas skirtas issiuti duomenis i tinkla per si socketa. Sia 
          * funkcija turi igyvendinti kiekvienas protokolas savaip. Rezultatas-
          * issiustu duomenu kiekis. 

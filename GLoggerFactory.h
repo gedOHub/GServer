@@ -19,6 +19,7 @@
 #include "FileGLogger.h"
 #include "exitCodes.h"
 #include "ConsoleGLogger.h"
+#include <map>
 
 namespace GServer {
 

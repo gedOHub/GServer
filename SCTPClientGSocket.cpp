@@ -12,6 +12,7 @@
  */
 
 #include "SCTPClientGSocket.h"
+#include "GLogger.h"
 
 GServer::SCTPClientGSocket::SCTPClientGSocket( int descritor, 
         GServer::GConfig* conf, GServer::GLogger* logger, fd_set* visiSocket,

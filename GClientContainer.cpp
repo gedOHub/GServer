@@ -102,7 +102,7 @@ void GServer::GClientContainer::PrintPage(int id, int page, char* buffer, int &l
         for (int j = 0; j < PAGE_SIZE; j++)
             it++;
     }
-
+    
     // Pildom duomenis grazinimui
     Client* client;
     int place = 0;

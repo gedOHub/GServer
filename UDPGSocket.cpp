@@ -13,8 +13,11 @@
 
 #include "UDPGSocket.h"
 #include "GSocket.h"
+#include "GLogger.h"
+#include "UDPClientGSocket.h"
+#include <arpa/inet.h>
 
-GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger, 
+GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger,
         GCommandExecution* command) : GSocket(conf, logger, command) {
     // Nustatau pavadinima
     this->className = this->className + ":UDPGSocket";
@@ -34,14 +37,45 @@ void GServer::UDPGSocket::listenSocket() {
 int GServer::UDPGSocket::reciveData(char* buffer, int size) {
     int returnValue = -1;
     // Siusti duomenis
-    returnValue = recvfrom(this->socket_descriptor, buffer, size, MSG_WAITALL, 
+
+    char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
+    char PORT[NI_MAXSERV];
+
+    returnValue = recvfrom(this->socket_descriptor, buffer, size, 0,
             (struct sockaddr *) &serverStorage, &addr_size);
+    int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
+            sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    this->logger->logDebug(this->className, string(IP) + ":" + string(PORT));
     // Pranesimas gautus duomenis
     this->logger->logDebug(this->className,
             std::to_string(this->socket_descriptor) + ":" +
             std::to_string(this->buffer.size()) + " <---" +
             std::to_string(returnValue));
-    
+
     return returnValue;
 }
 
+sockaddr_storage GServer::UDPGSocket::returnClientAddressInfo() {
+    return this->serverStorage;
+}
+
+int GServer::UDPGSocket::sendData(char* data, int size) {
+    char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
+    char PORT[NI_MAXSERV];
+
+    int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
+            sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    int send = 0;
+    while (send != size && send != -1) {
+        this->logger->logDebug(this->className, string(IP) + ":" + string(PORT));
+        send = send + sendto(this->socket_descriptor, data, size, 0,
+                (struct sockaddr *) &serverStorage, sizeof(sockaddr));
+        this->logger->logDebug(this->className,
+                std::to_string(this->socket_descriptor) + ":" +
+                std::to_string(size) + " ---> " + std::to_string(send));
+    }
+    this->logger->logDebug(this->className,string(data,size));
+    return send;
+}

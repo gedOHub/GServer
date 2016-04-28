@@ -11,11 +11,9 @@
 #include <libconfig.h>
 #include <iostream>
 #include <string.h>
-#include <map>
 #include <ctime>
 #include <sstream>
 #include "GObject.h"
-#include "GConfig.h"
 
 using namespace std;
 

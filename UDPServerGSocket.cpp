@@ -28,6 +28,9 @@ GServer::UDPServerGSocket::UDPServerGSocket(GServer::GConfig* conf,
     // Tikrinu ar nera didenis deskritprious nei dabartinis
     this->checkMaxDescriptor(maxDeskriptor);
 
+    // Nustatau pirma netikrai ID
+    fakeClientID.insert(this->fakeClientID.begin(), 65535);
+
     // Objektas sukurtas pilnai
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
@@ -46,9 +49,50 @@ GServer::UDPServerGSocket::~UDPServerGSocket() {
 
 GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         GServer::GConfig* conf, int& maxDescriptor) {
-    
-    // Apdoroju komanda
-    GSocket::reciveData();
-    
-    return (GSocket* ) this;
+    int returnValue = -1;
+
+    // Priimu gaunamus duomenis
+    returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
+    UDPClientGSocket* client;
+    //Tirkinu ar pavyko kazka gauti
+    if (returnValue > 1) {
+        // Pavyko
+        // Ieskau ar esamas klientas ar naujas
+        // Gaminu IP ir PORT kombinacija
+        sockaddr_in* addr = (struct sockaddr_in*) & this->serverStorage;
+        string address(inet_ntoa(addr->sin_addr));
+        address.append(":" + std::to_string(ntohs(addr->sin_port)));
+
+        this->UDPClientListIterator = this->UDPClientList.find(address);
+        // Tikrinu esamas ar ne
+        if (UDPClientListIterator == UDPClientList.end()) {
+            // Naujas
+            // Reikia sukurti objekta prie soketu
+            //TODO: Generuoti netikra ID
+            client = new UDPClientGSocket(conf, logger, commands,
+                    this->getNextID(), this->getSocket(), this->serverStorage);
+           // GSocket* g = (GSocket*) ;
+            // Pridedu prie klientu saraso
+            commands->registerUDPAccept(client);
+            // Pridedu prie UDP kleintu saraso
+            this->UDPClientList.insert(std::pair<string, UDPClientGSocket*>(
+                    address, client));
+        } else {
+            // Esamas
+            client = (UDPClientGSocket*) UDPClientList[address];
+        }
+        // Bandau vygdyti gauta komanda
+        this->commands->executeCommand(this->buffer, returnValue,
+                (GSocket*) client);
+    }
+
+    return NULL;
+}
+
+int GServer::UDPServerGSocket::getNextID() {
+    int id = this->fakeClientID.back() + 1;
+    this->fakeClientID.insert(this->fakeClientID.end(), id);
+    this->logger->logDebug(this->className, "Naujas netirkas id: " + 
+            std::to_string(id));
+    return id;
 }

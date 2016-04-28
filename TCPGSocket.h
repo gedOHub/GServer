@@ -14,6 +14,8 @@
 
 namespace GServer {
 
+    class GCommandExecution;
+    
     class TCPGSocket : public GSocket {
     public:
         // ##### Kintamieji #####

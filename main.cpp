@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     std::map<int, GServer::GSocket*> serverSocketList;
     /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
     std::map<int, GServer::GSocket*>::iterator serverSocketListIterator;
-    /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
+    /* Sarasas saugantis sokcetus, kurie klausosi prisjungimu sarasa */
     std::map<int, GServer::GSocket*> clientSocketList;
     /* Kintamasis skirtas dirbti su serveriu socketu sarasu dirbti */
     std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
@@ -78,9 +78,12 @@ int main(int argc, char** argv) {
     GServer::GTagGenerator tGenerator(logger);
     // Kuriu klientu saraso objekta
     GServer::GClientContainer clients(logger);
+    // Kuriu tuneliu saraso objekta
+    GServer::GTunnelContainer tunnel(logger);
     // Kuriu komandu apdorojimo objekta
-    GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients);
-    
+    GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients,
+            &clientSocketList, config, &tunnel);
+
     //TODO: Issiaksinkti kaip sukeisti pointerius
     /*
     GServer::GLogger* oldLogger = logger;
@@ -125,37 +128,37 @@ int main(int argc, char** argv) {
         logger->logDebug("main", "Kuriu TCP jungti");
         TCPServer = new GServer::TCPServerGSocket(config, logger,
                 visiSkaitomiSocket, maxDescriptor, &cmdExec);
-        if(TCPServer == NULL){
+        if (TCPServer == NULL) {
             logger->logError("main", "Nepavyko sukurti TCP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_TCP_SERVER_SOCKET);
         }
         // Pridedu TCP socket jungti i serveriu sarasa
         serverSocketList[TCPServer->getSocket()] = TCPServer;
     }
-    
+
     GServer::SCTPServerGSocket* SCTPServer = NULL;
     // Tikrinu ar bus dirbama su SCTP jungtimis
-    if(config->getBoolSetting("SCTP_ENABLE")){
+    if (config->getBoolSetting("SCTP_ENABLE")) {
         //SCTP jungtis ijungta
         logger->logDebug("main", "Kuriu SCTP jungti");
-        SCTPServer = new GServer::SCTPServerGSocket(config, logger, 
+        SCTPServer = new GServer::SCTPServerGSocket(config, logger,
                 visiSkaitomiSocket, maxDescriptor, &cmdExec);
-        if(SCTPServer == NULL){
+        if (SCTPServer == NULL) {
             logger->logError("main", "Nepavyko sukurti SCTP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_SCTP_SERVER_SOCKET);
         }
         // Pridedu TCP socket jungti i serveriu sarasa
         serverSocketList[SCTPServer->getSocket()] = SCTPServer;
     }
-    
+
     GServer::UDPServerGSocket* UDPServer = NULL;
     // Tikrinu ar bus dirbama su UDP jungtimis
-    if(config->getBoolSetting("UDP_ENABLE")){
+    if (config->getBoolSetting("UDP_ENABLE")) {
         //UDP jungtis ijungta
         logger->logDebug("main", "Kuriu UDP jungti");
-        UDPServer = new GServer::UDPServerGSocket(config, logger, 
+        UDPServer = new GServer::UDPServerGSocket(config, logger,
                 visiSkaitomiSocket, maxDescriptor, &cmdExec);
-        if(UDPServer == NULL){
+        if (UDPServer == NULL) {
             logger->logError("main", "Nepavyko sukurti UDP jungties");
             exit(GServer::EXIT_CODES::UNABLE_CREATE_UDP_SERVER_SOCKET);
         }
@@ -193,25 +196,20 @@ int main(int argc, char** argv) {
                     // Ivyks naujos sujungimo priemimas
                     GServer::GSocket* newConenction = NULL;
                     newConenction = serverSocketList.find(
-                            currentD)->second->acceptConnection( 
-                            config, maxDescriptor );
+                            currentD)->second->acceptConnection(
+                            config, maxDescriptor);
                     // Tirkinu ar pavyko priimti jungti
-                    if(newConenction == NULL){
-                        logger->logError("main", "Nepavyko priimti naujos "
-                        "jungties");
-                        // Tesiu sekanti cikla
-                        continue;
+                    if (newConenction != NULL) {
+                        // Pridedu prie klientu saraso
+                        clientSocketList[newConenction->getSocket()] =
+                                newConenction;
                     }
-                    // Pridedu prie klientu saraso
-                    clientSocketList[newConenction->getSocket()] = 
-                            newConenction;
-                }
-                // Atejo duomenys is kliento
+                }// Atejo duomenys is kliento
                 else {
                     // Surandu klienta ir duodu jam skaityti gautus duomenis
-                    if(clientSocketList[currentD]->reciveData() <= 0){
+                    if (clientSocketList[currentD]->reciveData() <= 0) {
                         // Sujungimas baigtas arba klaida
-                        logger->logInfo("main","Sujungimas " + 
+                        logger->logInfo("main", "Sujungimas " +
                                 std::to_string(currentD) + " atsijunge");
                         delete clientSocketList[currentD];
                     }
@@ -221,21 +219,19 @@ int main(int argc, char** argv) {
     }
 
     logger->logInfo("main", "Programa baigia darba");
-    
+
     // Begu per serveriu saras ir naikinu serveriu socketus
-    for (serverSocketListIterator = serverSocketList.begin(); 
-            serverSocketListIterator != serverSocketList.end(); 
-            ++serverSocketListIterator)
-    {
+    for (serverSocketListIterator = serverSocketList.begin();
+            serverSocketListIterator != serverSocketList.end();
+            ++serverSocketListIterator) {
         // Salinu serveriu socketus
         delete serverSocketListIterator->second;
-        
+
     }
     // Begu per klientu saras ir naikinu serveriu socketus
-    for (clientSocketListIterator = clientSocketList.begin(); 
-            clientSocketListIterator != clientSocketList.end(); 
-            ++clientSocketListIterator)
-    {
+    for (clientSocketListIterator = clientSocketList.begin();
+            clientSocketListIterator != clientSocketList.end();
+            ++clientSocketListIterator) {
         // Salinu kliento socketus socketus
         delete clientSocketListIterator->second;
     }

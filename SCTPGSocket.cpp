@@ -12,6 +12,7 @@
  */
 
 #include "SCTPGSocket.h"
+#include "GLogger.h"
 
 GServer::SCTPGSocket::SCTPGSocket(GConfig* conf, GLogger* logger, 
         GCommandExecution* command) : GSocket(conf, logger, command) {

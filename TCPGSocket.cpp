@@ -24,13 +24,13 @@ GServer::TCPGSocket::~TCPGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-int GServer::TCPGSocket::sendData(char * data, int size){
+int GServer::TCPGSocket::sendData(char* data, int size){
     int returnValue = -1;
     // Siusti duomenis
-    returnValue = send(this->socket_descriptor, &data, size, 0 );
+    returnValue = send(this->socket_descriptor, &data[0], size, 0 );
     // Pranesimas issiutus duomenis
     this->logger->logDebug(this->className, 
-            std::to_string(this->socket_descriptor) + " --->" + 
+            std::to_string(this->socket_descriptor) + " ---> " + 
             std::to_string(returnValue));
     return returnValue;
 }

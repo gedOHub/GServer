@@ -16,12 +16,12 @@
 
 #include <iostream>
 #include <sstream>
-
 #include "GLogger.h"
-
 
 namespace GServer {
 
+    class GLogger;
+    
     class LocalGLogger : public GLogger {
     public:
         // ##### Kintamieji #####

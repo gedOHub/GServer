@@ -14,11 +14,12 @@
 #include "GObject.h"
 #include <stdio.h>
 #include <string.h>
-#include "GLogger.h"
 
 using namespace std;
 namespace GServer {
 
+    class GLogger;
+    
     class GTunnelContainer : public GObject {
     public:
         // ##### Kintamieji #####
