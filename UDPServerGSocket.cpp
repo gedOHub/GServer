@@ -78,9 +78,6 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         } else {
             // Esamas
             client = (UDPClientGSocket*) UDPClientList[address];
-            for (const auto &p : UDPClientList) {
-                std::cout << "m[" << p.first << "] = " << p.second << '\n';
-            }
         }
         // Bandau vygdyti gauta komanda
         this->commands->executeCommand(this->buffer, returnValue,

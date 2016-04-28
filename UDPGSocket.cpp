@@ -41,7 +41,7 @@ int GServer::UDPGSocket::reciveData(char* buffer, int size) {
     char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
     char PORT[NI_MAXSERV];
 
-    returnValue = recvfrom(this->socket_descriptor, buffer, size, MSG_WAITALL,
+    returnValue = recvfrom(this->socket_descriptor, buffer, size, 0,
             (struct sockaddr *) &serverStorage, &addr_size);
     int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
             sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
@@ -76,5 +76,6 @@ int GServer::UDPGSocket::sendData(char* data, int size) {
                 std::to_string(this->socket_descriptor) + ":" +
                 std::to_string(size) + " ---> " + std::to_string(send));
     }
+    this->logger->logDebug(this->className,string(data,size));
     return send;
 }
