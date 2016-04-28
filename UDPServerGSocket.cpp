@@ -52,7 +52,7 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
     returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
     UDPClientGSocket* client;
     //Tirkinu ar pavyko kazka gauti
-    if (returnValue != -1) {
+    if (returnValue > 1) {
         // Pavyko
         // Ieskau ar esamas klientas ar naujas
         // Gaminu IP ir PORT kombinacija
@@ -74,7 +74,6 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
             // Pridedu prie UDP kleintu saraso
             this->UDPClientList.insert(std::pair<string, UDPClientGSocket*>(
                     address, client));
-            
         } else {
             // Esamas
             client = (UDPClientGSocket*) UDPClientList[address];
@@ -82,6 +81,9 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         // Bandau vygdyti gauta komanda
         this->commands->executeCommand(this->buffer, returnValue,
                 (GSocket*) client);
+    } else if(returnValue == 1){
+        // Gavau live paketa
+        this->logger->logDebug(this->className, "Gavau LIVE ACK paketa");
     }
 
     return NULL;
