@@ -28,6 +28,9 @@ GServer::UDPServerGSocket::UDPServerGSocket(GServer::GConfig* conf,
     // Tikrinu ar nera didenis deskritprious nei dabartinis
     this->checkMaxDescriptor(maxDeskriptor);
 
+    // Nustatau pirma netikrai ID
+    fakeClientID.insert(this->fakeClientID.begin(), 65535);
+
     // Objektas sukurtas pilnai
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
@@ -66,8 +69,8 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
             // Naujas
             // Reikia sukurti objekta prie soketu
             //TODO: Generuoti netikra ID
-            client = new UDPClientGSocket(conf, logger, commands, 65535,
-                    this->getSocket(), this->serverStorage);
+            client = new UDPClientGSocket(conf, logger, commands,
+                    this->getNextID(), this->getSocket(), this->serverStorage);
             GSocket* g = (GSocket*) & client;
             // Pridedu prie klientu saraso
             commands->registerUDPAccept(g);
@@ -81,10 +84,15 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         // Bandau vygdyti gauta komanda
         this->commands->executeCommand(this->buffer, returnValue,
                 (GSocket*) client);
-    } else if(returnValue == 1){
-        // Gavau live paketa
-        this->logger->logDebug(this->className, "Gavau LIVE ACK paketa");
     }
 
     return NULL;
+}
+
+int GServer::UDPServerGSocket::getNextID() {
+    int id = this->fakeClientID.back() + 1;
+    this->fakeClientID.insert(this->fakeClientID.end(), id);
+    this->logger->logDebug(this->className, "Naujas netirkas id: " + 
+            std::to_string(id));
+    return id;
 }

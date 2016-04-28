@@ -77,9 +77,16 @@ namespace GServer {
          * KKintamasis skirtas vaikscioti per UDPClientList kintamojo duomenis*/
         std::map< std::string, UDPClientGSocket* >::iterator
         UDPClientListIterator;
+        
+        /*** fakeClientID ***
+         * Kintamasis saugo jau uzregistruotu kleintu ID sarasa */
+        vector<int> fakeClientID;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
+        /*** getNextID ***
+         * Metodas skirtas gauti sekanti netikra ID */
+        int getNextID();
         // ##### END Metodai #####
     };
 }
