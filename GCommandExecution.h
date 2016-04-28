@@ -73,6 +73,10 @@ namespace GServer {
          * Kintamasis sksirtas saugoti nurooda i klientu ir ju objektu sarasa */
         std::map<int, GServer::GSocket*>* clientSocketList;
 
+        /*** clientSocketListIterator ***
+         * Kintamasis sksirtas veikscioti po klientu sarasa clientSocketList */
+        std::map<int, GServer::GSocket*>::iterator clientSocketListIterator;
+
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####
@@ -166,16 +170,20 @@ namespace GServer {
          * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */
         void commandClientConnect(vector<char>& buffer, int& duomCount,
                 int socket, int& reciver);
-        
+
         /*** commandBeginReadAck ***
          * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */
         void commandBeginReadAck(vector<char>& buffer, int& duomCount,
                 int socket, int& reciver);
-        
+
         /*** commandCloseTunnel ***
          * Metodas skirtasigyvnedinti CLIENT_CONNECT komandai */
         void commandCloseTunnel(vector<char>& buffer, int& duomCount,
                 int socket, int& reciver);
+        
+        /*** printClientList ***
+         * Metodas skirtas isspausdinti klientu sarasa */
+        void printClientList();
         // ##### END Metodai #####
     };
 }

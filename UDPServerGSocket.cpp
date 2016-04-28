@@ -71,9 +71,9 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
             //TODO: Generuoti netikra ID
             client = new UDPClientGSocket(conf, logger, commands,
                     this->getNextID(), this->getSocket(), this->serverStorage);
-            GSocket* g = (GSocket*) & client;
+           // GSocket* g = (GSocket*) ;
             // Pridedu prie klientu saraso
-            commands->registerUDPAccept(g);
+            commands->registerUDPAccept(client);
             // Pridedu prie UDP kleintu saraso
             this->UDPClientList.insert(std::pair<string, UDPClientGSocket*>(
                     address, client));

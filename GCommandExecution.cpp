@@ -58,162 +58,223 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         return false;
     }
 
-    // Analizuoju headeri
-    if (analizeHeader(buffer.data(), tag, size)) {
-        // Pavykus nustaty headerio duomenis
-        switch (tag) {
-                // Atejo komanda
-            case 0:
-                // Analizuoju kokia komanda atejo
-                if (this->analizeCommandHeader(
-                        &buffer.data()[sizeof (header)], tempCmd)) {
-                    // Pavyko nustatyti kokia komanda atejo
-                    // TOliau atlieku veiksmus su atitinkama komanda
-                    switch (tempCmd) {
-                        case Commands::HELLO:
-                        {
-                            this->logger->logDebug(this->className, "Gauta "
-                                    "HELLO komanda");
-                            this->commandHello(
-                                    &buffer.data()[sizeof (header)],
-                                    socket->getSocket());
-                            returnValue = true;
-                            break;
-                        }
-                        case Commands::LIST:
-                        {
-                            int tempCount = -1;
-                            // Pildau puslapi klientu inforamcija su atsaku
-                            this->commandList(buffer, tempCount,
-                                    socket->getSocket());
-                            socket->sendData(buffer.data(), tempCount);
-                            if (tempCount > 0) returnValue = true;
-                            else returnValue = false;
-                            break;
-                        }
-                        case Commands::JSON_LIST:
-                        {
-                            int tempCount = -1;
-                            // Pildau puslapi klientu inforamcija su atsaku
-                            this->commandJsonList(buffer, tempCount,
-                                    socket->getSocket());
-                            socket->sendData(buffer.data(), tempCount);
-                            if (tempCount > 0) returnValue = true;
-                            else returnValue = false;
-                            break;
-                        }
-                        case Commands::INIT_CONNECT:
-                        {
-                            int reciverID = -1, duomCout = -1;
-                            this->commandInitCommand(buffer, duomCout,
-                                    socket->getSocket(), reciverID);
-                            GSocket* client = NULL;
-                            client = &(*this->clientSocketList->find(
-                                    reciverID)->second);
-                            // Siunciu duomenis klientui
-                            client->sendData(buffer.data(), duomCout);
-                            break;
-                        }
-                        case Commands::JSON_INIT_CONNECT:
-                        {
-                            int reciverID = -1, duomCout = -1;
-                            this->commandJsonInitCommand(buffer, duomCout,
-                                    socket->getSocket(), reciverID);
-                            GSocket* client = &(*this->clientSocketList->find(
-                                    reciverID)->second);
-                            // Siunciu duomenis klientui
-                            client->sendData(buffer.data(), duomCout);
-                            break;
-                        }
-                        case Commands::CONNECT_ACK:
-                        {
-                            int duomCount = -1, reciverSocket = -1;
-                            this->commandConnecACK(buffer, duomCount,
-                                    socket->getSocket(), reciverSocket);
-                            GSocket* reciver = &(*this->clientSocketList->find(
-                                    reciverSocket)->second);
-                            reciver->sendData(buffer.data(), duomCount);
-                            break;
-                        }
-                        case Commands::JSON_CONNECT_ACK:
-                        {
-                            int duomCount = -1, reciverSocket = -1;
-                            this->commandJsonConnecACK(buffer, duomCount,
-                                    socket->getSocket(), reciverSocket);
-                            GSocket* reciver = &(*this->clientSocketList->find(
-                                    reciverSocket)->second);
-                            reciver->sendData(buffer.data(), duomCount);
-                            break;
-                        }
-                        case Commands::CLIENT_CONNECT:
-                        {
-                            int duomCount = -1, reciverSocket = -1;
-                            this->commandClientConnect(buffer, duomCount,
-                                    socket->getSocket(), reciverSocket);
-                            GSocket* reciver = &(*this->clientSocketList->find(
-                                    reciverSocket)->second);
-                            reciver->sendData(buffer.data(), duomCount);
-                            break;
-                        }
-                        case Commands::BEGIN_READ_ACK:
-                        {
-                            int duomCount = -1, reciverSocket = -1;
-                            this->commandBeginReadAck(buffer, duomCount,
-                                    socket->getSocket(), reciverSocket);
-                            GSocket* reciver = &(*this->clientSocketList->find(
-                                    reciverSocket)->second);
-                            reciver->sendData(buffer.data(), duomCount);
-                            break;
-                        }
-                        case Commands::CLOSE_TUNNEL:
-                        {
-                            int duomCount = -1, reciverSocket = -1;
-                            this->commandCloseTunnel(buffer, duomCount,
-                                    socket->getSocket(), reciverSocket);
-                            GSocket* reciver = &(*this->clientSocketList->find(
-                                    reciverSocket)->second);
-                            reciver->sendData(buffer.data(), duomCount);
-                            break;
-                        }
-                        default:
-                        {
-                            this->logger->logError(this->className, "Gauta "
-                                    "nezinoma komanda: " +
-                                    std::to_string(tempCmd));
-                            break;
-                        }
-                    } //END switch (tempCmd) {
-                }// END Analizuoju kokia komanda atejo
-                break;
-                // Bus persiunciami duomenys
-            default:
-                header* head = (struct header*) &buffer.data()[0];
-                // Duomenu permetimas i kita socketa
-                int dep_socket = -1,
-                        dep_tag = -1,
-                        lenght = ntohl(head->lenght) + sizeof (header);
-                this->tunnels->FindByPear(socket->getSocket(),
-                        ntohs(head->tag), dep_socket, dep_tag);
-                GSocket* reciver = &(*this->clientSocketList->find(
-                        dep_socket)->second);
+
+    try {
+        // Analizuoju headeri
+        if (analizeHeader(buffer.data(), tag, size)) {
+            // Pavykus nustaty headerio duomenis
+            switch (tag) {
+                    // Atejo komanda
+                case 0:
+                    // Analizuoju kokia komanda atejo
+                    if (this->analizeCommandHeader(
+                            &buffer.data()[sizeof (header)], tempCmd)) {
+                        // Pavyko nustatyti kokia komanda atejo
+                        // TOliau atlieku veiksmus su atitinkama komanda
+                        switch (tempCmd) {
+                            case Commands::HELLO:
+                            {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "HELLO komanda");
+                                this->commandHello(
+                                        &buffer.data()[sizeof (header)],
+                                        socket->getSocket());
+                                returnValue = true;
+                                break;
+                            }
+                            case Commands::LIST:
+                            {
+                                int tempCount = -1;
+                                // Pildau puslapi klientu inforamcija su atsaku
+                                this->commandList(buffer, tempCount,
+                                        socket->getSocket());
+                                socket->sendData(buffer.data(), tempCount);
+                                if (tempCount > 0) returnValue = true;
+                                else returnValue = false;
+                                break;
+                            }
+                            case Commands::JSON_LIST:
+                            {
+                                int tempCount = -1;
+                                // Pildau puslapi klientu inforamcija su atsaku
+                                this->commandJsonList(buffer, tempCount,
+                                        socket->getSocket());
+                                socket->sendData(buffer.data(), tempCount);
+                                if (tempCount > 0) returnValue = true;
+                                else returnValue = false;
+                                break;
+                            }
+                            case Commands::INIT_CONNECT:
+                            {
+                                int reciverID = -1, duomCout = -1;
+                                this->commandInitCommand(buffer, duomCout,
+                                        socket->getSocket(), reciverID);
+                                GSocket* client = NULL;
+                                // Randu klientu su kuriuo norima uzmegzti rysi
+                                this->clientSocketListIterator =
+                                        this->clientSocketList->find(reciverID);
+                                // Tirkinu ar pavyko uzmegzti
+                                if (this->clientSocketListIterator !=
+                                        this->clientSocketList->end()) {
+                                    // Radau
+                                    client = (GSocket*) &(*this->clientSocketListIterator->second);
+                                    // Siunciu duomenis klientui
+                                    client->sendData(buffer.data(), duomCout);
+                                } else {
+                                    // Neradau
+                                    this->logger->logError(this->className,
+                                            "[INIT_CONNECT]Neradau kliento su ID " +
+                                            std::to_string(reciverID));
+                                }
+                                break;
+                            }
+                            case Commands::JSON_INIT_CONNECT:
+                            {
+                                int reciverID = -1, duomCout = -1;
+                                this->commandJsonInitCommand(buffer, duomCout,
+                                        socket->getSocket(), reciverID);
+                                GSocket* client = NULL;
+                                // Randu klientu su kuriuo norima uzmegzti rysi
+                                this->clientSocketListIterator =
+                                        this->clientSocketList->find(reciverID);
+                                // Tirkinu ar pavyko uzmegzti
+                                if (this->clientSocketListIterator !=
+                                        this->clientSocketList->end()) {
+                                    // Radau
+                                    client = (GSocket*) &(*this->clientSocketListIterator->second);
+                                    // Siunciu duomenis klientui
+                                    client->sendData(buffer.data(), duomCout);
+                                } else {
+                                    // Neradau
+                                    this->logger->logError(this->className,
+                                            "[JSON_INIT_CONNECT]Neradau kliento su ID " +
+                                            std::to_string(reciverID));
+                                }
+                                break;
+                            }
+                            case Commands::CONNECT_ACK:
+                            {
+                                int duomCount = -1, reciverSocket = -1;
+                                this->commandConnecACK(buffer, duomCount,
+                                        socket->getSocket(), reciverSocket);
+                                GSocket* reciver = NULL;
+                                // Randu klientu su kuriuo norima uzmegzti rysi
+                                this->clientSocketListIterator =
+                                        this->clientSocketList->find(reciverSocket);
+                                // Tirkinu ar pavyko uzmegzti
+                                if (this->clientSocketListIterator !=
+                                        this->clientSocketList->end()) {
+                                    // Radau
+                                    reciver = (GSocket*) &(*this->clientSocketListIterator->second);
+                                    // Siunciu duomenis klientui
+                                    reciver->sendData(buffer.data(), duomCount);
+                                } else {
+                                    // Neradau
+                                    this->logger->logError(this->className,
+                                            "[CONNECT_ACK]Neradau kliento su ID " +
+                                            std::to_string(reciverSocket));
+                                }
+                                break;
+                            }
+                            case Commands::JSON_CONNECT_ACK:
+                            {
+                                int duomCount = -1, reciverSocket = -1;
+                                this->commandJsonConnecACK(buffer, duomCount,
+                                        socket->getSocket(), reciverSocket);
+                                GSocket* reciver = NULL;
+                                // Randu klientu su kuriuo norima uzmegzti rysi
+                                this->clientSocketListIterator =
+                                        this->clientSocketList->find(reciverSocket);
+                                // Tirkinu ar pavyko uzmegzti
+                                if (this->clientSocketListIterator !=
+                                        this->clientSocketList->end()) {
+                                    // Radau
+                                    reciver = (GSocket*) &(*this->clientSocketListIterator->second);
+                                    // Siunciu duomenis klientui
+                                    reciver->sendData(buffer.data(), duomCount);
+                                } else {
+                                    // Neradau
+                                    this->logger->logError(this->className,
+                                            "[JSON_CONNECT_ACK]Neradau kliento su ID " +
+                                            std::to_string(reciverSocket));
+                                }
+                                break;
+                            }
+                            case Commands::CLIENT_CONNECT:
+                            {
+                                int duomCount = -1, reciverSocket = -1;
+                                this->commandClientConnect(buffer, duomCount,
+                                        socket->getSocket(), reciverSocket);
+                                GSocket* reciver = (GSocket*) &(*clientSocketList->
+                                        find(reciverSocket)->second);
+                                reciver->sendData(buffer.data(), duomCount);
+                                break;
+                            }
+                            case Commands::BEGIN_READ_ACK:
+                            {
+                                int duomCount = -1, reciverSocket = -1;
+                                this->commandBeginReadAck(buffer, duomCount,
+                                        socket->getSocket(), reciverSocket);
+                                GSocket* reciver = (GSocket*) &(*clientSocketList->
+                                        find(reciverSocket)->second);
+                                reciver->sendData(buffer.data(), duomCount);
+                                break;
+                            }
+                            case Commands::CLOSE_TUNNEL:
+                            {
+                                int duomCount = -1, reciverSocket = -1;
+                                this->commandCloseTunnel(buffer, duomCount,
+                                        socket->getSocket(), reciverSocket);
+                                GSocket* reciver = (GSocket*) &(*clientSocketList->
+                                        find(reciverSocket)->second);
+                                reciver->sendData(buffer.data(), duomCount);
+                                break;
+                            }
+                            default:
+                            {
+                                this->logger->logError(this->className, "Gauta "
+                                        "nezinoma komanda: " +
+                                        std::to_string(tempCmd));
+                                break;
+                            }
+                        } //END switch (tempCmd) {
+                    }// END Analizuoju kokia komanda atejo
+                    break;
+                    // Bus persiunciami duomenys
+                default:
+                    header* head = (struct header*) &buffer.data()[0];
+                    // Duomenu permetimas i kita socketa
+                    int dep_socket = -1,
+                            dep_tag = -1,
+                            lenght = ntohl(head->lenght) + sizeof (header);
+                    this->tunnels->FindByPear(socket->getSocket(),
+                            ntohs(head->tag), dep_socket, dep_tag);
+                    GSocket* reciver = &(*this->clientSocketList->find(
+                            dep_socket)->second);
 
 
-                // Tikrinu ar rastas sujungimas
-                if (dep_socket != -1 && dep_tag != -1) {
-                    // Permetineju paketa i reikiama socketa
-                    //head->tag = dep_tag;
-                    //head->lenght = head->lenght;
-                    int rSend = 0;
-                    while (rSend != lenght) {
-                        rSend = rSend +
-                                reciver->sendData(
-                                &buffer.data()[rSend],
-                                lenght - rSend);
+                    // Tikrinu ar rastas sujungimas
+                    if (dep_socket != -1 && dep_tag != -1) {
+                        // Permetineju paketa i reikiama socketa
+                        //head->tag = dep_tag;
+                        //head->lenght = head->lenght;
+                        int rSend = 0;
+                        while (rSend != lenght) {
+                            rSend = rSend +
+                                    reciver->sendData(
+                                    &buffer.data()[rSend],
+                                    lenght - rSend);
+                        }
                     }
-                }
-                break;
-        } // switch (tag)
-    } //if (analizeHeader(buffer, tag, size))
+                    break;
+            } // switch (tag)
+        }
+    }//if (analizeHeader(buffer, tag, size))
+    catch (int e) {
+        this->logger->logError(this->className, "Vykdant komanda iskilo "
+                "klaida: " + std::to_string(e));
+        return -1;
+    }
 
     return returnValue;
 }
@@ -573,4 +634,10 @@ void GServer::GCommandExecution::commandCloseTunnel(vector<char>& buffer,
     head->lenght = htonl(sizeof (closeTunnelCommand));
 
     duomCount = sizeof (header) + sizeof (closeTunnelCommand);
+}
+
+void GServer::GCommandExecution::printClientList() {
+    for(this->clientSocketListIterator=this->clientSocketList->begin();this->clientSocketListIterator!=this->clientSocketList->end() ; ++this->clientSocketListIterator){
+        this->logger->logDebug(this->className, "["+std::to_string(this->clientSocketListIterator->first) + "]" + std::to_string((*this->clientSocketListIterator->second).getSocket()));
+    }
 }
