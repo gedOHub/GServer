@@ -128,10 +128,10 @@ bool GServer::GClientContainer::IsValidPage(int pageNr) {
 
 std::string GServer::GClientContainer::printClientInfo(Client client){
     std::stringstream ss;
-    ss << "Kliento informacija:\n";
-    ss << "ID: " << client.id << "\n";
-    ss << "Sritis: " << client.domainName << "\n";
-    ss << "Kompiuterio pavadinimas: " << client.pcName << "\n";
-    ss << "Naudotojo vardas: " << client.userName;
+    ss << "Kliento informacija: ";
+    ss << "ID: " << std::to_string(client.id) << " ";
+    ss << "Sritis: " << string(client.domainName) << " ";
+    ss << "Kompiuterio pavadinimas: " << string(client.pcName) << " ";
+    ss << "Naudotojo vardas: " << string(client.userName);
     return ss.str();
 }

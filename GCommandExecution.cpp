@@ -43,7 +43,7 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
     int tag, size;
 
     // Tikrinu ar nera uzdaryta jungtis
-    if (sendDataSize < 0) {
+    if (sendDataSize == 0) {
         // Uzdaryta jungtis
         this->logger->logInfo(this->className, "Klientas " +
                 std::to_string(socket->getSocket()) + +" uzdare sujungima");
@@ -533,7 +533,7 @@ void GServer::GCommandExecution::commandJsonConnecACK(vector<char>& buffer,
     head->lenght = htonl(sizeof (jsonConnectInitAckCommand));
 
     duomCount = sizeof (header) + sizeof (jsonConnectInitAckCommand);
-    reciverSocket = ntohs(tunelis->adm_socket);
+    reciverSocket = tunelis->adm_socket;
 }
 
 void GServer::GCommandExecution::commandClientConnect(vector<char>& buffer,
