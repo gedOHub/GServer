@@ -51,8 +51,13 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         this->clients->DeleteByID(socket->getSocket());
         std::map<int, GSocket*>::iterator it = this->clientSocketList->
                 find(socket->getSocket());
-        // Salinu is klineto->Objekta sarso
-        this->clientSocketList->erase(it);
+        if (it != this->clientSocketList->end()) {
+            // Salinu is klineto->Objekta sarso
+            this->clientSocketList->erase(it);
+        } else {
+            this->logger->logError(this->className, "Neapvyko rasti kliento " + 
+                    std::to_string(socket->getSocket()) );
+        }
         // Naikinu pati si objketa
         delete socket;
         return false;
@@ -383,7 +388,7 @@ void GServer::GCommandExecution::commandJsonList(vector<char>& buffer,
     header* head = (struct header*) &buffer[0];
     head->tag = htons(0);
     head->lenght = htonl(sizeof ( jsonListAckCommand) + duomCount);
-    
+
     duomCount = duomCount + sizeof (jsonListAckCommand) + sizeof (header);
 }
 
@@ -636,7 +641,7 @@ void GServer::GCommandExecution::commandCloseTunnel(vector<char>& buffer,
 }
 
 void GServer::GCommandExecution::printClientList() {
-    for(this->clientSocketListIterator=this->clientSocketList->begin();this->clientSocketListIterator!=this->clientSocketList->end() ; ++this->clientSocketListIterator){
-        this->logger->logDebug(this->className, "["+std::to_string(this->clientSocketListIterator->first) + "]" + std::to_string((*this->clientSocketListIterator->second).getSocket()));
+    for (this->clientSocketListIterator = this->clientSocketList->begin(); this->clientSocketListIterator != this->clientSocketList->end(); ++this->clientSocketListIterator) {
+        this->logger->logDebug(this->className, "[" + std::to_string(this->clientSocketListIterator->first) + "]" + std::to_string((*this->clientSocketListIterator->second).getSocket()));
     }
 }

@@ -211,7 +211,10 @@ int main(int argc, char** argv) {
                         // Sujungimas baigtas arba klaida
                         logger->logInfo("main", "Sujungimas " +
                                 std::to_string(currentD) + " atsijunge");
+                        // Salinu objekta
                         delete clientSocketList[currentD];
+                        // Salinu jo vieta sarase
+                        clientSocketList.erase(currentD);
                     }
                 }
             }
