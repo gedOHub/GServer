@@ -365,12 +365,9 @@ void GServer::GCommandExecution::commandJsonList(vector<char>& buffer,
     list->page = ntohl(list->page);
     // Nustatau sokceto ID i tinkama isdestyma
     int jsonSocket = ntohl(list->socketID);
-
-    duomCount = -1;
     // Spausdinu kleintu sarasa
-    clients->PrintPage(socket, list->page,
-            &buffer.data()[sizeof (listAckCommand) + sizeof (header)],
-            duomCount);
+    this->clients->PrintPage(socket, list->page, &buffer.data()[
+            sizeof (jsonListAckCommand) + sizeof (header)], duomCount);
     // Formuoju atsako paketa
     jsonListAckCommand* listAck =
             (struct jsonListAckCommand*) &buffer.data()[sizeof (header)];
@@ -386,6 +383,8 @@ void GServer::GCommandExecution::commandJsonList(vector<char>& buffer,
     header* head = (struct header*) &buffer[0];
     head->tag = htons(0);
     head->lenght = htonl(sizeof ( jsonListAckCommand) + duomCount);
+    
+    duomCount = duomCount + sizeof (jsonListAckCommand) + sizeof (header);
 }
 
 void GServer::GCommandExecution::commandInitCommand(vector<char>& buffer,

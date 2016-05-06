@@ -27,22 +27,44 @@ GServer::SCTPGSocket::~SCTPGSocket() {
     this->logger->logDebug(this->className, "Objektas sunaikintas");
 }
 
-/*
-int GServer::SCTPGSocket::createSocket(char* ip, char* port, int socketFamily, 
-        int socketType, int socketProtocol, int socketFlag, addrinfo*& result){
-    // Grazinamo socketo numeris
+int GServer::SCTPGSocket::reciveData( char* buffer, int size ){
     int returnValue = -1;
-    // Bandau kurti socketa
-    returnValue = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP); 
-    
-    // Tirkinu ar pavyko kazka gauti
-    if (returnValue == -1) {
-        this->logger->logDebug(this->className, "Nepavyko sukurti socketo");
-        exit(GServer::EXIT_CODES::UNABLE_TO_CREATE_SOCKET);
-    }
-    // Grazinu socketo numeri
-    this->logger->logDebug(this->className, "Grazinamo socketo numeris- " +
+    // Siusti duomenis
+
+    char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
+    char PORT[NI_MAXSERV];
+
+    returnValue = recvfrom(this->socket_descriptor, buffer, size, 0,
+            (struct sockaddr *) &serverStorage, &addr_size);
+    int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
+            sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    this->logger->logDebug(this->className, string(IP) + ":" + string(PORT));
+    // Pranesimas gautus duomenis
+    this->logger->logDebug(this->className,
+            std::to_string(this->socket_descriptor) + ":" +
+            std::to_string(this->buffer.size()) + " <---" +
             std::to_string(returnValue));
+
     return returnValue;
 }
- * */
+
+int GServer::SCTPGSocket::sendData(char* data, int size) {
+    char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
+    char PORT[NI_MAXSERV];
+
+    int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
+            sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
+            NI_NUMERICHOST | NI_NUMERICSERV);
+    int send = 0;
+    while (send != size && send != -1) {
+        this->logger->logDebug(this->className, string(IP) + ":" + string(PORT));
+        send = send + sendto(this->socket_descriptor, data, size, 0,
+                (struct sockaddr *) &serverStorage, sizeof(sockaddr));
+        this->logger->logDebug(this->className,
+                std::to_string(this->socket_descriptor) + ":" +
+                std::to_string(size) + " ---> " + std::to_string(send));
+    }
+    this->logger->logDebug(this->className,string(data,size));
+    return send;
+}

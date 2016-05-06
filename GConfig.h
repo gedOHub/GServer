@@ -14,6 +14,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <libconfig.h++>
+
 #include "GObject.h"
 #include "GLogger.h"
 
