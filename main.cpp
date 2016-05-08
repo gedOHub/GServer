@@ -84,14 +84,11 @@ int main(int argc, char** argv) {
     GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients,
             &clientSocketList, config, &tunnel);
 
-    //TODO: Issiaksinkti kaip sukeisti pointerius
-    /*
-    GServer::GLogger* oldLogger = logger;
+    //GServer::GLogger* oldLogger = logger;
     // Kuriu nauja logeri, pagal konfiguracini faila
-    logger = GServer::makeLogger(config);
+    //logger = (GServer::GLogger*)(GServer::makeLogger(config));
     // Salinu senaji logeri
-    delete (GServer::GLogger)oldLogger;
-     * */
+    //delete oldLogger;
 
     // Tikrinu ar pavyko sukurti logeri
     if (logger == NULL) {

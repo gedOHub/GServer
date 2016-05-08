@@ -49,7 +49,7 @@ void GServer::FileGLogger::openLogFile(std::string filePath) {
     // Bandau atverti faila
     try {
         // Kuriu pranesimu failo objekta
-        this->logFile = new ofstream(filePath, std::ofstream::app);
+        this->logFile = new ofstream(filePath, std::ofstream::trunc);
     } catch (int e) {
         // Stringas saungantis kelia
         std::string temp(filePath);
