@@ -43,7 +43,7 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
     int tag, size;
 
     // Tikrinu ar nera uzdaryta jungtis
-    if (sendDataSize < 0) {
+    if (sendDataSize < 1) {
         // Uzdaryta jungtis
         this->logger->logInfo(this->className, "Klientas " +
                 std::to_string(socket->getSocket()) + +" uzdare sujungima");
@@ -51,13 +51,20 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         this->clients->DeleteByID(socket->getSocket());
         std::map<int, GSocket*>::iterator it = this->clientSocketList->
                 find(socket->getSocket());
-        // Salinu is klineto->Objekta sarso
-        this->clientSocketList->erase(it);
+        if (it != this->clientSocketList->end()) {
+            // Salinu is klineto->Objekta sarso
+            this->clientSocketList->erase(it);
+        } else {
+            this->logger->logError(this->className, "Neapvyko rasti kliento " +
+                    std::to_string(socket->getSocket()));
+        }
         // Naikinu pati si objketa
         delete socket;
         return false;
     }
-
+    
+    //string data(buffer.data(), sendDataSize);
+    //this->logger->logDebug(this->className, "Gauta: " + data);
 
     try {
         // Analizuoju headeri
@@ -84,6 +91,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::LIST:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "LIST komanda");
                                 int tempCount = -1;
                                 // Pildau puslapi klientu inforamcija su atsaku
                                 this->commandList(buffer, tempCount,
@@ -95,6 +104,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::JSON_LIST:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "JSON_LIST komanda");
                                 int tempCount = -1;
                                 // Pildau puslapi klientu inforamcija su atsaku
                                 this->commandJsonList(buffer, tempCount,
@@ -106,6 +117,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::INIT_CONNECT:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "INIT_CONNECT komanda");
                                 int reciverID = -1, duomCout = -1;
                                 this->commandInitCommand(buffer, duomCout,
                                         socket->getSocket(), reciverID);
@@ -130,6 +143,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::JSON_INIT_CONNECT:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "JSON_INIT_CONNECT komanda");
                                 int reciverID = -1, duomCout = -1;
                                 this->commandJsonInitCommand(buffer, duomCout,
                                         socket->getSocket(), reciverID);
@@ -154,6 +169,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::CONNECT_ACK:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "CONNECT_ACK komanda");
                                 int duomCount = -1, reciverSocket = -1;
                                 this->commandConnecACK(buffer, duomCount,
                                         socket->getSocket(), reciverSocket);
@@ -178,6 +195,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::JSON_CONNECT_ACK:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "JSON_CONNECT_ACK komanda");
                                 int duomCount = -1, reciverSocket = -1;
                                 this->commandJsonConnecACK(buffer, duomCount,
                                         socket->getSocket(), reciverSocket);
@@ -202,6 +221,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::CLIENT_CONNECT:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "CLIENT_CONNECT komanda");
                                 int duomCount = -1, reciverSocket = -1;
                                 this->commandClientConnect(buffer, duomCount,
                                         socket->getSocket(), reciverSocket);
@@ -212,6 +233,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::BEGIN_READ_ACK:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "BEGIN_READ_ACK komanda");
                                 int duomCount = -1, reciverSocket = -1;
                                 this->commandBeginReadAck(buffer, duomCount,
                                         socket->getSocket(), reciverSocket);
@@ -222,6 +245,8 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case Commands::CLOSE_TUNNEL:
                             {
+                                this->logger->logDebug(this->className, "Gauta "
+                                        "CLOSE_TUNNEL komanda");
                                 int duomCount = -1, reciverSocket = -1;
                                 this->commandCloseTunnel(buffer, duomCount,
                                         socket->getSocket(), reciverSocket);
@@ -251,20 +276,22 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             ntohs(head->tag), dep_socket, dep_tag);
                     GSocket* reciver = &(*this->clientSocketList->find(
                             dep_socket)->second);
+                    //this->logger->logDebug(this->className, "Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag) );
 
 
                     // Tikrinu ar rastas sujungimas
                     if (dep_socket != -1 && dep_tag != -1) {
                         // Permetineju paketa i reikiama socketa
-                        //head->tag = dep_tag;
-                        //head->lenght = head->lenght;
+                        head->tag = htons(dep_tag);
+                        head->lenght = head->lenght;
                         int rSend = 0;
-                        while (rSend != lenght) {
-                            rSend = rSend +
-                                    reciver->sendData(
-                                    &buffer.data()[rSend],
-                                    lenght - rSend);
-                        }
+                        string data(buffer.data(), lenght);
+                        rSend = reciver->sendData(buffer.data(), lenght);
+                        //this->logger->logDebug(this->className, "Isisusta: " + std::to_string(rSend) + " Duomenys: " + data);
+                        
+                    }
+                    else {
+                        this->logger->logDebug(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
                     }
                     break;
             } // switch (tag)
@@ -383,7 +410,7 @@ void GServer::GCommandExecution::commandJsonList(vector<char>& buffer,
     header* head = (struct header*) &buffer[0];
     head->tag = htons(0);
     head->lenght = htonl(sizeof ( jsonListAckCommand) + duomCount);
-    
+
     duomCount = duomCount + sizeof (jsonListAckCommand) + sizeof (header);
 }
 
@@ -533,7 +560,7 @@ void GServer::GCommandExecution::commandJsonConnecACK(vector<char>& buffer,
     head->lenght = htonl(sizeof (jsonConnectInitAckCommand));
 
     duomCount = sizeof (header) + sizeof (jsonConnectInitAckCommand);
-    reciverSocket = ntohs(tunelis->adm_socket);
+    reciverSocket = tunelis->adm_socket;
 }
 
 void GServer::GCommandExecution::commandClientConnect(vector<char>& buffer,
@@ -636,7 +663,7 @@ void GServer::GCommandExecution::commandCloseTunnel(vector<char>& buffer,
 }
 
 void GServer::GCommandExecution::printClientList() {
-    for(this->clientSocketListIterator=this->clientSocketList->begin();this->clientSocketListIterator!=this->clientSocketList->end() ; ++this->clientSocketListIterator){
-        this->logger->logDebug(this->className, "["+std::to_string(this->clientSocketListIterator->first) + "]" + std::to_string((*this->clientSocketListIterator->second).getSocket()));
+    for (this->clientSocketListIterator = this->clientSocketList->begin(); this->clientSocketListIterator != this->clientSocketList->end(); ++this->clientSocketListIterator) {
+        this->logger->logDebug(this->className, "[" + std::to_string(this->clientSocketListIterator->first) + "]" + std::to_string((*this->clientSocketListIterator->second).getSocket()));
     }
 }
