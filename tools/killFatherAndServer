@@ -1,0 +1,9 @@
+#!/bin/bash
+PID=($(ps axu | grep gserver | grep -v grep | tr -s ' ' | cut -d ' ' -f 2))
+for i in "${PID[@]}"
+do
+F=`ps -o ppid=$i`
+echo $F
+kill $F
+kill $i
+done
