@@ -34,7 +34,7 @@ namespace GServer {
          * pagal LOGGER nustatyma konfiguraciniame faile.
          *  debug- nurodo ar ijungti derinimo inforamcijos spausdinima ar ne. 
          * Placiau const bool DEBUG*/
-        GLogger(bool debug);
+        GLogger(int debug);
 
         /* ~GLogger
          * Metodas skirtas suanikinti GLogger objektui. */
@@ -64,7 +64,7 @@ namespace GServer {
          *  DEBUG=1 - derinimo informacijos spausdinimas ijungtas
          *  DEBUG=0 - derinimo informacijos spausdinimas isjungtas
          * Numatyta reiksme- 1. */
-        const bool DEBUG;
+        int DEBUGlevel;
 
 
         // ##### END Kintamieji #####

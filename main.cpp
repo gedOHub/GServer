@@ -58,12 +58,14 @@ int main(int argc, char** argv) {
      * Kintamsis saugantis nuoroda i obnejtak, kuris atsakingas uz pranesimu 
      * pateikima. Is pradziu pateikiama konsoleje, o po to pagal konfiguracinio 
      * failo nustatymus */
-    GServer::GLogger* logger = new GServer::ConsoleGLogger();
+    GServer::GLogger* tempLogger = new GServer::ConsoleGLogger(1);
 
     /** config **
      * Nuoroda i objekta, kuris dirba su nustatymu nuskaitymu */
-    GServer::GConfig* config = new GServer::GConfig(logger);
-    // Nuskaiciau nustatymu faila
+    GServer::GConfig* config = new GServer::GConfig(tempLogger);
+    
+    GServer::GLogger* logger = (GServer::GLogger*)(GServer::makeLogger(config));
+    tempLogger = &(* logger);
 
     /* Sarasas saugantis sokcetu, kurie klausosi prisjungimu sarasa */
     std::map<int, GServer::GSocket*> serverSocketList;
@@ -84,16 +86,10 @@ int main(int argc, char** argv) {
     GServer::GCommandExecution cmdExec(logger, &tGenerator, &clients,
             &clientSocketList, config, &tunnel);
 
-    //GServer::GLogger* oldLogger = logger;
-    // Kuriu nauja logeri, pagal konfiguracini faila
-    //logger = (GServer::GLogger*)(GServer::makeLogger(config));
-    // Salinu senaji logeri
-    //delete oldLogger;
-
     // Tikrinu ar pavyko sukurti logeri
     if (logger == NULL) {
         // Nepavyko, pranesu apie klaida ir grazinu klaidos koda
-        std::cerr << "Nepavyko sukurti porgramos pranesimu objekto (Logger)" << std::endl;
+        tempLogger->logError("main","Nepavyko sukurti porgramos pranesimu objekto (Logger)");
         exit(GServer::EXIT_CODES::NO_LOGGER);
     }
 
@@ -111,7 +107,7 @@ int main(int argc, char** argv) {
      * tikrinima del nuskaitomu duomenu is socketu */
     struct timeval time;
     time.tv_sec = 0; // 0 sekundziu
-    time.tv_usec = 2000; // 2000 mikro sekundes
+    time.tv_usec = 100; // 2000 mikro sekundes
     /* Kintamasis naudojamas begant per visus deskriptorius */
     int currentD = -1;
 
@@ -218,15 +214,12 @@ int main(int argc, char** argv) {
         }
     }
 
-    logger->logInfo("main", "Programa baigia darba");
-
     // Begu per serveriu saras ir naikinu serveriu socketus
     for (serverSocketListIterator = serverSocketList.begin();
             serverSocketListIterator != serverSocketList.end();
             ++serverSocketListIterator) {
         // Salinu serveriu socketus
         delete serverSocketListIterator->second;
-
     }
     // Begu per klientu saras ir naikinu serveriu socketus
     for (clientSocketListIterator = clientSocketList.begin();
@@ -242,9 +235,13 @@ int main(int argc, char** argv) {
     delete &tGenerator;
     // Naikinu configuracini objekta
     delete config;
+    
+    logger->logInfo("main", "Programa baigia darba");
+    
     // Naikinu pranesimu rasimo objekta
     delete logger;
-
+    
+    delete tempLogger;
 
 
 

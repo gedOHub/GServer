@@ -46,3 +46,9 @@ int GServer::UDPClientGSocket::sendData(char * data, int size){
     return resultValue;
 }
 
+void GServer::UDPClientGSocket::sendKeepAliveAck(){
+    if(this->sendData(this->buffer.data(), 1) < 1 ) {
+        this->logger->logError(this->className, "Nepavyko issiusti KEEP_ALIVE_ACK paketo");
+    }
+}
+

@@ -54,15 +54,23 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
     // Priimu gaunamus duomenis
     returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
     UDPClientGSocket* client;
+    // Ieskau ar esamas klientas ar naujas
+    // Gaminu IP ir PORT kombinacija
+    sockaddr_in* addr = (struct sockaddr_in*) & this->serverStorage;
+    string address(inet_ntoa(addr->sin_addr));
+    address.append(":" + std::to_string(ntohs(addr->sin_port)));
+    
+    // TIkrinu ar neatejo keep alive paketas
+    if (returnValue == 1) {
+        // Atejo keep alive paketas
+        // Siunciu atsaka
+        // Esamas
+        client = (UDPClientGSocket*) UDPClientList[address];
+        client->sendKeepAliveAck();
+    } else 
     //Tirkinu ar pavyko kazka gauti
     if (returnValue > 1) {
-        // Pavyko
-        // Ieskau ar esamas klientas ar naujas
-        // Gaminu IP ir PORT kombinacija
-        sockaddr_in* addr = (struct sockaddr_in*) & this->serverStorage;
-        string address(inet_ntoa(addr->sin_addr));
-        address.append(":" + std::to_string(ntohs(addr->sin_port)));
-
+        // Pavyko gauti kazka
         this->UDPClientListIterator = this->UDPClientList.find(address);
         // Tikrinu esamas ar ne
         if (UDPClientListIterator == UDPClientList.end()) {
@@ -71,7 +79,7 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
             //TODO: Generuoti netikra ID
             client = new UDPClientGSocket(conf, logger, commands,
                     this->getNextID(), this->getSocket(), this->serverStorage);
-           // GSocket* g = (GSocket*) ;
+            // GSocket* g = (GSocket*) ;
             // Pridedu prie klientu saraso
             commands->registerUDPAccept(client);
             // Pridedu prie UDP kleintu saraso
@@ -85,14 +93,13 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
         this->commands->executeCommand(this->buffer, returnValue,
                 (GSocket*) client);
     }
-
     return NULL;
 }
 
 int GServer::UDPServerGSocket::getNextID() {
     int id = this->fakeClientID.back() + 1;
     this->fakeClientID.insert(this->fakeClientID.end(), id);
-    this->logger->logDebug(this->className, "Naujas netirkas id: " + 
+    this->logger->logDebug(this->className, "Naujas netikras id: " +
             std::to_string(id));
     return id;
 }

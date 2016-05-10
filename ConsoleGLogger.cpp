@@ -13,7 +13,7 @@
 
 #include "ConsoleGLogger.h"
 
-GServer::ConsoleGLogger::ConsoleGLogger(bool debug) :
+GServer::ConsoleGLogger::ConsoleGLogger(int debug) :
 LocalGLogger(debug) {
     // Nustatau pavadinima
     this->className = this->className + ":ConsoleGLogger";
@@ -25,8 +25,8 @@ GServer::ConsoleGLogger::~ConsoleGLogger() {
 }
 
 void GServer::ConsoleGLogger::logDebug(std::string className, std::string message) {
-    using namespace std;
-    if (this->DEBUG) {
+    //printf("DEBUG reiksme %i\n", this->DEBUGlevel);
+    if (DEBUGlevel > 0) {
         // Laikinas stringas
         string tempString;
         // Formuoju pranesimu eilute

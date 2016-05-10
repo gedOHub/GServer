@@ -16,9 +16,10 @@
 
 #include "GLogger.h"
 
-GServer::GLogger::GLogger(bool debug = 1) : DEBUG(debug) {
+GServer::GLogger::GLogger(int debug): GObject(){
     // Nustatau pavadinima
     this->className = this->className + ":GLogger";
+    this->DEBUGlevel = debug;
     this->logDebug(this->className, "Objektas sukurtas");
 }
 

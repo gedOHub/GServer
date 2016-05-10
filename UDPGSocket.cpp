@@ -76,6 +76,6 @@ int GServer::UDPGSocket::sendData(char* data, int size) {
                 std::to_string(this->socket_descriptor) + ":" +
                 std::to_string(size) + " ---> " + std::to_string(send));
     }
-    this->logger->logDebug(this->className,string(data,size));
+    //this->logger->logDebug(this->className,string(data,size));
     return send;
 }

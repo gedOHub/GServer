@@ -32,7 +32,7 @@ namespace GServer {
          *  filePath- kelias iki failo, i kuri norima rasyti pranesimus
          *  debug- jungtis kuri ijungia arba isungia derinimo inforamcijos 
          * rasyma i pranesimu faila */
-        FileGLogger(std::string filePath, bool debug = true);
+        FileGLogger(std::string filePath, int debug);
 
         virtual ~FileGLogger();
 

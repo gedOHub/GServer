@@ -33,7 +33,7 @@ namespace GServer {
          * Apraso reikalingas funkcijas vietiniam loginimui.
          *  debug- nurodo ar ijungti derinimo inforamcijos spausdinima ar ne. 
          * Placiau const bool DEBUG*/
-        LocalGLogger(bool debug);
+        LocalGLogger(int debug);
 
         virtual ~LocalGLogger();
         // ##### END Metodai #####

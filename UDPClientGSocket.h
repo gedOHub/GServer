@@ -39,6 +39,10 @@ namespace GServer {
          *  socketFd- socketo i kuri siusi nuemris
             data- suformuoti duomenys, kurie bus issiunciami*/
         virtual int sendData(char * data, int size);
+        
+        /*** sendKeepAliveAck ***
+         * Metodas skirtas siusti atsaka klientuii keep alive paketa */
+        void sendKeepAliveAck();
         // ##### END Metodai #####      
     protected:
         // ##### Kintamieji #####

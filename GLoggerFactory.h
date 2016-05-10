@@ -73,7 +73,7 @@ namespace GServer {
                     // Kuriu loginima i konsole, pagal factory paterna, placiau: 
                     // https://sourcemaking.com/design_patterns/factory_method/cpp/1
                     return new GServer::ConsoleGLogger(
-                            conf->getBoolSetting("DEBUG"));
+                            conf->getIntSetting("DEBUG"));
                     break;
                 default:
                     cerr << "Gauta nezinoma LOGGER reiksme" << endl;

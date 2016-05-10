@@ -62,7 +62,7 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         delete socket;
         return false;
     }
-    
+
     //string data(buffer.data(), sendDataSize);
     //this->logger->logDebug(this->className, "Gauta: " + data);
 
@@ -250,9 +250,14 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                                 int duomCount = -1, reciverSocket = -1;
                                 this->commandCloseTunnel(buffer, duomCount,
                                         socket->getSocket(), reciverSocket);
-                                GSocket* reciver = (GSocket*) &(*clientSocketList->
-                                        find(reciverSocket)->second);
-                                reciver->sendData(buffer.data(), duomCount);
+                                try {
+                                    GSocket* reciver = (GSocket*) &(*clientSocketList->
+                                            find(reciverSocket)->second);
+                                    reciver->sendData(buffer.data(), duomCount);
+                                } catch (int i) {
+                                    this->logger->logError(this->className, "Klaida siuncian CLOSE_TUNNEL komanda. " + std::to_string(i));
+                                }
+
                                 break;
                             }
                             default:
@@ -267,31 +272,38 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                     break;
                     // Bus persiunciami duomenys
                 default:
-                    header* head = (struct header*) &buffer.data()[0];
-                    // Duomenu permetimas i kita socketa
-                    int dep_socket = -1,
-                            dep_tag = -1,
+                    try {
+                        int rSend = 0, lenght = 0;
+                        header* head;
+                        this->logger->logDebug(this->className, "Viso gauta: " + std::to_string(sendDataSize));
+                        while ((sendDataSize - rSend) != 0) {
+                            // Nustatau headerio pozicija
+                            head = (struct header*) &buffer.data()[rSend];
+                            // Duomenu permetimas i kita socketa
+                            int dep_socket = -1, dep_tag = -1;
                             lenght = ntohl(head->lenght) + sizeof (header);
-                    this->tunnels->FindByPear(socket->getSocket(),
-                            ntohs(head->tag), dep_socket, dep_tag);
-                    GSocket* reciver = &(*this->clientSocketList->find(
-                            dep_socket)->second);
-                    //this->logger->logDebug(this->className, "Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag) );
+                            this->logger->logDebug(this->className, "Reikia persiusti: " + std::to_string(lenght));
 
+                            this->tunnels->FindByPear(socket->getSocket(),
+                                    ntohs(head->tag), dep_socket, dep_tag);
 
-                    // Tikrinu ar rastas sujungimas
-                    if (dep_socket != -1 && dep_tag != -1) {
-                        // Permetineju paketa i reikiama socketa
-                        head->tag = htons(dep_tag);
-                        head->lenght = head->lenght;
-                        int rSend = 0;
-                        string data(buffer.data(), lenght);
-                        rSend = reciver->sendData(buffer.data(), lenght);
-                        //this->logger->logDebug(this->className, "Isisusta: " + std::to_string(rSend) + " Duomenys: " + data);
-                        
-                    }
-                    else {
-                        this->logger->logDebug(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
+                            GSocket* reciver = &(*this->clientSocketList->find(
+                                    dep_socket)->second);
+
+                            if (dep_socket != -1 && dep_tag != -1) {
+                                // Permetineju paketa i reikiama socketa
+                                head->tag = htons(dep_tag);
+                                head->lenght = head->lenght;
+                                rSend = rSend + reciver->sendData(buffer.data(), lenght);
+                                this->logger->logDebug(this->className, "Isisusta: " + std::to_string(rSend));
+                                break;
+                            } else {
+                                this->logger->logError(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
+                                break;
+                            }
+                        }
+                    }catch(int e){
+                        this->logger->logError(this->className, "Gautas klaidos kodas: " + std::to_string(errno));
                     }
                     break;
             } // switch (tag)

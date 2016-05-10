@@ -13,7 +13,7 @@
 
 #include "LocalGLogger.h"
 
-GServer::LocalGLogger::LocalGLogger(bool debug) : GLogger(debug) {
+GServer::LocalGLogger::LocalGLogger(int debug) : GLogger(debug) {
     // Nustatau pavadinima
     this->className = this->className + ":LocalGLogger";
     this->logDebug(this->className, "Objektas sukurtas");

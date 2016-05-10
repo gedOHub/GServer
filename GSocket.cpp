@@ -64,7 +64,7 @@ int GServer::GSocket::resizeBuffer(int newSize) {
         return this->setBufferSize(this->MAX_BUFFER_SIZE);
     }
     // Naujas dydis mazesnis nei nurimas
-    this->logger->logInfo(this->className, "Nustatau tauja dydi: " + newSize);
+    this->logger->logInfo(this->className, "Nustatau tauja dydi: " + std::to_string(newSize));
     // Nustatau nauja dydi
     return this->setBufferSize(newSize);
 }

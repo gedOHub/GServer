@@ -7,9 +7,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>rfs://gedas@10.0.0.226:22/home/gedas/GServer/main.cpp</file>
-            <file>rfs://gedas@10.0.0.226:22/home/gedas/GServer/GCommandExecution.cpp</file>
-            <file>rfs://gedas@10.0.0.226:22/home/gedas/GServer/server.conf</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/TCPGSocket.cpp</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/main.cpp</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/TCPClientGSocket.cpp</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GLogger.cpp</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/server.conf</file>
+            <file>rfs://gedas@server.jancys.net:22/home/gedas/GServer/GCommandExecution.cpp</file>
         </group>
     </open-files>
 </project-private>

@@ -32,7 +32,7 @@ namespace GServer {
          * isvesti informacija i konoles langa.
          *  debug- nurodo ar ijungti derinimo inforamcijos spausdinima ar ne. 
          * Placiau const bool DEBUG*/
-        ConsoleGLogger(bool debug = true);
+        ConsoleGLogger(int debug);
 
         virtual ~ConsoleGLogger();
 

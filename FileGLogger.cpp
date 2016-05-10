@@ -13,7 +13,7 @@
 
 #include "FileGLogger.h"
 
-GServer::FileGLogger::FileGLogger(std::string filePath, bool debug) :
+GServer::FileGLogger::FileGLogger(std::string filePath, int debug) :
 LocalGLogger(debug) {
     // Nustatau pavadinima ir paveldejimo grandinele
     this->className = this->className + ":FileGLogger";
@@ -84,7 +84,7 @@ void GServer::FileGLogger::logError(std::string className, std::string message) 
 
 void GServer::FileGLogger::logDebug(std::string className, std::string message) {
     // Tirkinu ar derinimo informacija ijungta
-    if (this->DEBUG) {
+    if (this->DEBUGlevel) {
         // Laikinas stringas
         std::string tempString;
         // Formuoju pranesimu eilute
