@@ -34,48 +34,52 @@ void GServer::UDPGSocket::listenSocket() {
     // Si funkcija padeda uzblokuoti listen funkcijos kvietima UDP protokokui
 }
 
-int GServer::UDPGSocket::reciveData(char* buffer, int size) {
-    int returnValue = -1;
-    // Siusti duomenis
-
-    char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
-    char PORT[NI_MAXSERV];
-
-    returnValue = recvfrom(this->socket_descriptor, buffer, size, 0,
-            (struct sockaddr *) &serverStorage, &addr_size);
-    int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
-            sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
-            NI_NUMERICHOST | NI_NUMERICSERV);
-    this->logger->logDebug(this->className, string(IP) + ":" + string(PORT));
-    // Pranesimas gautus duomenis
-    this->logger->logDebug(this->className,
-            std::to_string(this->socket_descriptor) + ":" +
-            std::to_string(this->buffer.size()) + " <---" +
-            std::to_string(returnValue));
-
-    return returnValue;
-}
-
 sockaddr_storage GServer::UDPGSocket::returnClientAddressInfo() {
     return this->serverStorage;
 }
 
-int GServer::UDPGSocket::sendData(char* data, int size) {
-    char IP[NI_MAXHOST]; //The clienthost will hold the IP address.
-    char PORT[NI_MAXSERV];
+int GServer::UDPGSocket::reciveData(char* buffer, int size) {
+    int returnValue = 0;
+    int MAXUDPPaketoDydis = 65507;
+    // Paziuriu koks paketas atejo
+    //returnValue = recvfrom(this->socket_descriptor, &buffer[0], paketoDydis, MSG_PEEK, (struct sockaddr *) &serverStorage, &addr_size);
+    // Nustatau headeri
+    //header* head = (struct header*) & buffer[0];
+    // Tikrinu ar gavau kazka
+    //if (returnValue > 1) {
+    // Atejo kazkas
+    //paketoDydis = paketoDydis + ntohl(head->lenght);
+    //this->logger->logDebug(this->className, "Reikai gauti: " + std::to_string(paketoDydis));
+    // Gaunu headeri ir paketa
+    returnValue = recvfrom(this->socket_descriptor, &buffer[0], MAXUDPPaketoDydis, 0, (struct sockaddr *) &serverStorage, &addr_size);
+    this->logger->logDebug(this->className, "Gauta: " + std::to_string(returnValue));
+    //if (returnValue != paketoDydis) {
+    //    this->logger->logError(this->className, "Gautas netinkamas dydis. "
+    //            "Gauta: " + std::to_string(returnValue) + " Laukta: " +
+    //            std::to_string(paketoDydis));
+    //}
+    //}
+    // Grazinu ka gavau
+    return returnValue;
+}
 
-    int theErrorCode = getnameinfo((struct sockaddr *) &serverStorage,
-            sizeof (sockaddr), IP, sizeof (IP), PORT, sizeof (PORT),
-            NI_NUMERICHOST | NI_NUMERICSERV);
-    int send = 0;
-    while (send != size && send != -1) {
-        this->logger->logDebug(this->className, string(IP) + ":" + string(PORT));
-        send = send + sendto(this->socket_descriptor, data, size, 0,
-                (struct sockaddr *) &serverStorage, sizeof(sockaddr));
-        this->logger->logDebug(this->className,
-                std::to_string(this->socket_descriptor) + ":" +
-                std::to_string(size) + " ---> " + std::to_string(send));
+int GServer::UDPGSocket::sendData(char* data, int size) {
+    int returnValue = 0;
+    this->logger->logDebug(this->className, "Reikia issiusti: " + std::to_string(size));
+
+    /*
+    while (returnValue != size) {
+        // Priimu duomenis
+        returnValue = returnValue + sendto(this->socket_descriptor,
+                &data[returnValue], size - returnValue, 0,
+                (struct sockaddr *) &serverStorage, addr_size);
+        this->logger->logDebug(this->className, "Jau issiunciau: " + std::to_string(returnValue));
     }
-    //this->logger->logDebug(this->className,string(data,size));
-    return send;
+     * */
+    returnValue = sendto(this->socket_descriptor, &data[returnValue], size, 
+            MSG_CONFIRM , (struct sockaddr *) &serverStorage, addr_size);
+    this->logger->logDebug(this->className, "Issiusta: " +
+            std::to_string(returnValue));
+    // Tureciau niekaka nepasiekti
+    return returnValue;
 }

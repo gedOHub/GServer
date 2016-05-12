@@ -54,24 +54,5 @@ int GServer::TCPGSocket::sendData(char* data, int size) {
 }
 
 int GServer::TCPGSocket::reciveData(char* buffer, int size) {
-    int returnValue = -1;
-    // Patikrinu kiek tureciau gauti duomenu
-    returnValue = recv(this->socket_descriptor, this->buffer.data(), sizeof (header), 0);
-    header* head = (struct header*) &this->buffer.data()[0];
-    int laukiama = ntohl(head->lenght) + sizeof (header);
-    this->logger->logDebug(this->className, "[" + std::to_string(this->socket_descriptor) + "]Laukiama duomenu: " + std::to_string(laukiama));
-    if(laukiama > this->buffer.size()){
-        this->buffer.resize(laukiama);
-    }
-    if (returnValue >= sizeof (header)) {
-        // Nustatau headeri
-        returnValue = recv(this->socket_descriptor, &this->buffer.data()[sizeof (header)], ntohl(head->lenght), MSG_WAITALL);
-        this->logger->logDebug(this->className, "Gauta duomenu: " + std::to_string(returnValue));
-    }
-    if(laukiama != returnValue+sizeof (header)){
-       this->logger->logError(this->className, "[" + std::to_string(this->socket_descriptor) + "] Gautas netinkamas duomenu "
-               "kiekis. Laukiama: " + std::to_string(laukiama) + " gauta: " + 
-                       std::to_string(returnValue)); 
-    }
-    return returnValue;
+    return recv(this->socket_descriptor, buffer, size, 0);
 }

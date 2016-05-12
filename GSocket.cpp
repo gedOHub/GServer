@@ -220,7 +220,6 @@ GServer::GSocket* GServer::GSocket::acceptConnection(GServer::GConfig* conf,
 
 int GServer::GSocket::reciveData(){
     int returnValue = -1;
-    int headerSize = sizeof (header);
     returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
     // Perduodu duomenis apdorojimui
     this->commands->executeCommand(this->buffer, returnValue, (GSocket *) this);

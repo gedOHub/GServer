@@ -52,7 +52,7 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
     int returnValue = -1;
 
     // Priimu gaunamus duomenis
-    returnValue = this->reciveData(this->buffer.data(), this->buffer.size());
+    returnValue = this->reciveData(this->buffer.data(), sizeof(header));
     UDPClientGSocket* client;
     // Ieskau ar esamas klientas ar naujas
     // Gaminu IP ir PORT kombinacija

@@ -63,16 +63,17 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
         return false;
     }
 
-    //string data(buffer.data(), sendDataSize);
-    //this->logger->logDebug(this->className, "Gauta: " + data);
-
     try {
         // Analizuoju headeri
         if (analizeHeader(buffer.data(), tag, size)) {
             // Pavykus nustaty headerio duomenis
             switch (tag) {
-                    // Atejo komanda
+                    // Tirkinu ar neatejo komanda
                 case 0:
+                    // Atejo koamdna
+                    // gaunu likusia koandos dali
+                    //socket->reciveData(&buffer.data()[sizeof (header)], size);
+
                     // Analizuoju kokia komanda atejo
                     if (this->analizeCommandHeader(
                             &buffer.data()[sizeof (header)], tempCmd)) {
@@ -260,6 +261,10 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
 
                                 break;
                             }
+                            case UDP_ALIVE:
+                            {
+                                break;
+                            }
                             default:
                             {
                                 this->logger->logError(this->className, "Gauta "
@@ -272,40 +277,64 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                     break;
                     // Bus persiunciami duomenys
                 default:
-                    try {
-                        int rSend = 0, lenght = 0;
-                        header* head;
-                        this->logger->logDebug(this->className, "Viso gauta: " + std::to_string(sendDataSize));
-                        while ((sendDataSize - rSend) != 0) {
-                            // Nustatau headerio pozicija
-                            head = (struct header*) &buffer.data()[rSend];
-                            // Duomenu permetimas i kita socketa
-                            int dep_socket = -1, dep_tag = -1;
-                            lenght = ntohl(head->lenght) + sizeof (header);
-                            this->logger->logDebug(this->className, "Reikia persiusti: " + std::to_string(lenght));
-
-                            this->tunnels->FindByPear(socket->getSocket(),
-                                    ntohs(head->tag), dep_socket, dep_tag);
-
-                            GSocket* reciver = &(*this->clientSocketList->find(
-                                    dep_socket)->second);
-
-                            if (dep_socket != -1 && dep_tag != -1) {
-                                // Permetineju paketa i reikiama socketa
-                                head->tag = htons(dep_tag);
-                                head->lenght = head->lenght;
-                                rSend = rSend + reciver->sendData(buffer.data(), lenght);
-                                this->logger->logDebug(this->className, "Isisusta: " + std::to_string(rSend));
-                                break;
-                            } else {
-                                this->logger->logError(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
-                                break;
-                            }
+                {
+                    int position = 0, issiusta = 0;
+                    header* head;
+                    // Nustatau headeri
+                    head = (header*) & buffer.data()[position];
+                    this->logger->logDebug(this->className, "Reikia persiusti: " + std::to_string(size));
+                    // Nustatau gaveja
+                    int dep_socket = -1, dep_tag = -1;
+                    this->tunnels->FindByPear(socket->getSocket(),
+                                ntohs(head->tag), dep_socket, dep_tag);
+                        GSocket* reciver = &(*this->clientSocketList->find(
+                                dep_socket)->second);
+                        if (dep_socket != -1 && dep_tag != -1) {
+                            // Suvartau antraste
+                            head->tag = htons(dep_tag);
+                            head->lenght = head->lenght;
+                            issiusta = issiusta + reciver->sendData(buffer.data(), sendDataSize);
+                            // Perstatau headeri
+                            head = (header*) & buffer.data()[position];
+                        } else {
+                            this->logger->logError(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
+                            break;
                         }
-                    }catch(int e){
-                        this->logger->logError(this->className, "Gautas klaidos kodas: " + std::to_string(errno));
-                    }
                     break;
+                }
+
+
+
+
+                    /*
+                    int rSend = 0, lenght = 0;
+                    header* head;
+                    this->logger->logDebug(this->className, "Viso gauta: " + std::to_string(sendDataSize));
+                    while ((sendDataSize - rSend) != 0) {
+                        // Nustatau headerio pozicija
+                        head = (struct header*) &buffer.data()[rSend];
+                        // Duomenu permetimas i kita socketa
+                        int dep_socket = -1, dep_tag = -1;
+                        lenght = ntohl(head->lenght) + sizeof (header);
+                        this->logger->logDebug(this->className, "Reikia persiusti: " + std::to_string(lenght));
+
+                        this->tunnels->FindByPear(socket->getSocket(),
+                                ntohs(head->tag), dep_socket, dep_tag);
+
+                        GSocket* reciver = &(*this->clientSocketList->find(
+                                dep_socket)->second);
+
+                        if (dep_socket != -1 && dep_tag != -1) {
+                            // Permetineju paketa i reikiama socketa
+                            head->tag = htons(dep_tag);
+                            head->lenght = head->lenght;
+                            rSend = rSend + reciver->sendData(buffer.data(), lenght);
+                            this->logger->logDebug(this->className, "Isisusta: " + std::to_string(rSend));
+                            break;
+                        } else {
+                            this->logger->logError(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
+                            break;
+                        }*/
             } // switch (tag)
         }
     }//if (analizeHeader(buffer, tag, size))
@@ -389,7 +418,7 @@ void GServer::GCommandExecution::commandList(vector<char>& buffer, int& duomCoun
     else
         listAck->success = false;
     // Pildau headerio informacija
-    header* head = (struct header*) &buffer[0];
+    header* head = (struct header*) &buffer.data()[0];
     head->tag = htons(0);
     head->lenght = htonl(sizeof (listAckCommand) + duomCount);
 

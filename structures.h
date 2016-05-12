@@ -31,7 +31,8 @@ enum Commands {
     JSON_INIT_CONNECT = 220, // Komanda jungtis i tam tikra prievada
     JSON_INIT_CONNECT_ACK = 221, // Atsakas i connect koamdna
     JSON_CONNECT = 230, // Komanda, rodanti, kad kliento prohrama prpsijnge
-    JSON_CONNECT_ACK = 231 // ATSAKAS i CLIENT_CONNECT_ACK
+    JSON_CONNECT_ACK = 231, // ATSAKAS i CLIENT_CONNECT_ACK
+    UDP_ALIVE = 123
 };
 
 // Tunelio statuso reiksmes;
@@ -198,6 +199,10 @@ struct beginReadAckCommand : Command {
 
 struct closeTunnelCommand : Command {
     uint16_t tag; // Tunelio srauto zyme
+};
+
+struct UDPAck{
+    uint32_t gauta;   // Nurodo kiek jau gauta
 };
 
 #pragma pack(pop) // nustatom i normalu isdestyma
