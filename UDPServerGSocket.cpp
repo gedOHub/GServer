@@ -59,15 +59,7 @@ GServer::GSocket* GServer::UDPServerGSocket::acceptConnection(
     sockaddr_in* addr = (struct sockaddr_in*) & this->serverStorage;
     string address(inet_ntoa(addr->sin_addr));
     address.append(":" + std::to_string(ntohs(addr->sin_port)));
-    
-    // TIkrinu ar neatejo keep alive paketas
-    if (returnValue == 1) {
-        // Atejo keep alive paketas
-        // Siunciu atsaka
-        // Esamas
-        client = (UDPClientGSocket*) UDPClientList[address];
-        client->sendKeepAliveAck();
-    } else 
+
     //Tirkinu ar pavyko kazka gauti
     if (returnValue > 1) {
         // Pavyko gauti kazka

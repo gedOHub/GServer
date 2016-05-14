@@ -22,6 +22,8 @@ GServer::UDPGSocket::UDPGSocket(GServer::GConfig* conf, GLogger* logger,
     // Nustatau pavadinima
     this->className = this->className + ":UDPGSocket";
     this->commands = command;
+    // NUstatu didziausai paketo dydi
+    this->MAX_PACKET_SIZE = 65507;
 
     this->logger->logDebug(this->className, "Objektas sukurtas");
 }
@@ -40,25 +42,17 @@ sockaddr_storage GServer::UDPGSocket::returnClientAddressInfo() {
 
 int GServer::UDPGSocket::reciveData(char* buffer, int size) {
     int returnValue = 0;
-    int MAXUDPPaketoDydis = 65507;
-    // Paziuriu koks paketas atejo
-    //returnValue = recvfrom(this->socket_descriptor, &buffer[0], paketoDydis, MSG_PEEK, (struct sockaddr *) &serverStorage, &addr_size);
-    // Nustatau headeri
-    //header* head = (struct header*) & buffer[0];
-    // Tikrinu ar gavau kazka
-    //if (returnValue > 1) {
-    // Atejo kazkas
-    //paketoDydis = paketoDydis + ntohl(head->lenght);
-    //this->logger->logDebug(this->className, "Reikai gauti: " + std::to_string(paketoDydis));
-    // Gaunu headeri ir paketa
-    returnValue = recvfrom(this->socket_descriptor, &buffer[0], MAXUDPPaketoDydis, 0, (struct sockaddr *) &serverStorage, &addr_size);
-    this->logger->logDebug(this->className, "Gauta: " + std::to_string(returnValue));
-    //if (returnValue != paketoDydis) {
-    //    this->logger->logError(this->className, "Gautas netinkamas dydis. "
-    //            "Gauta: " + std::to_string(returnValue) + " Laukta: " +
-    //            std::to_string(paketoDydis));
-    //}
-    //}
+    // Tikrinu ar uzteks buferio norimam kiekiui duomenu
+    if (size <= this->buffer.size()) {
+        returnValue = recvfrom(this->socket_descriptor, &buffer[0],
+                MAX_PACKET_SIZE, 0, (struct sockaddr *)
+                &serverStorage, &addr_size);
+        this->logger->logDebug(this->className, "Gauta: " + std::to_string(returnValue));
+    } else {
+        this->logger->logError(this->className, "Per mazas buferis. Laukiama: "
+                + std::to_string(size) + " Turima vietos: " +
+                std::to_string(this->buffer.size()));
+    }
     // Grazinu ka gavau
     return returnValue;
 }
@@ -67,19 +61,14 @@ int GServer::UDPGSocket::sendData(char* data, int size) {
     int returnValue = 0;
     this->logger->logDebug(this->className, "Reikia issiusti: " + std::to_string(size));
 
-    /*
-    while (returnValue != size) {
-        // Priimu duomenis
-        returnValue = returnValue + sendto(this->socket_descriptor,
-                &data[returnValue], size - returnValue, 0,
-                (struct sockaddr *) &serverStorage, addr_size);
-        this->logger->logDebug(this->className, "Jau issiunciau: " + std::to_string(returnValue));
-    }
-     * */
-    returnValue = sendto(this->socket_descriptor, &data[returnValue], size, 
-            MSG_CONFIRM , (struct sockaddr *) &serverStorage, addr_size);
+    // Paketas mazesnis, nereikes skaidyti
+    // Issiunciu
+    returnValue = sendto(this->socket_descriptor, &data[returnValue], size,
+            MSG_CONFIRM, (struct sockaddr *) &serverStorage, addr_size);
     this->logger->logDebug(this->className, "Issiusta: " +
             std::to_string(returnValue));
+
+
     // Tureciau niekaka nepasiekti
     return returnValue;
 }

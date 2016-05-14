@@ -102,6 +102,11 @@ namespace GServer {
         /*** commands ***
          * Kintamasis skirtas saugoti nuoroda i komandu apdorojimo objekta */
         GCommandExecution* commands;
+        
+        /* *** MAX_UDP_PACKET_SIZE***
+         * Kintamasis sksirtas saugoti makismalia UDP paketo duomenu kiekio 
+         * reiksme */
+        int MAX_PACKET_SIZE;
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

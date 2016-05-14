@@ -70,7 +70,6 @@ namespace GServer {
         // ##### END Metodai #####
     private:
         // ##### Kintamieji #####
-        char ackBuffer[sizeof (UDPAck)];
         // ##### END Kintamieji #####
         // #####################################################################
         // ##### Metodai #####

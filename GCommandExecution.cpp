@@ -71,9 +71,6 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                     // Tirkinu ar neatejo komanda
                 case 0:
                     // Atejo koamdna
-                    // gaunu likusia koandos dali
-                    //socket->reciveData(&buffer.data()[sizeof (header)], size);
-
                     // Analizuoju kokia komanda atejo
                     if (this->analizeCommandHeader(
                             &buffer.data()[sizeof (header)], tempCmd)) {
@@ -263,6 +260,13 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                             }
                             case UDP_ALIVE:
                             {
+                                char buf[sizeof (Command) + sizeof (header)];
+                                header* head = (struct header*) &buf[0];
+                                head->tag = htons(0);
+                                head->lenght = htonl(sizeof (Command));
+                                Command* alive = (struct Command*) &buf[sizeof (header)];
+                                alive->command = htons(UDP_ALIVE);
+                                socket->sendData(buf, sizeof (buf));
                                 break;
                             }
                             default:
@@ -278,28 +282,28 @@ bool GServer::GCommandExecution::executeCommand(vector<char>& buffer,
                     // Bus persiunciami duomenys
                 default:
                 {
-                    int position = 0, issiusta = 0;
+                    int issiusta = 0;
                     header* head;
                     // Nustatau headeri
-                    head = (header*) & buffer.data()[position];
+                    head = (header*) & buffer.data()[0];
                     this->logger->logDebug(this->className, "Reikia persiusti: " + std::to_string(size));
                     // Nustatau gaveja
                     int dep_socket = -1, dep_tag = -1;
                     this->tunnels->FindByPear(socket->getSocket(),
-                                ntohs(head->tag), dep_socket, dep_tag);
-                        GSocket* reciver = &(*this->clientSocketList->find(
-                                dep_socket)->second);
-                        if (dep_socket != -1 && dep_tag != -1) {
-                            // Suvartau antraste
-                            head->tag = htons(dep_tag);
-                            head->lenght = head->lenght;
-                            issiusta = issiusta + reciver->sendData(buffer.data(), sendDataSize);
-                            // Perstatau headeri
-                            head = (header*) & buffer.data()[position];
-                        } else {
-                            this->logger->logError(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
-                            break;
-                        }
+                            ntohs(head->tag), dep_socket, dep_tag);
+                    GSocket* reciver = &(*this->clientSocketList->find(
+                            dep_socket)->second);
+                    if (dep_socket != -1 && dep_tag != -1) {
+                        // Suvartau antraste
+                        head->tag = htons(dep_tag);
+                        head->lenght = head->lenght;
+                        issiusta = reciver->sendData(buffer.data(), ntohl(head->lenght)+sizeof(header));
+                        this->logger->logDebug(this->className, "Issiusta: " + std::to_string(issiusta));
+                        // Perstatau headeri
+                    } else {
+                        this->logger->logError(this->className, "Neradau sujungimo. Destinatio socket: " + std::to_string(dep_socket) + " destination tag: " + std::to_string(dep_tag));
+                        break;
+                    }
                     break;
                 }
 
