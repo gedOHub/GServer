@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
      * Kintamsis saugantis nuoroda i obnejtak, kuris atsakingas uz pranesimu 
      * pateikima. Is pradziu pateikiama konsoleje, o po to pagal konfiguracinio 
      * failo nustatymus */
-    GServer::GLogger* tempLogger = new GServer::ConsoleGLogger(1);
+    GServer::GLogger* tempLogger = new GServer::ConsoleGLogger(0);
 
     /** config **
      * Nuoroda i objekta, kuris dirba su nustatymu nuskaitymu */

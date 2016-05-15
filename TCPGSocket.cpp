@@ -41,6 +41,7 @@ int GServer::TCPGSocket::reciveData(char* buffer, int size) {
     struct header* head;
     // Gaunu headeri
     int returnValue = recv(this->socket_descriptor, &buffer[0], sizeof (header), MSG_WAITALL);
+    head = (struct header* )&buffer[0];
     this->logger->logDebug(this->className, "Laukiu: " + std::to_string(ntohl(head->lenght)));
     if (returnValue > 0) {
         // Nustatua headeri
